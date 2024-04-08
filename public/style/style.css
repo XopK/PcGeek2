@@ -54,13 +54,52 @@ input[type="search"]::-webkit-search-cancel-button {
 .btn-custom{
     background-color: #141C52;
     color: white;
-    padding: 9px 40px;
+    padding: 9px 35px;
     font-weight: 700;
     border-radius: 20px;
 }
 
 .btn-custom:hover{
     background-color: #e0e0e0;
+}
+
+.links-user{
+    font-weight: 700;
+    font-size: 16px;
+    color: #141C52;
+    text-decoration: none;
+}
+
+.list-dropdown{
+    border-bottom: 1px solid #BDBDBD;
+}
+
+.dropdown-item{
+    font-weight: 500;
+    color: #3D3D3D;
+    padding: 10px 20px;
+}
+
+.dropdown-item:active{
+    background-color: #141C52;
+}
+
+.dropdown-item:active img {
+    filter: brightness(0) invert(1);
+}
+
+
+.dropdown-image{
+    margin-right: 5px;
+}
+
+.dropdown-image-exit{
+    margin-right: 10px;
+}
+
+.sort{
+    font-size: 18px;
+    font-weight: 600;
 }
 
 @media (max-width: 767px){

@@ -15,22 +15,60 @@
 </head>
 
 <body>
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between p-3 mb-4" style="box-shadow: 0px 4px 20.899999618530273px rgba(0, 0, 0, 0.25)">
-        <div class="col-md-3 mb-2 mb-md-0">
-            <a class="navbar-brand" href="#">PcGeek</a>
-        </div>
-
-        <div class="col-12 col-md-6 d-flex justify-content-center">
-            <form class="position-relative w-100" role="search">
-                <input type="search" class="form-control search focus-ring focus-ring-secondary" placeholder="Искать на PcGeek" aria-label="Search">
-                <img src="image/search.svg" alt="Search" class="position-absolute search-icon">
+    <x-header></x-header>
+    <div class="container">
+        <div class="filter-forums row d-flex justify-content-between align-items-center">
+            <div class="col">
+                <form action="" method="GET">
+                    <select class="form-select sort focus-ring focus-ring-secondary" style="border: 2px solid #999999;">
+                        <option disabled selected>Сортировка</option>
+                        <option value="1">Популярность</option>
+                        <option value="2">Дата публикации</option>
+                        <option value="3">Алфавит</option>
+                        <option value="4">Кол-во лайков (убывание)</option>
+                        <option value="5">Кол-во лайков (возрастание)</option>
+                    </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-custom">Применить</button>
+            </div>
             </form>
         </div>
-
-        <div class="col-md-3 text-end">
-            <button type="button" class="btn btn-custom me-2">Войти</button>
+        <div class="list-forums mt-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Название поста</h5>
+                            <p class="card-text">Краткое описание поста...</p>
+                            <a href="#" class="btn btn-primary">Читать далее</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Название поста</h5>
+                            <p class="card-text">Краткое описание поста...</p>
+                            <a href="#" class="btn btn-primary">Читать далее</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Название поста</h5>
+                            <p class="card-text">Краткое описание поста...</p>
+                            <a href="#" class="btn btn-primary">Читать далее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </header>
+    </div>
 </body>
 
 </html>
