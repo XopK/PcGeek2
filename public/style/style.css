@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap');
 
-*{
+* {
     font-family: "Jura", sans-serif;
 }
 
@@ -37,10 +37,10 @@ input[type="search"]::-webkit-search-cancel-button {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    width: 15px; 
+    width: 15px;
     height: 15px;
     padding-right: 20px;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 .search-icon {
@@ -51,36 +51,36 @@ input[type="search"]::-webkit-search-cancel-button {
     height: 20px;
 }
 
-.btn-custom{
+.btn-custom {
     background-color: #141C52;
     color: white;
     padding: 9px 35px;
     font-weight: 700;
-    border-radius: 20px;
+    border-radius: 15px;
 }
 
-.btn-custom:hover{
+.btn-custom:hover {
     background-color: #e0e0e0;
 }
 
-.links-user{
+.links-user {
     font-weight: 700;
     font-size: 16px;
     color: #141C52;
     text-decoration: none;
 }
 
-.list-dropdown{
+.list-dropdown {
     border-bottom: 1px solid #BDBDBD;
 }
 
-.dropdown-item{
+.dropdown-item {
     font-weight: 500;
     color: #3D3D3D;
     padding: 10px 20px;
 }
 
-.dropdown-item:active{
+.dropdown-item:active {
     background-color: #141C52;
 }
 
@@ -89,29 +89,99 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 
-.dropdown-image{
+.dropdown-image {
     margin-right: 5px;
 }
 
-.dropdown-image-exit{
+.dropdown-image-exit {
     margin-right: 10px;
 }
 
-.sort{
+.sort {
     font-size: 18px;
     font-weight: 600;
 }
 
-@media (max-width: 767px){
-    .search{
+.forum-img {
+    height: 450px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card-body h5 {
+    font-weight: 700;
+}
+
+.short-text {
+    font-weight: 600;
+    width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.like-dislike-buttons {
+    border-radius: 20px;
+    padding: 10px;
+    background-color: #141C52;
+}
+
+.likes-count {
+    white-space: nowrap;
+}
+
+.btn-like,
+.btn-dislike {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-like:focus,
+.btn-dislike:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.btn-like img,
+.btn-dislike img {
+    width: 20px;
+    height: 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-like:hover {
+    transform: scale(1.1);
+}
+
+.btn-like:hover img {
+    filter: brightness(0) invert(1);
+    filter: sepia(1) saturate(5) hue-rotate(60deg);
+}
+
+.btn-dislike:hover {
+    transform: scale(1.1);
+}
+
+.btn-dislike:hover img {
+    filter: brightness(0) invert(1);
+    filter: sepia(1) saturate(7) hue-rotate(0deg);
+}
+
+
+@media (max-width: 767px) {
+    .search {
         margin-bottom: 10px;
     }
-    .search-icon{
+
+    .search-icon {
         top: 42%;
     }
 
     .btn-custom:hover {
-        background-color: inherit; /* унаследовал цвет фона */
+        background-color: inherit;
         background-color: #e0e0e0;
     }
 }

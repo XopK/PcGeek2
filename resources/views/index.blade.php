@@ -36,38 +36,51 @@
         </div>
         <div class="list-forums mt-4">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <div class="card mb-4">
-                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <img src="/image/test/pc.jpg" class="card-img-top forum-img" alt="pc.jpg">
                         <div class="card-body">
                             <h5 class="card-title">Название поста</h5>
-                            <p class="card-text">Краткое описание поста...</p>
-                            <a href="#" class="btn btn-primary">Читать далее</a>
+                            <p class="card-text short-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea
+                                suscipit, voluptate ab tenetur laborum modi exercitationem voluptatibus ratione vitae
+                                maxime a hic eius mollitia officia, nostrum ipsa ipsam aut praesentium.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="#" class="btn btn-custom">Читать далее</a>
+                                <div class="like-dislike-buttons d-flex align-items-center">
+                                    <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
+                                            alt="up_arrow"></button>
+                                    <span class="likes-count text-white mx-2">50</span>
+                                    <button type="button" class="btn btn-dislike"><img src="/image/down_arrow.svg"
+                                            alt="down_arrow"></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <div class="card mb-4">
-                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                        <img src="/image/test/test.jpg" class="card-img-top forum-img" alt="pc.jpg">
                         <div class="card-body">
                             <h5 class="card-title">Название поста</h5>
-                            <p class="card-text">Краткое описание поста...</p>
-                            <a href="#" class="btn btn-primary">Читать далее</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Название поста</h5>
-                            <p class="card-text">Краткое описание поста...</p>
-                            <a href="#" class="btn btn-primary">Читать далее</a>
+                            <p class="card-text short-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea
+                                suscipit, voluptate ab tenetur laborum modi exercitationem voluptatibus ratione vitae
+                                maxime a hic eius mollitia officia, nostrum ipsa ipsam aut praesentium.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="#" class="btn btn-custom">Читать далее</a>
+                                <div class="like-dislike-buttons d-flex align-items-center">   
+                                    <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
+                                            alt="up_arrow"></button>
+                                    <span class="likes-count text-white mx-2">50</span>
+                                    <button type="button" class="btn btn-dislike"><img src="/image/down_arrow.svg"
+                                            alt="down_arrow"></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </body>
 
