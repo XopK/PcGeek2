@@ -121,7 +121,8 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .like-dislike-buttons {
-    border-radius: 20px;
+    margin-left: 10px;
+    border-radius: 15px;
     padding: 10px;
     background-color: #141C52;
 }
@@ -168,6 +169,69 @@ input[type="search"]::-webkit-search-cancel-button {
 .btn-dislike:hover img {
     filter: brightness(0) invert(1);
     filter: sepia(1) saturate(7) hue-rotate(0deg);
+}
+
+.btn-comment {
+    padding: 0;
+    margin-bottom: 3px;
+    transition: all 0.3s ease;
+}
+
+.btn-comment img {
+    width: 20px;
+    height: 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-comment:hover {
+    transform: scale(1.1);
+}
+
+.btn-comment:hover img {
+    filter: brightness(0) invert(1);
+    filter: sepia(1) saturate(5) hue-rotate(200deg);
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tags .badge {
+    font-size: smaller;
+}
+
+.favorite-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+}
+
+.favorite-button button {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+}
+
+.favorite-button button img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.favorite-button button:hover img {
+    transform: scale(1.2);
+}
+
+.favorite-button button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.card {
+    position: relative;
 }
 
 
