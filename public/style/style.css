@@ -234,6 +234,18 @@ input[type="search"]::-webkit-search-cancel-button {
     position: relative;
 }
 
+.footer-container {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.text-bg-custom {
+    background-color: #141C52;
+}
+
 
 @media (max-width: 767px) {
     .search {

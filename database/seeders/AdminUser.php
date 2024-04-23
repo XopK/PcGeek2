@@ -21,6 +21,7 @@ class AdminUser extends Seeder
         DB::table('users')->insert([
             'login' => 'admin',
             'email' => 'dmahmutov12@gmail.com',
+            'phone' => '+7(986) 964-0327',
             'id_role' => 1,
             'password' => Hash::make('admin'),
             'created_at' => $currentDate,

@@ -9,7 +9,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
+    </script> 
     <link rel="stylesheet" href="/style/style.css">
     <title>PcGeek</title>
 </head>
@@ -45,9 +45,7 @@
                         <img src="/image/test/pc.jpg" class="card-img-top forum-img" alt="pc.jpg">
                         <div class="card-body">
                             <div class="tags mb-3">
-                                <span class="badge text-bg-primary">тег1</span>
-                                <span class="badge text-bg-secondary">тег2</span>
-                                <span class="badge text-bg-success">тег3</span>
+                                <span class="badge text-bg-custom">Процессор</span>
                             </div>
                             <h5 class="card-title">Название поста</h5>
                             <div class="post-info mb-2">
@@ -82,9 +80,7 @@
                         <img src="/image/test/test.jpg" class="card-img-top forum-img" alt="pc.jpg">
                         <div class="card-body">
                             <div class="tags mb-3">
-                                <span class="badge text-bg-primary">тег1</span>
-                                <span class="badge text-bg-secondary">тег2</span>
-                                <span class="badge text-bg-success">тег3</span>
+                                <span class="badge text-bg-custom">Процессор</span>
                             </div>
                             <h5 class="card-title">Название поста</h5>
                             <div class="post-info mb-2">
@@ -119,9 +115,7 @@
                         <img src="/image/test/pc.jpg" class="card-img-top forum-img" alt="pc.jpg">
                         <div class="card-body">
                             <div class="tags mb-3">
-                                <span class="badge text-bg-primary">тег1</span>
-                                <span class="badge text-bg-secondary">тег2</span>
-                                <span class="badge text-bg-success">тег3</span>
+                                <span class="badge text-bg-custom">Процессор</span>
                             </div>
                             <h5 class="card-title">Название поста</h5>
                             <div class="post-info mb-2">
@@ -156,9 +150,7 @@
                         <img src="/image/test/test.jpg" class="card-img-top forum-img" alt="pc.jpg">
                         <div class="card-body">
                             <div class="tags mb-3">
-                                <span class="badge text-bg-primary">тег1</span>
-                                <span class="badge text-bg-secondary">тег2</span>
-                                <span class="badge text-bg-success">тег3</span>
+                                <span class="badge text-bg-custom">Процессор</span>
                             </div>
                             <h5 class="card-title">Название поста</h5>
                             <div class="post-info mb-2">
@@ -186,8 +178,10 @@
                 </div>
             </div>
         </div>
-
+        <x-footer></x-footer>
     </div>
+    <x-auth></x-auth>
+    
 </body>
 
 </html>
