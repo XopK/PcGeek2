@@ -30,7 +30,6 @@
     transform: translateY(-50%);
 }
 
-
 input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
     background-image: url('/image/close.svg');
@@ -246,10 +245,19 @@ input[type="search"]::-webkit-search-cancel-button {
     background-color: #141C52;
 }
 
+.profile-img {
+    width: 100px;
+    height: 100px;
+}
 
 @media (max-width: 767px) {
     .search {
         margin-bottom: 10px;
+    }
+
+    .profile-img {
+        width: 80px;
+        height: 80px;
     }
 
     .search-icon {
