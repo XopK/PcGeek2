@@ -9,7 +9,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script> 
+    </script>
     <link rel="stylesheet" href="/style/style.css">
     <title>PcGeek</title>
 </head>
@@ -42,21 +42,21 @@
                             <button type="button" class="btn-light"><img src="/image/heart.svg"
                                     alt="heart"></button>
                         </div>
-                        <img src="/image/test/pc.jpg" class="card-img-top forum-img" alt="pc.jpg">
                         <div class="card-body">
                             <div class="tags mb-3">
-                                <span class="badge text-bg-custom">Процессор</span>
+                                <span class="badge fw-bold text-bg-custom">Процессор</span>
                             </div>
-                            <h5 class="card-title">Название поста</h5>
+                            <h3 class="card-title">Название поста</h3>
                             <div class="post-info mb-2">
-                                <span class="author">Автор: <strong>danya123</strong></span><br>
-                                <span class="date">Дата публикации: <strong>01.01.2023</strong></span>
+                                <span class="author"><strong>Автор:</strong> danya123</span><br>
+                                <span class="date"> <strong>Дата публикации:</strong> 01.01.2023</span>
                             </div>
                             <p class="card-text short-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea
                                 suscipit, voluptate ab tenetur laborum modi exercitationem voluptatibus ratione vitae
                                 maxime a hic eius mollitia officia, nostrum ipsa ipsam aut praesentium.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="#" class="btn btn-custom">Читать...</a>
+                            <img src="/image/test/test.jpg" class="card-img-top forum-img" alt="pc.jpg">
+                            <div class="d-flex justify-content-between mt-3 align-items-center">
+                                <a href="#" class="btn btn-custom">Читать</a>
                                 <div class="like-dislike-buttons d-flex align-items-center mr-3">
                                     <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
                                             alt="up_arrow"></button>
@@ -77,21 +77,21 @@
                             <button type="button" class="btn-light"><img src="/image/heart.svg"
                                     alt="heart"></button>
                         </div>
-                        <img src="/image/test/test.jpg" class="card-img-top forum-img" alt="pc.jpg">
                         <div class="card-body">
                             <div class="tags mb-3">
-                                <span class="badge text-bg-custom">Процессор</span>
+                                <span class="badge fw-bold text-bg-custom">Процессор</span>
                             </div>
-                            <h5 class="card-title">Название поста</h5>
+                            <h3 class="card-title">Название поста</h3>
                             <div class="post-info mb-2">
-                                <span class="author">Автор: <strong>danya123</strong></span><br>
-                                <span class="date">Дата публикации: <strong>01.01.2023</strong></span>
+                                <span class="author"><strong>Автор:</strong> danya123</span><br>
+                                <span class="date"> <strong>Дата публикации:</strong> 01.01.2023</span>
                             </div>
                             <p class="card-text short-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea
                                 suscipit, voluptate ab tenetur laborum modi exercitationem voluptatibus ratione vitae
                                 maxime a hic eius mollitia officia, nostrum ipsa ipsam aut praesentium.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="#" class="btn btn-custom">Читать...</a>
+                            <img src="/image/test/pc.jpg" class="card-img-top forum-img" alt="pc.jpg">
+                            <div class="d-flex justify-content-between mt-3 align-items-center">
+                                <a href="#" class="btn btn-custom">Читать</a>
                                 <div class="like-dislike-buttons d-flex align-items-center mr-3">
                                     <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
                                             alt="up_arrow"></button>
@@ -112,21 +112,21 @@
                             <button type="button" class="btn-light"><img src="/image/heart.svg"
                                     alt="heart"></button>
                         </div>
-                        <img src="/image/test/pc.jpg" class="card-img-top forum-img" alt="pc.jpg">
                         <div class="card-body">
                             <div class="tags mb-3">
-                                <span class="badge text-bg-custom">Процессор</span>
+                                <span class="badge fw-bold text-bg-custom">Процессор</span>
                             </div>
-                            <h5 class="card-title">Название поста</h5>
+                            <h3 class="card-title">Название поста</h3>
                             <div class="post-info mb-2">
-                                <span class="author">Автор: <strong>danya123</strong></span><br>
-                                <span class="date">Дата публикации: <strong>01.01.2023</strong></span>
+                                <span class="author"><strong>Автор:</strong> danya123</span><br>
+                                <span class="date"> <strong>Дата публикации:</strong> 01.01.2023</span>
                             </div>
                             <p class="card-text short-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea
                                 suscipit, voluptate ab tenetur laborum modi exercitationem voluptatibus ratione vitae
                                 maxime a hic eius mollitia officia, nostrum ipsa ipsam aut praesentium.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="#" class="btn btn-custom">Читать...</a>
+                            <img src="/image/test/test.jpg" class="card-img-top forum-img" alt="pc.jpg">
+                            <div class="d-flex justify-content-between mt-3 align-items-center">
+                                <a href="#" class="btn btn-custom">Читать</a>
                                 <div class="like-dislike-buttons d-flex align-items-center mr-3">
                                     <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
                                             alt="up_arrow"></button>
@@ -147,21 +147,21 @@
                             <button type="button" class="btn-light"><img src="/image/heart.svg"
                                     alt="heart"></button>
                         </div>
-                        <img src="/image/test/test.jpg" class="card-img-top forum-img" alt="pc.jpg">
                         <div class="card-body">
                             <div class="tags mb-3">
-                                <span class="badge text-bg-custom">Процессор</span>
+                                <span class="badge fw-bold text-bg-custom">Процессор</span>
                             </div>
-                            <h5 class="card-title">Название поста</h5>
+                            <h3 class="card-title">Название поста</h3>
                             <div class="post-info mb-2">
-                                <span class="author">Автор: <strong>danya123</strong></span><br>
-                                <span class="date">Дата публикации: <strong>01.01.2023</strong></span>
+                                <span class="author"><strong>Автор:</strong> danya123</span><br>
+                                <span class="date"> <strong>Дата публикации:</strong> 01.01.2023</span>
                             </div>
                             <p class="card-text short-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea
                                 suscipit, voluptate ab tenetur laborum modi exercitationem voluptatibus ratione vitae
                                 maxime a hic eius mollitia officia, nostrum ipsa ipsam aut praesentium.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="#" class="btn btn-custom">Читать...</a>
+                            <img src="/image/test/pc.jpg" class="card-img-top forum-img" alt="pc.jpg">
+                            <div class="d-flex justify-content-between mt-3 align-items-center">
+                                <a href="#" class="btn btn-custom">Читать</a>
                                 <div class="like-dislike-buttons d-flex align-items-center mr-3">
                                     <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
                                             alt="up_arrow"></button>
@@ -181,7 +181,7 @@
         <x-footer></x-footer>
     </div>
     <x-auth></x-auth>
-    
+
 </body>
 
 </html>
