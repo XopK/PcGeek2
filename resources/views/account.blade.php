@@ -31,7 +31,7 @@
             <button type="button" class="btn btn-custom flex-md-auto">Мои посты</button>
             <button type="button" class="btn btn-custom flex-md-auto">Понравившиеся посты</button>
             <button type="button" class="btn btn-custom flex-md-auto">Избранные посты</button>
-            <button type="button" class="btn btn-custom flex-md-auto">Danger</button>
+            <button type="button" class="btn btn-custom flex-md-auto">Комментарии</button>
         </div>
         <div class="list-posts">
             <div class="row mt-4">

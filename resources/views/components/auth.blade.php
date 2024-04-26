@@ -19,7 +19,7 @@
                         <label for="login">Логин</label>
                         <input type="text" name="login_signIn"
                             class="form-control focus-ring focus-ring-secondary border-secondary" id="login"
-                            placeholder="Введите логин">
+                            placeholder="Введите логин" value="{{ old('login_signIn') }}">
                         @error('login_signIn')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -76,7 +76,7 @@
                         <label for="login">Логин</label>
                         <input type="text" name="login"
                             class="form-control focus-ring focus-ring-secondary border-secondary" id="login"
-                            placeholder="Введите логин">
+                            placeholder="Введите логин" value="{{ old('login') }}">
                         @error('login')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -89,7 +89,7 @@
                         <label for="email">Почта</label>
                         <input type="email" name="email"
                             class="form-control focus-ring focus-ring-secondary border-secondary" id="email"
-                            placeholder="Введите email">
+                            placeholder="Введите email" value="{{ old('email') }}">
                         @error('email')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -102,7 +102,7 @@
                         <label for="phone_number">Номер телефона</label>
                         <input type="text" name="phone"
                             class="form-control focus-ring focus-ring-secondary border-secondary" id="phone_number"
-                            placeholder="+7(___) ___-____">
+                            placeholder="+7(___) ___-____" value="{{ old('phone') }}">
                         @error('phone')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -174,7 +174,7 @@
         });
     </script>
 @endif
-@if ($errors->has('login_signIn'))
+@if ($errors->has('login_signIn')||$errors->has('password_signIn'))
     <script>
         window.addEventListener('DOMContentLoaded', (event) => {
             const modal = new bootstrap.Modal(document.getElementById('signIn'));
@@ -182,7 +182,7 @@
         });
     </script>
 @endif
-@if ($errors->has('login'))
+@if ($errors->has('login')||$errors->has('email')||$errors->has('phone')||$errors->has('password')||$errors->has('confirm_password'))
     <script>
         window.addEventListener('DOMContentLoaded', (event) => {
             const modal = new bootstrap.Modal(document.getElementById('signUp'));

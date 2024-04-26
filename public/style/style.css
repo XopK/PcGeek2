@@ -53,7 +53,7 @@ input[type="search"]::-webkit-search-cancel-button {
 .btn-custom {
     background-color: #141C52;
     color: white;
-    padding: 9px 35px;
+    padding: 9px 25px;
     font-weight: 700;
     border-radius: 15px;
 }
@@ -105,7 +105,11 @@ input[type="search"]::-webkit-search-cancel-button {
     height: 480px;
     width: 100%;
     object-fit: cover;
-    border-radius: 10px; /* adjust the value as needed */
+    border-radius: 10px;
+}
+
+.forum-page-img {
+    border-radius: 10px;
 }
 
 .card-body h5 {
@@ -121,7 +125,6 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .like-dislike-buttons {
-    margin-left: 10px;
     border-radius: 15px;
     padding: 10px;
     background-color: #141C52;
@@ -249,6 +252,17 @@ input[type="search"]::-webkit-search-cancel-button {
 .profile-img {
     width: 100px;
     height: 100px;
+}
+
+.profile-img-forum {
+    width: 48px;
+    height: 48px;
+}
+
+.reply-btn{
+    padding: 0;
+    border: none;
+    background-color: white;
 }
 
 @media (max-width: 767px) {
