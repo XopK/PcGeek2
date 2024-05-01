@@ -10,4 +10,8 @@ class PostController extends Controller
     {
         return view('forum');
     }
+
+    public function add_view(){
+        return view('addPost');
+    }
 }

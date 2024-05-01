@@ -144,16 +144,16 @@
             </div>
         </div>
         <x-footer></x-footer>
-    <script>
-        const replyBtns = document.querySelectorAll('.reply-btn');
+        <script>
+            const replyBtns = document.querySelectorAll('.reply-btn');
 
-        replyBtns.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const replyForm = btn.parentNode.querySelector('.reply-form');
-                replyForm.classList.toggle('d-none');
+            replyBtns.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const replyForm = btn.parentNode.querySelector('.reply-form');
+                    replyForm.classList.toggle('d-none');
+                });
             });
-        });
-    </script>
+        </script>
 </body>
 
 </html>

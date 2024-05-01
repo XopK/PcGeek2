@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title_component');
             $table->string('config_component');
             $table->string('image_components');
+            $table->foreignId('id_category')->references('id')->on('component_categories')->onDelete('cascade');
             $table->string('sale');
             $table->timestamps();
         });
