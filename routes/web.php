@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\ParseController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
@@ -36,8 +37,12 @@ Route::get('/addPost', [PostController::class, 'add_view']);
 
 Route::get('/admin', [AdminController::class, 'index_admin']);
 
-Route::get('/admin/Processor', [ParseController::class, 'ParseProcessor']);
+Route::get('/admin/processor', [ParseController::class, 'ParseProcessor']);
 
 Route::get('/admin/GraphicCard', [ParseController::class, 'ParseGraphicCards']);
 
 Route::get('/admin/MotherBoard', [ParseController::class, 'ParseMotherBoards']);
+
+Route::get('/components/{categoryId}', [ComponentController::class, 'get_category']);
+
+Route::post('/addPost/create', [PostController::class, 'addPost']);

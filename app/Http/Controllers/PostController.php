@@ -11,7 +11,13 @@ class PostController extends Controller
         return view('forum');
     }
 
-    public function add_view(){
+    public function add_view()
+    {
         return view('addPost');
+    }
+
+    public function addPost(Request $request)
+    {
+        dd($request);
     }
 }

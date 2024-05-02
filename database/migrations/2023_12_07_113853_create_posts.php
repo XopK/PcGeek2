@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title_post');
             $table->longText('description');
+            $table->string('image_posts');
             $table->foreignId('id_user')->references('id')->on('users');
             $table->timestamps();
         });

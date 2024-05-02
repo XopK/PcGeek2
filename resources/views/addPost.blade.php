@@ -18,30 +18,40 @@
     <div class="container">
         <div class="form-addPost mt-4">
             <h1>Добавление поста</h1>
-            <form action="" method="post">
+            <form action="/addPost/create" method="post" enctype="multipart/form-data">
+                @csrf
                 <div class="mb-3">
-                    <label for="postText" class="form-label">Текст поста</label>
-                    <textarea class="form-control focus-ring focus-ring-secondary border-secondary" id="postText" rows="5"
-                        placeholder="Введите здесь свой текст"></textarea>
+                    <label for="postText" class="form-label fw-bold">Текст поста</label>
+                    <textarea class="form-control focus-ring focus-ring-secondary border-secondary" name="text_post" id="postText"
+                        rows="5" placeholder="Введите здесь свой текст"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="imageUpload" class="form-label">Загрузить изображение</label>
-                    <input class="form-control focus-ring focus-ring-secondary border-secondary" type="file"
-                        id="imageUpload">
+                    <label for="imageUpload" class="form-label fw-bold">Загрузить изображение</label>
+                    <input class="form-control focus-ring focus-ring-secondary border-secondary" name="photo_post"
+                        type="file" id="imageUpload">
                 </div>
                 <div class="mb-3">
-                    <label for="postTags" class="form-label">Теги</label>
-                    <input class="form-control focus-ring focus-ring-secondary border-secondary" id="postTags"
+                    <label for="postTags" class="form-label fw-bold">Теги</label>
+                    <input class="form-control focus-ring focus-ring-secondary border-secondary" name="tags_post" id="postTags"
                         placeholder="Введите теги">
                 </div>
                 <div class="mb-3">
-                    <label for="pcComponents" class="form-label">PC Components</label>
-                    <select class="form-select focus-ring focus-ring-secondary border-secondary " id="pcComponents">
-                        <option value="1">CPU</option>
-                        <option value="2">GPU</option>
-                        <option value="3">RAM</option>
-                        <option value="4">Storage</option>
+                    <label for="pcComponents" class="form-label fw-bold">Выберите категорию</label>
+                    <select class="form-select focus-ring focus-ring-secondary border-secondary" id="pcComponents">
+                        <option value="7">Процессор</option>
+                        <option value="6">Видеокарта</option>
+                        <option value="5">Блок питания</option>
+                        <option value="4">SSD</option>
+                        <option value="3">Оперативная память</option>
+                        <option value="2">Жесткий диск</option>
+                        <option value="1">Материнская плата</option>
                     </select>
+                </div>
+                <div class="mb-3">
+                    <label for="componentSelect" class="form-label fw-bold">Выберите компонент</label>
+                    <input type="text" class="form-control focus-ring focus-ring-secondary border-secondary"
+                        id="componentInput" name="component_id" placeholder="Введите название компонента">
+                    <!-- Здесь будут загружаться компоненты по выбранной категории -->
                 </div>
                 <button type="submit" class="btn btn-custom">Добавить</button>
             </form>
@@ -101,7 +111,7 @@
                         return tag.toLowerCase().indexOf(term) !== -1;
                     });
                     response(filteredTags.slice(0,
-                        5)); // Ограничиваем список первыми пятью совпадениями
+                        5));
                 },
                 minLength: 0,
                 select: function(event, ui) {
@@ -119,6 +129,46 @@
             }).focus(function() {
                 $(this).autocomplete("search", ""); // При фокусировке открываем выпадающий список
             });
+
+            function loadComponents(categoryId) {
+                $.ajax({
+                    url: '/components/' + categoryId,
+                    type: 'GET',
+                    success: function(data) {
+                        var availableComponents = data.map(function(component) {
+                            return {
+                                label: component.title_component,
+                                value: component.id
+                            };
+                        }).slice(0, 6); // Ограничение до 6 записей
+                        $('#componentInput').autocomplete({
+                            source: availableComponents,
+                            select: function(event, ui) {
+                                $('#componentInput').val(ui.item
+                                    .label
+                                ); // Заполнение поле ввода выбранным названием компонента
+                                $('#component_id').val(ui.item
+                                    .value
+                                ); // Установка выбранного значения компонента в скрытое поле component_id
+                                return false; // Предотвращаем стандартное действие выбора
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+
+            // Обработчик изменения выбранной категории
+            $('#pcComponents').change(function() {
+                var categoryId = $(this).val();
+                loadComponents(categoryId);
+            });
+
+            // Выполнить загрузку компонентов для выбранной категории при загрузке страницы
+            $('#pcComponents').trigger('change');
+            
         });
     </script>
 </body>
