@@ -15,4 +15,14 @@ class Post extends Model
         'image_posts',
         'id_user',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'tag_posts', 'id_post', 'id_tag');
+    }
 }

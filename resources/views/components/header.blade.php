@@ -14,7 +14,7 @@
 
     @auth
         <div class="d-flex align-items-center justify-content-end gap-4 col-md-3 text-end">
-            <a class="links-user d-flex align-items-center" href="#"><img class="me-2" src="image/addplus.svg"
+            <a class="links-user d-flex align-items-center" href="/addPost"><img class="me-2" src="image/addplus.svg"
                     alt="ring">Создать</a>
             <a class="links-user" href="#"><img class="me-2" src="image/ring.svg" alt="ring"></a>
             <div class="dropdown">

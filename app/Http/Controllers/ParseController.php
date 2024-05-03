@@ -200,4 +200,260 @@ class ParseController extends Controller
         }
         return redirect('/admin');
     }
+
+    public function ParsePowerBlock()
+    {
+        // Создаем Guzzle клиента
+        $client = new Client();
+
+        $responses = [];
+
+        $page = 1;
+
+        do {
+            // Отправляем GET-запрос к сайту
+            $response = $client->request('GET', 'https://www.regard.ru/catalog/1225/bloki-pitaniya?page=' . $page);
+
+            // Добавляем ответ в массив ответов
+            $responses[] = $response;
+
+            $page++;
+        } while ($page <= 7);
+
+        // Обрабатываем каждый ответ
+        foreach ($responses as $response) {
+            // Получаем HTML-контент
+            $htmlContent = $response->getBody()->getContents();
+
+            // Создаем экземпляр DomCrawler и передаем ему HTML-контент
+            $crawler = new Crawler($htmlContent);
+
+            $headings = $crawler->filter('.CardText_title__7bSbO')->each(function ($node) {
+                return $node->text();
+            });
+
+            $prices = $crawler->filter('.Price_price__m2aSe')->each(function ($node) {
+                return $node->text();
+            });
+
+            $description = $crawler->filter('.CardText_text__fZPl_')->each(function ($node) {
+                return $node->text();
+            });
+
+            for ($i = 0; $i < count($headings); $i++) {
+                $existingPowerBlock = Component::where('title_component', $headings[$i])->first();
+
+                if ($existingPowerBlock) {
+                    $existingPowerBlock->config_component = $description[$i];
+                    $existingPowerBlock->image_components = 'test3';
+                    $existingPowerBlock->id_category = 5;
+                    $existingPowerBlock->sale = $prices[$i];
+
+                    $existingPowerBlock->save();
+                } else {
+                    $PowerBlock = new Component();
+                    $PowerBlock->title_component = $headings[$i];
+                    $PowerBlock->config_component = $description[$i];
+                    $PowerBlock->image_components = 'test4';
+                    $PowerBlock->id_category = 5;
+                    $PowerBlock->sale = $prices[$i];
+
+                    $PowerBlock->save();
+                }
+            }
+        }
+        return redirect('/admin');
+    }
+
+    public function ParseSSD()
+    {
+        // Создаем Guzzle клиента
+        $client = new Client();
+
+        $responses = [];
+
+        $page = 1;
+
+        do {
+            // Отправляем GET-запрос к сайту
+            $response = $client->request('GET', 'https://www.regard.ru/catalog/1015/nakopiteli-ssd?page=' . $page);
+
+            // Добавляем ответ в массив ответов
+            $responses[] = $response;
+
+            $page++;
+        } while ($page <= 7);
+
+        // Обрабатываем каждый ответ
+        foreach ($responses as $response) {
+            // Получаем HTML-контент
+            $htmlContent = $response->getBody()->getContents();
+
+            // Создаем экземпляр DomCrawler и передаем ему HTML-контент
+            $crawler = new Crawler($htmlContent);
+
+            $headings = $crawler->filter('.CardText_title__7bSbO')->each(function ($node) {
+                return $node->text();
+            });
+
+            $prices = $crawler->filter('.Price_price__m2aSe')->each(function ($node) {
+                return $node->text();
+            });
+
+            $description = $crawler->filter('.CardText_text__fZPl_')->each(function ($node) {
+                return $node->text();
+            });
+
+            for ($i = 0; $i < count($headings); $i++) {
+                $existingSSD = Component::where('title_component', $headings[$i])->first();
+
+                if ($existingSSD) {
+                    $existingSSD->config_component = $description[$i];
+                    $existingSSD->image_components = 'test3';
+                    $existingSSD->id_category = 4;
+                    $existingSSD->sale = $prices[$i];
+
+                    $existingSSD->save();
+                } else {
+                    $SSD = new Component();
+                    $SSD->title_component = $headings[$i];
+                    $SSD->config_component = $description[$i];
+                    $SSD->image_components = 'test6';
+                    $SSD->id_category = 4;
+                    $SSD->sale = $prices[$i];
+
+                    $SSD->save();
+                }
+            }
+        }
+        return redirect('/admin');
+    }
+
+    public function ParseRAM()
+    {
+        // Создаем Guzzle клиента
+        $client = new Client();
+
+        $responses = [];
+
+        $page = 1;
+
+        do {
+            // Отправляем GET-запрос к сайту
+            $response = $client->request('GET', 'https://www.regard.ru/catalog/1010/operativnaya-pamyat?page=' . $page);
+
+            // Добавляем ответ в массив ответов
+            $responses[] = $response;
+
+            $page++;
+        } while ($page <= 7);
+
+        // Обрабатываем каждый ответ
+        foreach ($responses as $response) {
+            // Получаем HTML-контент
+            $htmlContent = $response->getBody()->getContents();
+
+            // Создаем экземпляр DomCrawler и передаем ему HTML-контент
+            $crawler = new Crawler($htmlContent);
+
+            $headings = $crawler->filter('.CardText_title__7bSbO')->each(function ($node) {
+                return $node->text();
+            });
+
+            $prices = $crawler->filter('.Price_price__m2aSe')->each(function ($node) {
+                return $node->text();
+            });
+
+            $description = $crawler->filter('.CardText_text__fZPl_')->each(function ($node) {
+                return $node->text();
+            });
+
+            for ($i = 0; $i < count($headings); $i++) {
+                $existingRAM = Component::where('title_component', $headings[$i])->first();
+
+                if ($existingRAM) {
+                    $existingRAM->config_component = $description[$i];
+                    $existingRAM->image_components = 'test7';
+                    $existingRAM->id_category = 3;
+                    $existingRAM->sale = $prices[$i];
+
+                    $existingRAM->save();
+                } else {
+                    $RAM = new Component();
+                    $RAM->title_component = $headings[$i];
+                    $RAM->config_component = $description[$i];
+                    $RAM->image_components = 'test7';
+                    $RAM->id_category = 3;
+                    $RAM->sale = $prices[$i];
+
+                    $RAM->save();
+                }
+            }
+        }
+        return redirect('/admin');
+    }
+
+    public function ParseHDD()
+    {
+        // Создаем Guzzle клиента
+        $client = new Client();
+
+        $responses = [];
+
+        $page = 1;
+
+        do {
+            // Отправляем GET-запрос к сайту
+            $response = $client->request('GET', 'https://www.regard.ru/catalog/1014/zhestkie-diski-hdd?page=' . $page);
+
+            // Добавляем ответ в массив ответов
+            $responses[] = $response;
+
+            $page++;
+        } while ($page <= 7);
+
+        // Обрабатываем каждый ответ
+        foreach ($responses as $response) {
+            // Получаем HTML-контент
+            $htmlContent = $response->getBody()->getContents();
+
+            // Создаем экземпляр DomCrawler и передаем ему HTML-контент
+            $crawler = new Crawler($htmlContent);
+
+            $headings = $crawler->filter('.CardText_title__7bSbO')->each(function ($node) {
+                return $node->text();
+            });
+
+            $prices = $crawler->filter('.Price_price__m2aSe')->each(function ($node) {
+                return $node->text();
+            });
+
+            $description = $crawler->filter('.CardText_text__fZPl_')->each(function ($node) {
+                return $node->text();
+            });
+
+            for ($i = 0; $i < count($headings); $i++) {
+                $existingHDD = Component::where('title_component', $headings[$i])->first();
+
+                if ($existingHDD) {
+                    $existingHDD->config_component = $description[$i];
+                    $existingHDD->image_components = 'test8';
+                    $existingHDD->id_category = 2;
+                    $existingHDD->sale = $prices[$i];
+
+                    $existingHDD->save();
+                } else {
+                    $HDD = new Component();
+                    $HDD->title_component = $headings[$i];
+                    $HDD->config_component = $description[$i];
+                    $HDD->image_components = 'test8';
+                    $HDD->id_category = 2;
+                    $HDD->sale = $prices[$i];
+
+                    $HDD->save();
+                }
+            }
+        }
+        return redirect('/admin');
+    }
 }

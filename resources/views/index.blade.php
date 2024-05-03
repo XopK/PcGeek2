@@ -36,146 +36,48 @@
         </div>
         <div class="list-forums mt-4">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="favorite-button">
-                            <button type="button" class="btn-light"><img src="/image/heart.svg"
-                                    alt="heart"></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="tags mb-3">
-                                <span class="badge fw-bold text-bg-custom">Процессор</span>
+                @forelse ($posts as $post)
+                    <div class="col-md-12">
+                        <div class="card mb-4">
+                            <div class="favorite-button">
+                                <button type="button" class="btn-light"><img src="/image/heart.svg"
+                                        alt="heart"></button>
                             </div>
-                            <h3 class="card-title">Название поста</h3>
-                            <div class="post-info mb-2">
-                                <span class="author"><strong>Автор:</strong> danya123</span><br>
-                                <span class="date"> <strong>Дата публикации:</strong> 01.01.2023</span>
-                            </div>
-                            <p class="card-text short-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea
-                                suscipit, voluptate ab tenetur laborum modi exercitationem voluptatibus ratione vitae
-                                maxime a hic eius mollitia officia, nostrum ipsa ipsam aut praesentium.</p>
-                            <img src="/image/test/test.jpg" class="card-img-top forum-img" alt="pc.jpg">
-                            <div class="d-flex justify-content-between mt-3 align-items-center">
-                                <a href="#" class="btn btn-custom">Читать</a>
-                                <div class="like-dislike-buttons d-flex align-items-center mr-3">
-                                    <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
-                                            alt="up_arrow"></button>
-                                    <span class="likes-count text-white mx-2">50</span>
-                                    <button type="button" class="btn btn-dislike"><img src="/image/down_arrow.svg"
-                                            alt="down_arrow"></button>
-                                    <button type="button" class="btn btn-comment mx-2"><img src="/image/comment.svg"
-                                            alt="comment"></button>
-                                    <span class="comments-count text-white ml-2">25</span>
+                            <div class="card-body">
+                                <div class="tags mb-3">
+                                    @foreach ($post->tags as $tag)
+                                    <span class="badge fw-bold text-bg-custom">{{$tag->title_tag}}</span>
+                                    @endforeach
+                                    
+                                </div>
+                                <h3 class="card-title">{{ $post->title_post }}</h3>
+                                <div class="post-info mb-2">
+                                    <span class="author"><strong>Автор: </strong>{{ $post->user->login }}</span><br>
+                                    <span class="date"> <strong>Дата публикации:</strong>
+                                        {{ date('d.m.Y', strtotime($post->created_at)) }}</span>
+                                </div>
+                                <p class="card-text short-text">{{ $post->description }}</p>
+                                <img src="/storage/image_posts/{{ $post->image_posts }}" class="card-img-top forum-img"
+                                    alt="{{ $post->image_posts }}">
+                                <div class="d-flex justify-content-between mt-3 align-items-center">
+                                    <a href="#" class="btn btn-custom">Читать</a>
+                                    <div class="like-dislike-buttons d-flex align-items-center mr-3">
+                                        <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
+                                                alt="up_arrow"></button>
+                                        <span class="likes-count text-white mx-2">50</span>
+                                        <button type="button" class="btn btn-dislike"><img src="/image/down_arrow.svg"
+                                                alt="down_arrow"></button>
+                                        <button type="button" class="btn btn-comment mx-2"><img
+                                                src="/image/comment.svg" alt="comment"></button>
+                                        <span class="comments-count text-white ml-2">25</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="favorite-button">
-                            <button type="button" class="btn-light"><img src="/image/heart.svg"
-                                    alt="heart"></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="tags mb-3">
-                                <span class="badge fw-bold text-bg-custom">Процессор</span>
-                            </div>
-                            <h3 class="card-title">Название поста</h3>
-                            <div class="post-info mb-2">
-                                <span class="author"><strong>Автор:</strong> danya123</span><br>
-                                <span class="date"> <strong>Дата публикации:</strong> 01.01.2023</span>
-                            </div>
-                            <p class="card-text short-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea
-                                suscipit, voluptate ab tenetur laborum modi exercitationem voluptatibus ratione vitae
-                                maxime a hic eius mollitia officia, nostrum ipsa ipsam aut praesentium.</p>
-                            <img src="/image/test/pc.jpg" class="card-img-top forum-img" alt="pc.jpg">
-                            <div class="d-flex justify-content-between mt-3 align-items-center">
-                                <a href="#" class="btn btn-custom">Читать</a>
-                                <div class="like-dislike-buttons d-flex align-items-center mr-3">
-                                    <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
-                                            alt="up_arrow"></button>
-                                    <span class="likes-count text-white mx-2">50</span>
-                                    <button type="button" class="btn btn-dislike"><img src="/image/down_arrow.svg"
-                                            alt="down_arrow"></button>
-                                    <button type="button" class="btn btn-comment mx-2"><img src="/image/comment.svg"
-                                            alt="comment"></button>
-                                    <span class="comments-count text-white ml-2">25</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="favorite-button">
-                            <button type="button" class="btn-light"><img src="/image/heart.svg"
-                                    alt="heart"></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="tags mb-3">
-                                <span class="badge fw-bold text-bg-custom">Процессор</span>
-                            </div>
-                            <h3 class="card-title">Название поста</h3>
-                            <div class="post-info mb-2">
-                                <span class="author"><strong>Автор:</strong> danya123</span><br>
-                                <span class="date"> <strong>Дата публикации:</strong> 01.01.2023</span>
-                            </div>
-                            <p class="card-text short-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea
-                                suscipit, voluptate ab tenetur laborum modi exercitationem voluptatibus ratione vitae
-                                maxime a hic eius mollitia officia, nostrum ipsa ipsam aut praesentium.</p>
-                            <img src="/image/test/test.jpg" class="card-img-top forum-img" alt="pc.jpg">
-                            <div class="d-flex justify-content-between mt-3 align-items-center">
-                                <a href="#" class="btn btn-custom">Читать</a>
-                                <div class="like-dislike-buttons d-flex align-items-center mr-3">
-                                    <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
-                                            alt="up_arrow"></button>
-                                    <span class="likes-count text-white mx-2">50</span>
-                                    <button type="button" class="btn btn-dislike"><img src="/image/down_arrow.svg"
-                                            alt="down_arrow"></button>
-                                    <button type="button" class="btn btn-comment mx-2"><img src="/image/comment.svg"
-                                            alt="comment"></button>
-                                    <span class="comments-count text-white ml-2">25</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="favorite-button">
-                            <button type="button" class="btn-light"><img src="/image/heart.svg"
-                                    alt="heart"></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="tags mb-3">
-                                <span class="badge fw-bold text-bg-custom">Процессор</span>
-                            </div>
-                            <h3 class="card-title">Название поста</h3>
-                            <div class="post-info mb-2">
-                                <span class="author"><strong>Автор:</strong> danya123</span><br>
-                                <span class="date"> <strong>Дата публикации:</strong> 01.01.2023</span>
-                            </div>
-                            <p class="card-text short-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea
-                                suscipit, voluptate ab tenetur laborum modi exercitationem voluptatibus ratione vitae
-                                maxime a hic eius mollitia officia, nostrum ipsa ipsam aut praesentium.</p>
-                            <img src="/image/test/pc.jpg" class="card-img-top forum-img" alt="pc.jpg">
-                            <div class="d-flex justify-content-between mt-3 align-items-center">
-                                <a href="#" class="btn btn-custom">Читать</a>
-                                <div class="like-dislike-buttons d-flex align-items-center mr-3">
-                                    <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
-                                            alt="up_arrow"></button>
-                                    <span class="likes-count text-white mx-2">50</span>
-                                    <button type="button" class="btn btn-dislike"><img src="/image/down_arrow.svg"
-                                            alt="down_arrow"></button>
-                                    <button type="button" class="btn btn-comment mx-2"><img src="/image/comment.svg"
-                                            alt="comment"></button>
-                                    <span class="comments-count text-white ml-2">25</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @empty
+                @endforelse
+
             </div>
         </div>
         <x-footer></x-footer>

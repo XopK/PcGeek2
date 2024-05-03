@@ -21,19 +21,48 @@
             <form action="/addPost/create" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
+                    <label for="postTitle" class="form-label fw-bold">Название поста</label>
+                    <input class="form-control focus-ring focus-ring-secondary border-secondary" name="post_title"
+                        id="postTitle" placeholder="Введите название">
+                    @error('post_title')
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{ $message }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @enderror
+                </div>
+                <div class="mb-3">
                     <label for="postText" class="form-label fw-bold">Текст поста</label>
                     <textarea class="form-control focus-ring focus-ring-secondary border-secondary" name="text_post" id="postText"
                         rows="5" placeholder="Введите здесь свой текст"></textarea>
+                    @error('text_post')
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{ $message }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="imageUpload" class="form-label fw-bold">Загрузить изображение</label>
                     <input class="form-control focus-ring focus-ring-secondary border-secondary" name="photo_post"
                         type="file" id="imageUpload">
+                    @error('photo_post')
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{ $message }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="postTags" class="form-label fw-bold">Теги</label>
-                    <input class="form-control focus-ring focus-ring-secondary border-secondary" name="tags_post" id="postTags"
-                        placeholder="Введите теги">
+                    <input class="form-control focus-ring focus-ring-secondary border-secondary" name="tags_post"
+                        id="postTags" placeholder="Введите теги" data-tags="tags">
+                    @error('tags_post')
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{ $message }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="pcComponents" class="form-label fw-bold">Выберите категорию</label>
@@ -50,10 +79,27 @@
                 <div class="mb-3">
                     <label for="componentSelect" class="form-label fw-bold">Выберите компонент</label>
                     <input type="text" class="form-control focus-ring focus-ring-secondary border-secondary"
-                        id="componentInput" name="component_id" placeholder="Введите название компонента">
+                        id="componentInput" name="component_title" placeholder="Введите название компонента">
                     <!-- Здесь будут загружаться компоненты по выбранной категории -->
+                    <input type="hidden" id="component_id" name="component_id">
+                    @error('component_id')
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{ $message }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                    @enderror
+
                 </div>
                 <button type="submit" class="btn btn-custom">Добавить</button>
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible mt-3">
+                        <div class="alert-text">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    </div>
+                @endif
             </form>
         </div>
         <x-footer></x-footer>
@@ -67,67 +113,35 @@
         integrity="sha256-sw0iNNXmOJbQhYFuC9OF2kOlD5KQKe1y5lfBn4C9Sjg=" crossorigin="anonymous"></script>
     <script>
         $(function() {
-            var allTags = [
-                "PC Hardware",
-                "Gaming",
-                "Software",
-                "Tech Support",
-                "Искусственный интеллект",
-                "Машинное обучение",
-                "Блокчейн",
-                "Криптовалюты",
-                "Интернет вещей (IoT)",
-                "Робототехника",
-                "Виртуальная реальность",
-                "Дополненная реальность",
-                "Биг-дата (Big Data)",
-                "Облачные вычисления",
-                "Кибербезопасность",
-                "Игровая разработка",
-                "Финтех",
-                "Медицинская технология",
-                "Нейронные сети",
-                "Автоматизация процессов",
-                "Роботизация производства",
-                "Космическая технология",
-                "Экологические технологии",
-                "Архитектура ПО",
-                "Мобильная разработка",
-                "Веб-разработка",
-                "Аналитика данных",
-                "Интернет маркетинг",
-                "Электронная коммерция",
-                "Разработка приложений для здоровья",
-                "Компьютерные игры",
-                "Разработка виртуальных миров",
-                "Биотехнологии",
-                "Нанотехнологии"
-            ];
-
             $("#postTags").autocomplete({
                 source: function(request, response) {
                     var term = request.term.toLowerCase();
-                    var filteredTags = allTags.filter(function(tag) {
-                        return tag.toLowerCase().indexOf(term) !== -1;
+                    $.ajax({
+                        url: '/' + $('#postTags').data(
+                            'tags'), // Здесь используем data-tags для получения URL
+                        dataType: 'json',
+                        data: {
+                            term: term
+                        },
+                        success: function(data) {
+                            response(data);
+                        }
                     });
-                    response(filteredTags.slice(0,
-                        5));
                 },
                 minLength: 0,
                 select: function(event, ui) {
-                    var currentValue = $("#postTags").val(); // Текущее значение поля
-                    var selectedTag = ui.item.value; // Выбранный тег
-                    var updatedValue = currentValue.trim(); // Удаляем лишние пробелы с начала и конца
+                    var currentValue = $("#postTags").val();
+                    var selectedTag = ui.item.value;
+                    var updatedValue = currentValue.trim();
                     if (updatedValue) {
-                        // Добавляем запятую и пробел, если в поле уже есть теги
                         updatedValue += ", ";
                     }
-                    updatedValue += selectedTag; // Добавляем выбранный тег
-                    $("#postTags").val(updatedValue); // Обновляем значение поля
-                    return false; // Предотвращаем стандартное поведение выбора
+                    updatedValue += selectedTag;
+                    $("#postTags").val(updatedValue);
+                    return false;
                 }
             }).focus(function() {
-                $(this).autocomplete("search", ""); // При фокусировке открываем выпадающий список
+                $(this).autocomplete("search", "");
             });
 
             function loadComponents(categoryId) {
@@ -140,17 +154,27 @@
                                 label: component.title_component,
                                 value: component.id
                             };
-                        }).slice(0, 6); // Ограничение до 6 записей
+                        });
+
                         $('#componentInput').autocomplete({
-                            source: availableComponents,
+                            source: function(request, response) {
+                                var term = request.term.toLowerCase();
+                                var filteredComponents = availableComponents.filter(
+                                    function(component) {
+                                        return component.label.toLowerCase().indexOf(
+                                            term) !== -1;
+                                    });
+                                response(filteredComponents.slice(0,
+                                    12));
+                            },
                             select: function(event, ui) {
                                 $('#componentInput').val(ui.item
                                     .label
-                                ); // Заполнение поле ввода выбранным названием компонента
+                                );
                                 $('#component_id').val(ui.item
                                     .value
-                                ); // Установка выбранного значения компонента в скрытое поле component_id
-                                return false; // Предотвращаем стандартное действие выбора
+                                );
+                                return false;
                             }
                         });
                     },
@@ -160,15 +184,14 @@
                 });
             }
 
-            // Обработчик изменения выбранной категории
             $('#pcComponents').change(function() {
                 var categoryId = $(this).val();
                 loadComponents(categoryId);
             });
 
-            // Выполнить загрузку компонентов для выбранной категории при загрузке страницы
+
             $('#pcComponents').trigger('change');
-            
+
         });
     </script>
 </body>

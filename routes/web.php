@@ -6,6 +6,7 @@ use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\ParseController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Models\Component;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,9 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [PostController::class, 'index']);
 
 Route::post('/signUp', [AuthController::class, 'signUp']);
 
@@ -43,6 +42,16 @@ Route::get('/admin/GraphicCard', [ParseController::class, 'ParseGraphicCards']);
 
 Route::get('/admin/MotherBoard', [ParseController::class, 'ParseMotherBoards']);
 
+Route::get('/admin/PowerBlock', [ParseController::class, 'ParsePowerBlock']);
+
+Route::get('/admin/SSD_disk', [ParseController::class, 'ParseSSD']);
+
+Route::get('/admin/RAM', [ParseController::class, 'ParseRAM']);
+
+Route::get('/admin/HDD', [ParseController::class, 'ParseHDD']);
+
 Route::get('/components/{categoryId}', [ComponentController::class, 'get_category']);
 
 Route::post('/addPost/create', [PostController::class, 'addPost']);
+
+Route::get('/tags', [ComponentController::class, 'getTags'])->name('getTags');
