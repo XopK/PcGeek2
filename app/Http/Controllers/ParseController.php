@@ -48,12 +48,21 @@ class ParseController extends Controller
                 return $node->text();
             });
 
+            //Получаем ссылку на изображение
+            $image = $crawler->filter('img.CardImageSlider_image__W65ZP')->extract(['src']);
+
+            //Добавляем к ней ссылку сайта
+            $fullImageUrls = array_map(function ($url) {
+                return 'https://www.regard.ru' . $url;
+            }, $image);
+
+
             for ($i = 0; $i < count($headings); $i++) {
                 $existingProcessor = Component::where('title_component', $headings[$i])->first();
 
                 if ($existingProcessor) {
                     $existingProcessor->config_component = $description[$i];
-                    $existingProcessor->image_components = 'test';
+                    $existingProcessor->image_components = $fullImageUrls[$i];
                     $existingProcessor->id_category = 7;
                     $existingProcessor->sale = $prices[$i];
 
@@ -62,7 +71,7 @@ class ParseController extends Controller
                     $processor = new Component();
                     $processor->title_component = $headings[$i];
                     $processor->config_component = $description[$i];
-                    $processor->image_components = 'test';
+                    $processor->image_components = $fullImageUrls[$i];
                     $processor->id_category = 7;
                     $processor->sale = $prices[$i];
 
@@ -112,12 +121,19 @@ class ParseController extends Controller
                 return $node->text();
             });
 
+            $image = $crawler->filter('img.CardImageSlider_image__W65ZP')->extract(['src']);
+
+            //Добавляем к ней ссылку сайта
+            $fullImageUrls = array_map(function ($url) {
+                return 'https://www.regard.ru' . $url;
+            }, $image);
+
             for ($i = 0; $i < count($headings); $i++) {
                 $existingGraphicCards = Component::where('title_component', $headings[$i])->first();
 
                 if ($existingGraphicCards) {
                     $existingGraphicCards->config_component = $description[$i];
-                    $existingGraphicCards->image_components = 'test2';
+                    $existingGraphicCards->image_components = $fullImageUrls[$i];
                     $existingGraphicCards->id_category = 6;
                     $existingGraphicCards->sale = $prices[$i];
 
@@ -126,7 +142,7 @@ class ParseController extends Controller
                     $GraphicCards = new Component();
                     $GraphicCards->title_component = $headings[$i];
                     $GraphicCards->config_component = $description[$i];
-                    $GraphicCards->image_components = 'test2';
+                    $GraphicCards->image_components = $fullImageUrls[$i];
                     $GraphicCards->id_category = 6;
                     $GraphicCards->sale = $prices[$i];
 

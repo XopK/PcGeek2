@@ -18,7 +18,7 @@
     <div class="container">
         <div class="form-addPost mt-4">
             <h1>Добавление поста</h1>
-            <form action="/addPost/create" method="post" enctype="multipart/form-data">
+            <form action="/addPost/create" method="post" id="addPost" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label for="postTitle" class="form-label fw-bold">Название поста</label>
@@ -45,7 +45,7 @@
                 <div class="mb-3">
                     <label for="imageUpload" class="form-label fw-bold">Загрузить изображение</label>
                     <input class="form-control focus-ring focus-ring-secondary border-secondary" name="photo_post"
-                        type="file" id="imageUpload">
+                        type="file" id="imageUpload" accept="image/*">
                     @error('photo_post')
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>{{ $message }}</strong>
@@ -64,9 +64,14 @@
                         </div>
                     @enderror
                 </div>
-                <div class="mb-3">
+                <div class="d-flex mb-3 gap-2 align-items-center">
+                    <h3 class="m-0">Компоненты</h3>
+                    <button type="button" class="btn-plus" id="addComponentBtn"><img src="/image/addplus.svg"
+                            alt="addPlus"></button>
+                </div>
+                <div class="mb-3 border border-secondary p-3 rounded">
                     <label for="pcComponents" class="form-label fw-bold">Выберите категорию</label>
-                    <select class="form-select focus-ring focus-ring-secondary border-secondary" id="pcComponents">
+                    <select class="form-select mb-3 focus-ring focus-ring-secondary border-secondary" id="pcComponents">
                         <option value="7">Процессор</option>
                         <option value="6">Видеокарта</option>
                         <option value="5">Блок питания</option>
@@ -75,12 +80,9 @@
                         <option value="2">Жесткий диск</option>
                         <option value="1">Материнская плата</option>
                     </select>
-                </div>
-                <div class="mb-3">
                     <label for="componentSelect" class="form-label fw-bold">Выберите компонент</label>
-                    <input type="text" class="form-control focus-ring focus-ring-secondary border-secondary"
+                    <input type="text" class="form-control mb-3 focus-ring focus-ring-secondary border-secondary"
                         id="componentInput" name="component_title" placeholder="Введите название компонента">
-                    <!-- Здесь будут загружаться компоненты по выбранной категории -->
                     <input type="hidden" id="component_id" name="component_id">
                     @error('component_id')
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -89,9 +91,9 @@
                                 aria-label="Close"></button>
                         </div>
                     @enderror
-
                 </div>
-                <button type="submit" class="btn btn-custom">Добавить</button>
+
+                <button type="submit" form="addPost" class="btn btn-custom">Опубликовать</button>
                 @if (session('success'))
                     <div class="alert alert-success alert-dismissible mt-3">
                         <div class="alert-text">

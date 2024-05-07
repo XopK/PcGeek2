@@ -8,6 +8,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Models\Component;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\PostCondition;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::get('/profile', [UserController::class, 'profile']);
 
-Route::get('/forum', [PostController::class, 'forum_view']);
+Route::get('/forum/{id}', [PostController::class, 'forum_view']);
 
 Route::get('/addPost', [PostController::class, 'add_view']);
 
@@ -55,3 +56,7 @@ Route::get('/components/{categoryId}', [ComponentController::class, 'get_categor
 Route::post('/addPost/create', [PostController::class, 'addPost']);
 
 Route::get('/tags', [ComponentController::class, 'getTags'])->name('getTags');
+
+Route::post('/post/like', [PostController::class, 'LikePost'])->name('post.like');
+
+Route::post('/post/disslike', [PostController::class, 'DisslikePost'])->name('post.disslike');

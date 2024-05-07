@@ -13,4 +13,14 @@ class ComponentPost extends Model
         'id_post',
         'id_component',
     ];
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class, 'id_post');
+    }
+
+    public function component()
+    {
+        return $this->belongsTo(Component::class, 'id_component');
+    }
 }

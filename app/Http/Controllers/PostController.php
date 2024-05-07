@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ComponentPost;
+use App\Models\DisslikeBranch;
+use App\Models\LikeBranch;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\TagPost;
@@ -15,12 +17,20 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::with('tags')->latest()->get();
+        $user = Auth::user();
+
+        foreach ($posts as $post) {
+            $post->isLiked = $user ? $post->likes()->where('id_user', $user->id)->exists() : false;
+            $post->isDissliked = $user ? $post->disslikes()->where('id_user', $user->id)->exists() : false;
+        }
+
         return view('index', ['posts' => $posts]);
     }
 
-    public function forum_view()
+    public function forum_view($id)
     {
-        return view('forum');
+        $data_post = Post::with('components', 'tags')->where('id', $id)->get()->first();
+        return view('forum', ['post' => $data_post]);
     }
 
     public function add_view()
@@ -86,5 +96,63 @@ class PostController extends Controller
             }
         }
         return redirect()->back()->with('success', 'Запись создана!');
+    }
+
+    public function LikePost(Request $request)
+    {
+        $user = Auth::user();
+        $like = $request->input('post_id');
+
+        $existingLike = LikeBranch::where('id_user', $user->id)
+            ->where('id_post', $like)
+            ->first();
+
+        $existingDiss = DisslikeBranch::where('id_user', $user->id)
+            ->where('id_post', $like)
+            ->first();
+
+        if ($existingLike) {
+            $existingLike->delete();
+            return response()->json(['status' => 'success', 'message' => 'Лайк удален!']);
+        } else {
+            if ($existingDiss) {
+                $existingDiss->delete();
+            }
+            LikeBranch::create([
+                'id_user' => $user->id,
+                'id_post' => $like,
+            ]);
+            return response()->json(['status' => 'success', 'message' => 'Лайк поставлен!']);
+        }
+    }
+
+    public function DisslikePost(Request $request)
+    {
+        $user = Auth::user();
+        $disslike = $request->input('post_id');
+
+        $existingDiss = DisslikeBranch::where('id_user', $user->id)
+            ->where('id_post', $disslike)
+            ->first();
+
+        $existingLike = LikeBranch::where('id_user', $user->id)
+            ->where('id_post', $disslike)
+            ->first();
+
+        if ($existingDiss) {
+            $existingDiss->delete();
+            return response()->json(['status' => 'success', 'message' => 'Дизлайк удален!']);
+        } else {
+
+            if ($existingLike) {
+                $existingLike->delete();
+            }   
+
+            DisslikeBranch::create([
+                'id_user' => $user->id,
+                'id_post' => $disslike,
+            ]);
+            return response()->json(['status' => 'success', 'message' => 'Дизлайк поставлен!']);
+        }
     }
 }

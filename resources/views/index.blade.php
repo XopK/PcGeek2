@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -46,9 +47,9 @@
                             <div class="card-body">
                                 <div class="tags mb-3">
                                     @foreach ($post->tags as $tag)
-                                    <span class="badge fw-bold text-bg-custom">{{$tag->title_tag}}</span>
+                                        <span class="badge fw-bold text-bg-custom">{{ $tag->title_tag }}</span>
                                     @endforeach
-                                    
+
                                 </div>
                                 <h3 class="card-title">{{ $post->title_post }}</h3>
                                 <div class="post-info mb-2">
@@ -60,15 +61,19 @@
                                 <img src="/storage/image_posts/{{ $post->image_posts }}" class="card-img-top forum-img"
                                     alt="{{ $post->image_posts }}">
                                 <div class="d-flex justify-content-between mt-3 align-items-center">
-                                    <a href="#" class="btn btn-custom">Читать</a>
+                                    <a href="/forum/{{ $post->id }}" class="btn btn-custom">Читать</a>
                                     <div class="like-dislike-buttons d-flex align-items-center mr-3">
-                                        <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
-                                                alt="up_arrow"></button>
-                                        <span class="likes-count text-white mx-2">50</span>
-                                        <button type="button" class="btn btn-dislike"><img src="/image/down_arrow.svg"
-                                                alt="down_arrow"></button>
-                                        <button type="button" class="btn btn-comment mx-2"><img
-                                                src="/image/comment.svg" alt="comment"></button>
+                                        <button type="button" data-post-id="{{ $post->id }}"
+                                            class="btn btn-like {{ $post->isLiked ? 'liked' : '' }}"><img
+                                                src="/image/up_arrow.svg" alt="up_arrow"></button>
+                                        <span data-post-id="{{ $post->id }}"
+                                            class="likes-count text-white px-2">{{ $post->likesCount()}}</span>
+                                        <button type="button" data-post-id="{{ $post->id }}"
+                                            class="btn btn-dislike {{ $post->isDissliked ? 'dissliked' : '' }}"><img
+                                                src="/image/down_arrow.svg" alt="down_arrow"></button>
+                                        <a href="/forum/{{ $post->id }}#comment-section"
+                                            class="btn btn-comment mx-2"><img src="/image/comment.svg"
+                                                alt="comment"></a>
                                         <span class="comments-count text-white ml-2">25</span>
                                     </div>
                                 </div>
@@ -83,7 +88,76 @@
         <x-footer></x-footer>
     </div>
     <x-auth></x-auth>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $('.btn-like').click(function() {
+            var postId = $(this).data('post-id');
+            var token = $('meta[name="csrf-token"]').attr('content');
+            var isLiked = $(this).hasClass('liked');
+            var $btnLike = $(this);
 
+            $.ajax({
+                url: '/post/like',
+                type: 'POST',
+                data: {
+                    '_token': token,
+                    'post_id': postId,
+                },
+                success: function(response) {
+                    var likesCountSpan = $('.likes-count[data-post-id="' + postId + '"]');
+                    var currentLikesCount = parseInt(likesCountSpan.text());
+
+                    if (isLiked) {
+                        likesCountSpan.text(currentLikesCount - 1);
+                        $btnLike.removeClass('liked');
+                    } else {
+                        $('.btn-dislike[data-post-id="' + postId + '"]').removeClass('dissliked');
+
+                        likesCountSpan.text(currentLikesCount + 1);
+                        $btnLike.addClass('liked');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        });
+
+        $('.btn-dislike').click(function() {
+            var postId = $(this).data('post-id');
+            var token = $('meta[name="csrf-token"]').attr('content');
+            var isDisliked = $(this).hasClass('dissliked');
+            var $btnDislike = $(this);
+
+            $.ajax({
+                url: '/post/disslike',
+                type: 'POST',
+                data: {
+                    '_token': token,
+                    'post_id': postId,
+                },
+                success: function(response) {
+                    var likesCountSpan = $('.likes-count[data-post-id="' + postId + '"]');
+                    var currentLikesCount = parseInt(likesCountSpan.text());
+
+                    if (isDisliked) {
+                        likesCountSpan.text(currentLikesCount + 1);
+                        $btnDislike.removeClass('dissliked');
+                    } else {
+                        // Remove like class if present
+                        $('.btn-like[data-post-id="' + postId + '"]').removeClass('liked');
+
+                        likesCountSpan.text(currentLikesCount - 1);
+                        $btnDislike.addClass('dissliked');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -32,46 +32,48 @@
             </div>
             <img src="/image/profile.svg" class="profile-img-forum" alt="profile.svg">
             <div class="author-post">
-                <p class="fw-medium m-0">danya123</p>
-                <p class="fw-light m-0">5 минут назад</p>
+                <p class="fw-medium m-0">{{ $post->user->login }}</p>
+                <p class="fw-light m-0">{{ $post->created_at->diffForHumans() }}</p>
             </div>
         </div>
         <div class="forum-page-post mt-2">
-            <h1>Название поста</h1>
+            <h1>{{ $post->title_post }}</h1>
             <div class="tags mb-3">
-                <span class="badge fw-bold text-bg-custom">Процессор</span>
+                @foreach ($post->tags as $tag)
+                    <span class="badge fw-bold text-bg-custom">{{$tag->title_tag}}</span>
+                @endforeach
+
             </div>
             <div class="col-md-10">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <p class="card-text fw-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea
-                            suscipit, voluptate ab tenetur laborum modi exercitationem voluptatibus ratione vitae maxime
-                            a hic eius mollitia officia, nostrum ipsa ipsam aut praesentium.</p>
-                        <img src="/image/test/pc.jpg" class="card-img-top forum-page-img" alt="pc.jpg">
+                        <p class="card-text fw-medium">{{ $post->description }}</p>
+                        <img src="/storage/image_posts/{{ $post->image_posts }}" class="card-img-top forum-page-img"
+                            alt="{{ $post->image_posts }}">
                         <div class="d-flex gap-3">
                             <div class="d-flex justify-content-between mx-0 mt-3">
                                 <div class="like-dislike-buttons d-flex align-items-center">
                                     <button type="button" class="btn btn-like"><img src="/image/up_arrow.svg"
                                             alt="up_arrow"></button>
-                                    <span class="likes-count text-white mx-2">50</span>
+                                    <span class="likes-count text-white mx-2">{{$post->likesCount()}}</span>
                                     <button type="button" class="btn btn-dislike"><img src="/image/down_arrow.svg"
                                             alt="down_arrow"></button>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-between mt-3 align-items-center">
+                            {{-- <div class="d-flex justify-content-between mt-3 align-items-center">
                                 <div class="like-dislike-buttons d-flex align-items-center mr-3">
                                     <button type="button" class="btn btn-comment mx-2"><img src="/image/comment.svg"
                                             alt="comment"></button>
                                     <span class="comments-count text-white ml-2 mx-2">25</span>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="comment-section mt-4">
-            <h2>Комментарии</h2>
+            <h2 id="comment-section">Комментарии</h2>
             <hr>
             <div class="add-comment d-flex gap-2 mt-2">
                 <img src="/image/profile.svg" class="profile-img-forum" alt="profile.svg">

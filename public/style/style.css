@@ -174,6 +174,16 @@ input[type="search"]::-webkit-search-cancel-button {
     filter: sepia(1) saturate(7) hue-rotate(0deg);
 }
 
+.liked img {
+    filter: brightness(0) invert(1);
+    filter: sepia(1) saturate(5) hue-rotate(60deg);
+}
+
+.dissliked img {
+    filter: brightness(0) invert(1);
+    filter: sepia(1) saturate(7) hue-rotate(0deg);
+}
+
 .btn-comment {
     padding: 0;
     margin-bottom: 3px;
@@ -259,10 +269,20 @@ input[type="search"]::-webkit-search-cancel-button {
     height: 48px;
 }
 
-.reply-btn{
+.reply-btn {
     padding: 0;
     border: none;
     background-color: white;
+}
+
+.btn-plus {
+    background-color: white;
+    border: none;
+    transition: transform 0.3s;
+}
+
+.btn-plus:hover {
+    transform: scale(1.1);
 }
 
 @media (max-width: 767px) {
