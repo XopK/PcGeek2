@@ -31,21 +31,20 @@ class Post extends Model
         return $this->hasMany(LikeBranch::class, 'id_post');
     }
 
-    public function likesCount()
-    {
-        return $this->likes->count();
-    }
-
     public function disslikes()
     {
         return $this->hasMany(DisslikeBranch::class, 'id_post');
+    }
+
+    public function likesCount()
+    {
+        return $this->likes->count();
     }
 
     public function disslikesCount()
     {
         return $this->disslikes->count();
     }
-
 
     public function components()
     {

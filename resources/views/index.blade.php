@@ -67,10 +67,12 @@
                                             class="btn btn-like {{ $post->isLiked ? 'liked' : '' }}"><img
                                                 src="/image/up_arrow.svg" alt="up_arrow"></button>
                                         <span data-post-id="{{ $post->id }}"
-                                            class="likes-count text-white px-2">{{ $post->likesCount()}}</span>
+                                            class="likes-count text-white px-2">{{ $post->likesCount() }}</span>
                                         <button type="button" data-post-id="{{ $post->id }}"
                                             class="btn btn-dislike {{ $post->isDissliked ? 'dissliked' : '' }}"><img
                                                 src="/image/down_arrow.svg" alt="down_arrow"></button>
+                                        <span data-post-id="{{ $post->id }}"
+                                            class="dislikes-count text-white px-2">{{ $post->disslikesCount() }}</span>
                                         <a href="/forum/{{ $post->id }}#comment-section"
                                             class="btn btn-comment mx-2"><img src="/image/comment.svg"
                                                 alt="comment"></a>
@@ -95,69 +97,107 @@
             var postId = $(this).data('post-id');
             var token = $('meta[name="csrf-token"]').attr('content');
             var isLiked = $(this).hasClass('liked');
+            var isDisliked = $(this).siblings('.btn-dislike').hasClass('dissliked'); // Проверяем, нажат ли дизлайк
             var $btnLike = $(this);
 
-            $.ajax({
-                url: '/post/like',
-                type: 'POST',
-                data: {
-                    '_token': token,
-                    'post_id': postId,
-                },
-                success: function(response) {
-                    var likesCountSpan = $('.likes-count[data-post-id="' + postId + '"]');
-                    var currentLikesCount = parseInt(likesCountSpan.text());
+            // Блокируем кнопку, чтобы предотвратить множественные нажатия
+            $btnLike.prop('disabled', true);
 
-                    if (isLiked) {
-                        likesCountSpan.text(currentLikesCount - 1);
-                        $btnLike.removeClass('liked');
-                    } else {
-                        $('.btn-dislike[data-post-id="' + postId + '"]').removeClass('dissliked');
+            // Добавляем задержку в 500 миллисекунд (0.5 секунды) перед отправкой запроса
+            setTimeout(function() {
+                $.ajax({
+                    url: '/post/like',
+                    type: 'POST',
+                    data: {
+                        '_token': token,
+                        'post_id': postId,
+                    },
+                    success: function(response) {
+                        var likesCountSpan = $('.likes-count[data-post-id="' + postId + '"]');
+                        var currentLikesCount = parseInt(likesCountSpan.text());
 
-                        likesCountSpan.text(currentLikesCount + 1);
-                        $btnLike.addClass('liked');
+                        if (isLiked) {
+                            likesCountSpan.text(currentLikesCount - 1);
+                            $btnLike.removeClass('liked');
+                        } else {
+                            likesCountSpan.text(currentLikesCount + 1);
+                            $btnLike.addClass('liked');
+                        }
+
+                        // Убираем дизлайк, если он был нажат
+                        if (isDisliked) {
+                            var dislikesCountSpan = $('.dislikes-count[data-post-id="' +
+                                postId + '"]');
+                            var currentDislikesCount = parseInt(dislikesCountSpan.text());
+                            dislikesCountSpan.text(Math.max(0, currentDislikesCount - 1));
+                            $btnLike.siblings('.btn-dislike').removeClass('dissliked');
+                        }
+
+                        // Разблокируем кнопку после завершения запроса
+                        $btnLike.prop('disabled', false);
+                    },
+                    error: function(xhr, status, error) {
+                        alert(xhr.responseJSON.message);
+                        // Разблокируем кнопку в случае ошибки запроса
+                        $btnLike.prop('disabled', false);
                     }
-                },
-                error: function(xhr, status, error) {
-                    alert(xhr.responseJSON.message);
-                }
-            });
+                });
+            }, 500); // 500 миллисекунд (0.5 секунды)
         });
-
         $('.btn-dislike').click(function() {
             var postId = $(this).data('post-id');
             var token = $('meta[name="csrf-token"]').attr('content');
             var isDisliked = $(this).hasClass('dissliked');
+            var isLiked = $(this).siblings('.btn-like').hasClass('liked'); // Проверяем, нажат ли лайк
             var $btnDislike = $(this);
 
-            $.ajax({
-                url: '/post/disslike',
-                type: 'POST',
-                data: {
-                    '_token': token,
-                    'post_id': postId,
-                },
-                success: function(response) {
-                    var likesCountSpan = $('.likes-count[data-post-id="' + postId + '"]');
-                    var currentLikesCount = parseInt(likesCountSpan.text());
+            // Блокируем кнопку, чтобы предотвратить множественные нажатия
+            $btnDislike.prop('disabled', true);
 
-                    if (isDisliked) {
-                        likesCountSpan.text(currentLikesCount + 1);
-                        $btnDislike.removeClass('dissliked');
-                    } else {
-                        // Remove like class if present
-                        $('.btn-like[data-post-id="' + postId + '"]').removeClass('liked');
+            // Добавляем задержку в 500 миллисекунд (0.5 секунды) перед отправкой запроса
+            setTimeout(function() {
+                $.ajax({
+                    url: '/post/disslike',
+                    type: 'POST',
+                    data: {
+                        '_token': token,
+                        'post_id': postId,
+                    },
+                    success: function(response) {
+                        var dislikesCountSpan = $('.dislikes-count[data-post-id="' + postId +
+                            '"]');
+                        var currentDislikesCount = parseInt(dislikesCountSpan.text());
 
-                        likesCountSpan.text(currentLikesCount - 1);
-                        $btnDislike.addClass('dissliked');
+                        if (isDisliked) {
+                            dislikesCountSpan.text(currentDislikesCount - 1);
+                            $btnDislike.removeClass('dissliked');
+                        } else {
+                            dislikesCountSpan.text(currentDislikesCount + 1);
+                            $btnDislike.addClass('dissliked');
+                        }
+
+                        // Убираем лайк, если он был нажат
+                        if (isLiked) {
+                            var likesCountSpan = $('.likes-count[data-post-id="' + postId +
+                                '"]');
+                            var currentLikesCount = parseInt(likesCountSpan.text());
+                            likesCountSpan.text(Math.max(0, currentLikesCount - 1));
+                            $btnDislike.siblings('.btn-like').removeClass('liked');
+                        }
+
+                        // Разблокируем кнопку после завершения запроса
+                        $btnDislike.prop('disabled', false);
+                    },
+                    error: function(xhr, status, error) {
+                        alert(xhr.responseJSON.message);
+                        // Разблокируем кнопку в случае ошибки запроса
+                        $btnDislike.prop('disabled', false);
                     }
-                },
-                error: function(xhr, status, error) {
-                    alert(xhr.responseJSON.message);
-                }
-            });
+                });
+            }, 500); // 500 миллисекунд (0.5 секунды)
         });
     </script>
+
 </body>
 
 </html>

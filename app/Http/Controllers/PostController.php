@@ -146,7 +146,7 @@ class PostController extends Controller
 
             if ($existingLike) {
                 $existingLike->delete();
-            }   
+            }
 
             DisslikeBranch::create([
                 'id_user' => $user->id,
