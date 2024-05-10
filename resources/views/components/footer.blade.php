@@ -14,7 +14,6 @@
                 </li>
             </ul>
         </div>
-
         <div class="col-12 col-md-4 mb-3">
             <h5>Сообщество</h5>
             <ul class="nav flex-column">
@@ -30,7 +29,6 @@
                 </li>
             </ul>
         </div>
-
         <div class="col-12 col-md-4 mb-3">
             <form>
                 <h5>Подпишитесь на нашу рассылку</h5>
@@ -44,7 +42,6 @@
             </form>
         </div>
     </div>
-
     <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
         <p>© 2024 PcGeek</p>
     </div>

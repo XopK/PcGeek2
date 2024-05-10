@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\ComponentPost;
 use App\Models\DisslikeBranch;
 use App\Models\LikeBranch;
@@ -29,7 +30,12 @@ class PostController extends Controller
 
     public function forum_view($id)
     {
-        $data_post = Post::with('components', 'tags')->where('id', $id)->get()->first();
+        $user = Auth::user();
+
+        $data_post = Post::with('components', 'tags', 'comments.users')->where('id', $id)->get()->first();
+        $data_post->isLiked = $user ? $data_post->likes()->where('id_user', $user->id)->exists() : false;
+        $data_post->isDissliked = $user ? $data_post->disslikes()->where('id_user', $user->id)->exists() : false;
+
         return view('forum', ['post' => $data_post]);
     }
 
@@ -46,6 +52,13 @@ class PostController extends Controller
             'post_title' => 'required',
             'component_id' => 'required',
             'photo_post' => 'required|image',
+        ], [
+            'text_post.required' => 'Поле обязательно для заполенения!',
+            'tags_post.required' => 'Поле обязательно для заполенения!',
+            'post_title.required' => 'Поле обязательно для заполенения!',
+            'component_id.required' => 'Поле обязательно для заполенения!',
+            'photo_post.required' => 'Поле обязательно для заполенения!',
+            'photo_post.image' => 'Только изображения!',
         ]);
 
         $id_user = Auth::user()->id;
@@ -61,10 +74,12 @@ class PostController extends Controller
             'id_user' => $id_user,
         ]);
 
-        ComponentPost::create([
-            'id_post' => $post->id,
-            'id_component' => $request->component_id,
-        ]);
+        foreach ($request->component_id as $component) {
+            ComponentPost::create([
+                'id_post' => $post->id,
+                'id_component' => $component,
+            ]);
+        }
 
         foreach ($tags as $tag) {
             $exitTags = Tag::where('title_tag', $tag)->first();
@@ -154,5 +169,26 @@ class PostController extends Controller
             ]);
             return response()->json(['status' => 'success', 'message' => 'Дизлайк поставлен!']);
         }
+    }
+
+    public function postComment(Request $request, $id)
+    {
+        $request->validate([
+            'comment' => 'required',
+        ], [
+            'comment.required' => 'Поле обязательно для заполнения!',
+        ]);
+
+        $user = Auth::user();
+        $comment = Comment::create([
+            'comment' => $request->comment,
+            'id_post' => $id,
+            'id_user' => $user->id,
+        ]);
+
+        $newComment = Comment::with('users')->find($comment->id);
+
+        // Возвращаем JSON ответ с новым комментарием
+        return response()->json(['success' => true, 'comment' => $newComment]);
     }
 }

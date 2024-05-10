@@ -50,4 +50,9 @@ class Post extends Model
     {
         return $this->belongsToMany(Component::class, 'component_posts', 'id_post', 'id_component');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'id_post');
+    }
 }

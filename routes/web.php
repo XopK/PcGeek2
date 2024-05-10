@@ -60,3 +60,5 @@ Route::get('/tags', [ComponentController::class, 'getTags'])->name('getTags');
 Route::post('/post/like', [PostController::class, 'LikePost'])->name('post.like');
 
 Route::post('/post/disslike', [PostController::class, 'DisslikePost'])->name('post.disslike');
+
+Route::post('/forum/{id}/comment', [PostController::class, 'postComment'])->name('postComment');

@@ -174,6 +174,46 @@ input[type="search"]::-webkit-search-cancel-button {
     filter: sepia(1) saturate(7) hue-rotate(0deg);
 }
 
+.btn-like-guest,
+.btn-dislike-guest {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-like-guest:focus,
+.btn-dislike-guest:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.btn-like-guest img,
+.btn-dislike-guest img {
+    width: 20px;
+    height: 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-like-guest:hover {
+    transform: scale(1.1);
+}
+
+.btn-like-guest:hover img {
+    filter: brightness(0) invert(1);
+    filter: sepia(1) saturate(5) hue-rotate(60deg);
+}
+
+.btn-dislike-guest:hover {
+    transform: scale(1.1);
+}
+
+.btn-dislike-guest:hover img {
+    filter: brightness(0) invert(1);
+    filter: sepia(1) saturate(7) hue-rotate(0deg);
+}
+
 .liked img {
     filter: brightness(0) invert(1);
     filter: sepia(1) saturate(5) hue-rotate(60deg);

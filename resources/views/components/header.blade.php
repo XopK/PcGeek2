@@ -8,7 +8,7 @@
         <form class="position-relative w-100 mx-3" role="search">
             <input type="search" class="form-control search focus-ring focus-ring-secondary"
                 placeholder="Искать на PcGeek" aria-label="Search">
-            <img src="image/search.svg" alt="Search" class="position-absolute search-icon">
+            <img src="/image/search.svg" alt="Search" class="position-absolute search-icon">
         </form>
     </div>
 

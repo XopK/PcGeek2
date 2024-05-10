@@ -192,12 +192,19 @@ class ParseController extends Controller
                 return $node->text();
             });
 
+            $image = $crawler->filter('img.CardImageSlider_image__W65ZP')->extract(['src']);
+
+            //Добавляем к ней ссылку сайта
+            $fullImageUrls = array_map(function ($url) {
+                return 'https://www.regard.ru' . $url;
+            }, $image);
+
             for ($i = 0; $i < count($headings); $i++) {
                 $existingMotherBoards = Component::where('title_component', $headings[$i])->first();
 
                 if ($existingMotherBoards) {
                     $existingMotherBoards->config_component = $description[$i];
-                    $existingMotherBoards->image_components = 'test3';
+                    $existingMotherBoards->image_components = $fullImageUrls[$i];
                     $existingMotherBoards->id_category = 1;
                     $existingMotherBoards->sale = $prices[$i];
 
@@ -206,7 +213,7 @@ class ParseController extends Controller
                     $MotherBoards = new Component();
                     $MotherBoards->title_component = $headings[$i];
                     $MotherBoards->config_component = $description[$i];
-                    $MotherBoards->image_components = 'test3';
+                    $MotherBoards->image_components = $fullImageUrls[$i];
                     $MotherBoards->id_category = 1;
                     $MotherBoards->sale = $prices[$i];
 
@@ -256,12 +263,19 @@ class ParseController extends Controller
                 return $node->text();
             });
 
+            $image = $crawler->filter('img.CardImageSlider_image__W65ZP')->extract(['src']);
+
+            //Добавляем к ней ссылку сайта
+            $fullImageUrls = array_map(function ($url) {
+                return 'https://www.regard.ru' . $url;
+            }, $image);
+
             for ($i = 0; $i < count($headings); $i++) {
                 $existingPowerBlock = Component::where('title_component', $headings[$i])->first();
 
                 if ($existingPowerBlock) {
                     $existingPowerBlock->config_component = $description[$i];
-                    $existingPowerBlock->image_components = 'test3';
+                    $existingPowerBlock->image_components = $fullImageUrls[$i];
                     $existingPowerBlock->id_category = 5;
                     $existingPowerBlock->sale = $prices[$i];
 
@@ -270,7 +284,7 @@ class ParseController extends Controller
                     $PowerBlock = new Component();
                     $PowerBlock->title_component = $headings[$i];
                     $PowerBlock->config_component = $description[$i];
-                    $PowerBlock->image_components = 'test4';
+                    $PowerBlock->image_components = $fullImageUrls[$i];
                     $PowerBlock->id_category = 5;
                     $PowerBlock->sale = $prices[$i];
 
@@ -320,12 +334,19 @@ class ParseController extends Controller
                 return $node->text();
             });
 
+            $image = $crawler->filter('img.CardImageSlider_image__W65ZP')->extract(['src']);
+
+            //Добавляем к ней ссылку сайта
+            $fullImageUrls = array_map(function ($url) {
+                return 'https://www.regard.ru' . $url;
+            }, $image);
+
             for ($i = 0; $i < count($headings); $i++) {
                 $existingSSD = Component::where('title_component', $headings[$i])->first();
 
                 if ($existingSSD) {
                     $existingSSD->config_component = $description[$i];
-                    $existingSSD->image_components = 'test3';
+                    $existingSSD->image_components = $fullImageUrls[$i];
                     $existingSSD->id_category = 4;
                     $existingSSD->sale = $prices[$i];
 
@@ -334,7 +355,7 @@ class ParseController extends Controller
                     $SSD = new Component();
                     $SSD->title_component = $headings[$i];
                     $SSD->config_component = $description[$i];
-                    $SSD->image_components = 'test6';
+                    $SSD->image_components = $fullImageUrls[$i];
                     $SSD->id_category = 4;
                     $SSD->sale = $prices[$i];
 
@@ -384,12 +405,19 @@ class ParseController extends Controller
                 return $node->text();
             });
 
+            $image = $crawler->filter('img.CardImageSlider_image__W65ZP')->extract(['src']);
+
+            //Добавляем к ней ссылку сайта
+            $fullImageUrls = array_map(function ($url) {
+                return 'https://www.regard.ru' . $url;
+            }, $image);
+
             for ($i = 0; $i < count($headings); $i++) {
                 $existingRAM = Component::where('title_component', $headings[$i])->first();
 
                 if ($existingRAM) {
                     $existingRAM->config_component = $description[$i];
-                    $existingRAM->image_components = 'test7';
+                    $existingRAM->image_components = $fullImageUrls[$i];
                     $existingRAM->id_category = 3;
                     $existingRAM->sale = $prices[$i];
 
@@ -398,7 +426,7 @@ class ParseController extends Controller
                     $RAM = new Component();
                     $RAM->title_component = $headings[$i];
                     $RAM->config_component = $description[$i];
-                    $RAM->image_components = 'test7';
+                    $RAM->image_components = $fullImageUrls[$i];
                     $RAM->id_category = 3;
                     $RAM->sale = $prices[$i];
 
@@ -448,12 +476,19 @@ class ParseController extends Controller
                 return $node->text();
             });
 
+            $image = $crawler->filter('img.CardImageSlider_image__W65ZP')->extract(['src']);
+
+            //Добавляем к ней ссылку сайта
+            $fullImageUrls = array_map(function ($url) {
+                return 'https://www.regard.ru' . $url;
+            }, $image);
+
             for ($i = 0; $i < count($headings); $i++) {
                 $existingHDD = Component::where('title_component', $headings[$i])->first();
 
                 if ($existingHDD) {
                     $existingHDD->config_component = $description[$i];
-                    $existingHDD->image_components = 'test8';
+                    $existingHDD->image_components = $fullImageUrls[$i];
                     $existingHDD->id_category = 2;
                     $existingHDD->sale = $prices[$i];
 
@@ -462,7 +497,7 @@ class ParseController extends Controller
                     $HDD = new Component();
                     $HDD->title_component = $headings[$i];
                     $HDD->config_component = $description[$i];
-                    $HDD->image_components = 'test8';
+                    $HDD->image_components = $fullImageUrls[$i];
                     $HDD->id_category = 2;
                     $HDD->sale = $prices[$i];
 

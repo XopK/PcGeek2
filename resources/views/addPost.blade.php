@@ -66,10 +66,10 @@
                 </div>
                 <div class="d-flex mb-3 gap-2 align-items-center">
                     <h3 class="m-0">Компоненты</h3>
-                    <button type="button" class="btn-plus" id="addComponentBtn"><img src="/image/addplus.svg"
+                    <button type="button" class="btn-plus" id="duplicateButton"><img src="/image/addplus.svg"
                             alt="addPlus"></button>
                 </div>
-                <div class="mb-3 border border-secondary p-3 rounded">
+                <div class="mb-3 border border-secondary p-3 rounded component-block">
                     <label for="pcComponents" class="form-label fw-bold">Выберите категорию</label>
                     <select class="form-select mb-3 focus-ring focus-ring-secondary border-secondary" id="pcComponents">
                         <option value="7">Процессор</option>
@@ -82,8 +82,10 @@
                     </select>
                     <label for="componentSelect" class="form-label fw-bold">Выберите компонент</label>
                     <input type="text" class="form-control mb-3 focus-ring focus-ring-secondary border-secondary"
-                        id="componentInput" name="component_title" placeholder="Введите название компонента">
-                    <input type="hidden" id="component_id" name="component_id">
+                        id="componentInput" name="component_title[]" placeholder="Введите название компонента">
+
+                    <input type="hidden" id="component_id" name="component_id[]">
+
                     @error('component_id')
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>{{ $message }}</strong>
@@ -113,89 +115,7 @@
     </script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"
         integrity="sha256-sw0iNNXmOJbQhYFuC9OF2kOlD5KQKe1y5lfBn4C9Sjg=" crossorigin="anonymous"></script>
-    <script>
-        $(function() {
-            $("#postTags").autocomplete({
-                source: function(request, response) {
-                    var term = request.term.toLowerCase();
-                    $.ajax({
-                        url: '/' + $('#postTags').data(
-                            'tags'), // Здесь используем data-tags для получения URL
-                        dataType: 'json',
-                        data: {
-                            term: term
-                        },
-                        success: function(data) {
-                            response(data);
-                        }
-                    });
-                },
-                minLength: 0,
-                select: function(event, ui) {
-                    var currentValue = $("#postTags").val();
-                    var selectedTag = ui.item.value;
-                    var updatedValue = currentValue.trim();
-                    if (updatedValue) {
-                        updatedValue += ", ";
-                    }
-                    updatedValue += selectedTag;
-                    $("#postTags").val(updatedValue);
-                    return false;
-                }
-            }).focus(function() {
-                $(this).autocomplete("search", "");
-            });
-
-            function loadComponents(categoryId) {
-                $.ajax({
-                    url: '/components/' + categoryId,
-                    type: 'GET',
-                    success: function(data) {
-                        var availableComponents = data.map(function(component) {
-                            return {
-                                label: component.title_component,
-                                value: component.id
-                            };
-                        });
-
-                        $('#componentInput').autocomplete({
-                            source: function(request, response) {
-                                var term = request.term.toLowerCase();
-                                var filteredComponents = availableComponents.filter(
-                                    function(component) {
-                                        return component.label.toLowerCase().indexOf(
-                                            term) !== -1;
-                                    });
-                                response(filteredComponents.slice(0,
-                                    12));
-                            },
-                            select: function(event, ui) {
-                                $('#componentInput').val(ui.item
-                                    .label
-                                );
-                                $('#component_id').val(ui.item
-                                    .value
-                                );
-                                return false;
-                            }
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            }
-
-            $('#pcComponents').change(function() {
-                var categoryId = $(this).val();
-                loadComponents(categoryId);
-            });
-
-
-            $('#pcComponents').trigger('change');
-
-        });
-    </script>
+    <script src="/js/component.js"></script>
 </body>
 
 </html>
