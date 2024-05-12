@@ -37,10 +37,13 @@
             @forelse ($posts as $post)
                 <div class="col-md-12">
                     <div class="card mb-4">
-                        <div class="favorite-button">
-                            <button type="button" class="btn-light"><img src="/image/heart.svg"
-                                                                         alt="heart"></button>
-                        </div>
+                        @auth
+                            <div class="favorite-button">
+                                <button type="button" data-post-id="{{$post->id}}"
+                                        class="btn-favorite {{$post->isFavorited ? 'favorited' : ''}}"><img
+                                        src="/image/heart.svg" alt="heart"></button>
+                            </div>
+                        @endauth
                         <div class="card-body">
                             <div class="tags mb-3">
                                 @foreach ($post->tags as $tag)
@@ -79,7 +82,7 @@
                                            class="btn btn-comment mx-2"><img src="/image/comment.svg"
                                                                              alt="comment"></a>
 
-                                        <span class="comments-count text-white ml-2">25</span>
+                                        <span class="comments-count text-white ml-2">{{$post->count_comments()}}</span>
                                     @endauth
                                     @guest
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#signIn"
@@ -100,7 +103,7 @@
                                            class="btn btn-comment mx-2"><img src="/image/comment.svg"
                                                                              alt="comment"></a>
 
-                                        <span class="comments-count text-white ml-2">25</span>
+                                        <span class="comments-count text-white ml-2">{{$post->count_comments()}}</span>
                                     @endguest
                                 </div>
                             </div>

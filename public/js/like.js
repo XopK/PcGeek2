@@ -1,5 +1,4 @@
 $('.btn-like').click(function () {
-
     var postId = $(this).data('post-id');
     var token = $('meta[name="csrf-token"]').attr('content');
     var isLiked = $(this).hasClass('liked');
@@ -93,3 +92,30 @@ $('.btn-dislike').click(function () {
         });
     }, 300);
 });
+
+$('.btn-favorite').click(function () {
+    var postId = $(this).data('post-id');
+    var token = $('meta[name="csrf-token"]').attr('content');
+    var isFavorite = $(this).hasClass('favorited');
+    var btnfavorite = $(this);
+
+    $.ajax({
+        url: '/post/favorite',
+        type: 'POST',
+        data: {
+            '_token': token,
+            'post_id': postId,
+        },
+        success: function (response) {
+            if (isFavorite) {
+                btnfavorite.removeClass('favorited');
+            } else {
+                btnfavorite.addClass('favorited');
+            }
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseJSON.message);
+        }
+    });
+});
+

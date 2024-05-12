@@ -112,7 +112,7 @@
                     <div class="comment-content" style="width: 100%">
                         <div class="author-comment d-flex justify-content-between">
                             <div class="author-info d-flex gap-2">
-                                <p class="fw-medium m-0">{{$comment->users->login}}</p>
+                                <p class="fw-medium m-0">{{$comment->users->login}} {{$comment->isAuthor ? '(автор)' : ''}}</p>
                                 <p class="fw-light m-0">{{ $comment->created_at->diffForHumans() }}</p>
                             </div>
                         </div>
@@ -128,7 +128,6 @@
                             </form>
                         </div>
                         <div class="replies mt-3">
-                            <!-- Repeat this structure for each reply -->
                         </div>
                     </div>
                 </div>

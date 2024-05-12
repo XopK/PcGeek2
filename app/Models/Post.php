@@ -55,4 +55,14 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class, 'id_post');
     }
+
+    public function count_comments()
+    {
+        return $this->comments->count();
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'id_post');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\ComponentPost;
 use App\Models\DisslikeBranch;
+use App\Models\Favorite;
 use App\Models\LikeBranch;
 use App\Models\Post;
 use App\Models\Tag;
@@ -23,6 +24,7 @@ class PostController extends Controller
         foreach ($posts as $post) {
             $post->isLiked = $user ? $post->likes()->where('id_user', $user->id)->exists() : false;
             $post->isDissliked = $user ? $post->disslikes()->where('id_user', $user->id)->exists() : false;
+            $post->isFavorited = $user ? $post->favorites()->where('id_user', $user->id)->exists() : false;
         }
 
         return view('index', ['posts' => $posts]);
@@ -31,14 +33,18 @@ class PostController extends Controller
     public function forum_view($id)
     {
         $user = Auth::user();
-
-        $data_post = Post::with('components', 'tags', 'comments.users')->where('id', $id)->get()->first();
+        $data_post = Post::with('components', 'tags', 'comments.users')
+            ->where('id', $id)
+            ->first();
         $data_post->comments = $data_post->comments->sortByDesc('created_at');
         $data_post->isLiked = $user ? $data_post->likes()->where('id_user', $user->id)->exists() : false;
         $data_post->isDissliked = $user ? $data_post->disslikes()->where('id_user', $user->id)->exists() : false;
-
+        $data_post->comments->each(function ($comment) use ($data_post) {
+            $comment->isAuthor = $comment->id_user === $data_post->id_user;
+        });
         return view('forum', ['post' => $data_post]);
     }
+
 
     public function add_view()
     {
@@ -191,5 +197,26 @@ class PostController extends Controller
         $newComment->formatted_created_at = $newComment->created_at->diffForHumans();
 
         return response()->json(['success' => true, 'comment' => $newComment]);
+    }
+
+    public function addfavorite(Request $request)
+    {
+        $user = Auth::user();
+        $favorite = $request->input('post_id');
+
+        $existingFavorite = Favorite::where('id_user', $user->id)
+            ->where('id_post', $favorite)
+            ->first();
+
+        if ($existingFavorite) {
+            $existingFavorite->delete();
+            return response()->json(['status' => 'success', 'message' => 'Пост удален из избранного!']);
+        } else {
+            Favorite::create([
+                'id_user' => $user->id,
+                'id_post' => $favorite,
+            ]);
+            return response()->json(['status' => 'success', 'message' => 'Пост добавлен в избранное!']);
+        }
     }
 }
