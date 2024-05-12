@@ -33,6 +33,7 @@ class PostController extends Controller
         $user = Auth::user();
 
         $data_post = Post::with('components', 'tags', 'comments.users')->where('id', $id)->get()->first();
+        $data_post->comments = $data_post->comments->sortByDesc('created_at');
         $data_post->isLiked = $user ? $data_post->likes()->where('id_user', $user->id)->exists() : false;
         $data_post->isDissliked = $user ? $data_post->disslikes()->where('id_user', $user->id)->exists() : false;
 
@@ -187,8 +188,8 @@ class PostController extends Controller
         ]);
 
         $newComment = Comment::with('users')->find($comment->id);
+        $newComment->formatted_created_at = $newComment->created_at->diffForHumans();
 
-        // Возвращаем JSON ответ с новым комментарием
         return response()->json(['success' => true, 'comment' => $newComment]);
     }
 }

@@ -1,4 +1,5 @@
 $('.btn-like').click(function () {
+
     var postId = $(this).data('post-id');
     var token = $('meta[name="csrf-token"]').attr('content');
     var isLiked = $(this).hasClass('liked');
@@ -45,6 +46,7 @@ $('.btn-like').click(function () {
     }, 300);
 });
 $('.btn-dislike').click(function () {
+
     var postId = $(this).data('post-id');
     var token = $('meta[name="csrf-token"]').attr('content');
     var isDisliked = $(this).hasClass('dissliked');

@@ -97,12 +97,12 @@
         <hr>
         <div class="add-comment d-flex gap-2 mt-2">
             <img src="/image/profile.svg" class="profile-img-forum" alt="profile.svg">
-            <form class="d-flex align-items-center gap-2 w-100" action="/forum/{{$post->id}}/comment" method="post">
+            <form id="commentForm" class="d-flex align-items-center gap-2 w-100" data-post-id="{{$post->id}}" method="post">
                 @csrf
-                <input class="form-control" id="commentInput" id="commentInput" name="comment"
-                       placeholder="Напишите комментарий здесь...">
-                <button type="submit" id="submitComment" class="btn btn-custom">Отправить</button>
+                <input class="form-control" name="comment" placeholder="Напишите комментарий здесь...">
+                <button type="submit" class="btn btn-custom">Отправить</button>
             </form>
+
         </div>
         <div class="comments mt-4">
             @forelse($post->comments as $comment)
@@ -134,7 +134,6 @@
                 </div>
             @empty
             @endforelse
-
         </div>
     </div>
     <x-footer></x-footer>
@@ -143,8 +142,8 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="/js/like.js"></script>
     <script src="/js/forum.js"></script>
+    <script src="/js/like.js"></script>
 </body>
 
 </html>
