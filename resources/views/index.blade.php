@@ -39,7 +39,7 @@
                     <div class="card mb-4">
                         @auth
                             <div class="favorite-button">
-                                <button type="button" data-post-id="{{$post->id}}"
+                                <button id="btn-favorite" type="button" data-post-id="{{$post->id}}"
                                         class="btn-favorite {{$post->isFavorited ? 'favorited' : ''}}"><img
                                         src="/image/heart.svg" alt="heart"></button>
                             </div>
@@ -111,6 +111,11 @@
                     </div>
                 </div>
             @empty
+                <div class="col-md-12">
+                    <div class="alert alert-info" role="alert">
+                        Нет постов для отображения.
+                    </div>
+                </div>
             @endforelse
         </div>
     </div>

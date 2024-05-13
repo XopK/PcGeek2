@@ -63,4 +63,6 @@ Route::post('/post/disslike', [PostController::class, 'DisslikePost'])->name('po
 
 Route::post('/forum/{id}/comment', [PostController::class, 'postComment'])->name('postComment');
 
+Route::post('/forum/{id}/reply', [PostController::class, 'replyComment']);
+
 Route::post('/post/favorite', [PostController::class, 'addfavorite']);

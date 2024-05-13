@@ -18,7 +18,7 @@
 <div class="container">
     <div class="header-forum-page d-flex gap-2 mt-4">
         <div class="back-page">
-            <a href="/" class="btn btn-custom btn-sm">
+            <a href="{{ session()->get('last_visited_page', '/') }}" class="btn btn-custom btn-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-arrow-left" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -44,7 +44,7 @@
         <div class="col-md-10">
             <div class="card mb-4">
                 <div class="card-body">
-                    <p class="card-text fw-medium">{{ $post->description }}</p>
+                    <p class="card-text fs-5 fw-medium">{{ $post->description }}</p>
                     <img src="/storage/image_posts/{{ $post->image_posts }}" class="card-img-top forum-page-img"
                          alt="{{ $post->image_posts }}">
                     <div class="d-flex gap-3">
@@ -63,7 +63,15 @@
 
                                 <span data-post-id="{{ $post->id }}"
                                       class="dislikes-count text-white px-2">{{ $post->disslikesCount() }}</span>
+
                             </div>
+                            @auth
+                                <div class="favorite-button-down">
+                                    <button id="btn-favorite" type="button" data-post-id="{{$post->id}}"
+                                            class="btn-favorite {{$post->isFavorited ? 'favorited' : ''}}"><img
+                                            src="/image/heart.svg" alt="heart"></button>
+                                </div>
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -97,40 +105,63 @@
         <hr>
         <div class="add-comment d-flex gap-2 mt-2">
             <img src="/image/profile.svg" class="profile-img-forum" alt="profile.svg">
-            <form id="commentForm" class="d-flex align-items-center gap-2 w-100" data-post-id="{{$post->id}}" method="post">
+            <form id="commentForm" class="d-flex align-items-center gap-2 w-100" data-post-id="{{$post->id}}"
+                  method="post">
                 @csrf
                 <input class="form-control" name="comment" placeholder="Напишите комментарий здесь...">
                 <button type="submit" class="btn btn-custom">Отправить</button>
             </form>
-
         </div>
         <div class="comments mt-4">
             @forelse($post->comments as $comment)
-                <div class="comment d-flex gap-2 mb-3">
-                    <img src="/storage/users_profile/{{$comment->users->profile_img}}" class="profile-img-forum"
-                         alt="profile.svg">
-                    <div class="comment-content" style="width: 100%">
-                        <div class="author-comment d-flex justify-content-between">
-                            <div class="author-info d-flex gap-2">
-                                <p class="fw-medium m-0">{{$comment->users->login}} {{$comment->isAuthor ? '(автор)' : ''}}</p>
-                                <p class="fw-light m-0">{{ $comment->created_at->diffForHumans() }}</p>
+                @if(!$comment->id_reply)
+                    <div class="comment d-flex gap-2 mb-3">
+                        <img src="/storage/users_profile/{{$comment->users->profile_img}}" class="profile-img-forum"
+                             alt="profile.svg">
+                        <div class="comment-content" style="width: 100%">
+                            <div class="author-comment d-flex justify-content-between">
+                                <div class="author-info d-flex gap-2">
+                                    <p class="fw-medium m-0">{{$comment->users->login}}</p>
+                                    <p class="fw-light m-0">{{ $comment->created_at->diffForHumans() }}</p>
+                                </div>
+                            </div>
+                            <p class="comment-text">{{$comment->comment}}</p>
+                            <div class="d-flex">
+                                <button type="button"
+                                        class="reply-btn link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                                    Ответить
+                                </button>
+
+                            </div>
+
+                            <div class="reply-form d-none mt-2">
+                                <form id="replyForm" class="d-flex align-items-center gap-2 w-100"
+                                      data-post-id="{{$post->id}}">
+                                    <input class="form-control" name="reply" placeholder="Напишите ответ здесь...">
+                                    <input type="hidden" value="{{$comment->id}}" name="comment_id">
+                                    <button type="submit" class="btn btn-custom btn-sm">Отправить</button>
+                                </form>
+                            </div>
+                            <div class="replies mt-3">
+                                @foreach($comment->replies as $reply)
+                                    <div class="reply d-flex mb-2 gap-2">
+                                        <img src="/storage/users_profile/{{$reply->users->profile_img}}"
+                                             class="profile-img-forum" alt="profile.svg">
+                                        <div class="reply-content">
+                                            <div class="author-reply d-flex justify-content-between">
+                                                <div class="author-info d-flex gap-2">
+                                                    <p class="fw-medium m-0">{{$reply->users->login}}</p>
+                                                    <p class="fw-light m-0">{{$reply->created_at->diffForHumans()}}</p>
+                                                </div>
+                                            </div>
+                                            <p class="reply-text">{{$reply->comment}}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                        <p class="comment-text">{{$comment->comment}}</p>
-                        <button type="button"
-                                class="reply-btn link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
-                            Ответить
-                        </button>
-                        <div class="reply-form d-none mt-2">
-                            <form class="d-flex align-items-center gap-2 w-100">
-                                <input class="form-control" placeholder="Напишите ответ здесь...">
-                                <button type="submit" class="btn btn-custom btn-sm">Отправить</button>
-                            </form>
-                        </div>
-                        <div class="replies mt-3">
-                        </div>
                     </div>
-                </div>
+                @endif
             @empty
             @endforelse
         </div>

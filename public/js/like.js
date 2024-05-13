@@ -93,7 +93,7 @@ $('.btn-dislike').click(function () {
     }, 300);
 });
 
-$('.btn-favorite').click(function () {
+$('#btn-favorite').click(function () {
     var postId = $(this).data('post-id');
     var token = $('meta[name="csrf-token"]').attr('content');
     var isFavorite = $(this).hasClass('favorited');

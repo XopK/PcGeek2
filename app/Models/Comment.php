@@ -13,6 +13,7 @@ class Comment extends Model
         'comment',
         'id_user',
         'id_post',
+        'id_reply',
         'created_at',
         'updated_at',
     ];

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -18,7 +17,8 @@ return new class extends Migration
             $table->longText('comment');
             $table->foreignId('id_user')->references('id')->on('users');
             $table->foreignId('id_post')->references('id')->on('posts')->onDelete('cascade');
-            $table->integer('like_comment')->default(0);
+            $table->unsignedBigInteger('id_reply')->nullable(); // Добавляем parent_id
+            $table->foreign('id_reply')->references('id')->on('comments')->onDelete('cascade'); // Создаем внешний ключ для parent_id
             $table->timestamps();
         });
     }

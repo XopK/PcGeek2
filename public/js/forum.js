@@ -1,7 +1,9 @@
 $(document).ready(function () {
-    $('.reply-btn').click(function () {
-        $(this).parent().find('.reply-form').toggleClass('d-none');
+
+    $(document).on('click', '.reply-btn', function () {
+        $(this).closest('.comment').find('.reply-form').toggleClass('d-none');
     });
+
 
     // Обработчик отправки формы комментария через AJAX
     $('#commentForm').submit(function (e) {
@@ -39,6 +41,40 @@ $(document).ready(function () {
                     '</div>';
                 $('.comments').prepend(commentBlock);
                 $('input[name="comment"]').val('');
+            },
+            error: function (xhr, status, error) {
+                // Обработка ошибки
+                console.error(error);
+            }
+        });
+    });
+
+    $('#replyForm').submit(function (e) {
+        e.preventDefault(); // Предотвращаем отправку формы по умолчанию
+        var formData = $(this).serialize(); // Получаем данные формы
+        var postId = $(this).data('post-id'); // Получаем ID поста из атрибута data-post-id
+        var csrfToken = $('meta[name="csrf-token"]').attr('content'); // Получаем CSRF-токен
+
+        $.ajax({
+            type: 'POST',
+            url: '/forum/' + postId + '/reply',
+            data: formData + '&_token=' + csrfToken, // Добавляем CSRF-токен к данным формы
+            success: function (response) {
+                var newReply = response.reply;
+                var replyBlock = '<div class="reply d-flex mb-2 gap-2">' +
+                    '<img src="/storage/users_profile/' + newReply.users.profile_img + '" class="profile-img-forum" alt="profile.svg">' +
+                    '<div class="reply-content">' +
+                    '<div class="author-reply d-flex justify-content-between">' +
+                    '<div class="author-info d-flex gap-2">' +
+                    '<p class="fw-medium m-0">' + newReply.users.login + '</p>' +
+                    '<p class="fw-light m-0">' + newReply.formatted_created_at + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '<p class="reply-text">' + newReply.comment + '</p>' +
+                    '</div>' +
+                    '</div>';
+                $('.replies').prepend(replyBlock);
+                $('input[name="reply"]').val('');
             },
             error: function (xhr, status, error) {
                 // Обработка ошибки

@@ -12,12 +12,16 @@ use App\Models\Tag;
 use App\Models\TagPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class PostController extends Controller
 {
 
     public function index()
     {
+        $currentUrl = URL::current();
+        session()->put('last_visited_page', $currentUrl);
+
         $posts = Post::with('tags')->latest()->get();
         $user = Auth::user();
 
@@ -39,8 +43,9 @@ class PostController extends Controller
         $data_post->comments = $data_post->comments->sortByDesc('created_at');
         $data_post->isLiked = $user ? $data_post->likes()->where('id_user', $user->id)->exists() : false;
         $data_post->isDissliked = $user ? $data_post->disslikes()->where('id_user', $user->id)->exists() : false;
+        $data_post->isFavorited = $user ? $data_post->favorites()->where('id_user', $user->id)->exists() : false;
         $data_post->comments->each(function ($comment) use ($data_post) {
-            $comment->isAuthor = $comment->id_user === $data_post->id_user;
+            $comment->replies = $data_post->comments->where('id_reply', $comment->id)->sortBy('created_at');
         });
         return view('forum', ['post' => $data_post]);
     }
@@ -193,10 +198,34 @@ class PostController extends Controller
             'id_user' => $user->id,
         ]);
 
+        $post = Post::find($id);
+
         $newComment = Comment::with('users')->find($comment->id);
         $newComment->formatted_created_at = $newComment->created_at->diffForHumans();
 
         return response()->json(['success' => true, 'comment' => $newComment]);
+    }
+
+    public function replyComment(Request $request, $id)
+    {
+        $request->validate([
+            'reply' => 'required',
+        ], [
+            'reply.required' => 'Поле обязательно для заполнения!',
+        ]);
+
+        $user = Auth::user();
+        $reply = Comment::create([
+            'comment' => $request->reply,
+            'id_post' => $id,
+            'id_user' => $user->id,
+            'id_reply' => $request->comment_id,
+        ]);
+
+        $newReply = Comment::with('users')->find($reply->id);
+        $newReply->formatted_created_at = $newReply->created_at->diffForHumans();
+
+        return response()->json(['success' => true, 'reply' => $newReply]);
     }
 
     public function addfavorite(Request $request)
