@@ -45,7 +45,6 @@ $('.btn-like').click(function () {
     }, 300);
 });
 $('.btn-dislike').click(function () {
-
     var postId = $(this).data('post-id');
     var token = $('meta[name="csrf-token"]').attr('content');
     var isDisliked = $(this).hasClass('dissliked');
@@ -119,3 +118,97 @@ $('#btn-favorite').click(function () {
     });
 });
 
+$('.btn-like-comment').click(function () {
+    var commentId = $(this).data('comment-id');
+    var token = $('meta[name="csrf-token"]').attr('content');
+    var isLiked = $(this).hasClass('liked-comment');
+    var isDisliked = $(this).siblings('.btn-dislike-comment').hasClass('disliked-comment');
+    var $btnLike = $(this);
+
+    $btnLike.prop('disabled', true);
+
+    setTimeout(function () {
+        $.ajax({
+            url: '/comment/like',
+            type: 'POST',
+            data: {
+                '_token': token,
+                'comment_id': commentId,
+            },
+            success: function (response) {
+                var likesCountSpan = $('.likes-comment-count[data-comment-id="' + commentId + '"]');
+                var currentLikesCount = parseInt(likesCountSpan.text());
+
+                if (isLiked) {
+                    likesCountSpan.text(currentLikesCount - 1);
+                    $btnLike.removeClass('liked-comment');
+                } else {
+                    likesCountSpan.text(currentLikesCount + 1);
+                    $btnLike.addClass('liked-comment');
+                }
+
+                if (isDisliked) {
+                    var dislikesCountSpan = $('.dislikes-comment-count[data-comment-id="' + commentId + '"]');
+                    var currentDislikesCount = parseInt(dislikesCountSpan.text());
+                    dislikesCountSpan.text(Math.max(0, currentDislikesCount - 1));
+                    $btnLike.siblings('.btn-dislike-comment').removeClass('disliked-comment');
+                }
+
+                $btnLike.prop('disabled', false);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseJSON.message);
+                $btnLike.prop('disabled', false);
+            }
+        });
+    }, 500);
+});
+
+
+$('.btn-dislike-comment').click(function () {
+    var commentId = $(this).data('comment-id');
+    var token = $('meta[name="csrf-token"]').attr('content');
+    var isDisliked = $(this).hasClass('disliked-comment');
+    var isLiked = $(this).siblings('.btn-like-comment').hasClass('liked-comment');
+    var $btnDislike = $(this);
+
+    $btnDislike.prop('disabled', true);
+
+    setTimeout(function () {
+        $.ajax({
+            url: '/comment/disslike',
+            type: 'POST',
+            data: {
+                '_token': token,
+                'comment_id': commentId,
+            },
+            success: function (response) {
+                var dislikesCountSpan = $('.dislikes-comment-count[data-comment-id="' + commentId +
+                    '"]');
+                var currentDislikesCount = parseInt(dislikesCountSpan.text());
+
+                if (isDisliked) {
+                    dislikesCountSpan.text(currentDislikesCount - 1);
+                    $btnDislike.removeClass('disliked-comment');
+                } else {
+                    dislikesCountSpan.text(currentDislikesCount + 1);
+                    $btnDislike.addClass('disliked-comment');
+                }
+
+                if (isLiked) {
+                    var likesCountSpan = $('.likes-comment-count[data-comment-id="' + commentId +
+                        '"]');
+                    var currentLikesCount = parseInt(likesCountSpan.text());
+                    likesCountSpan.text(Math.max(0, currentLikesCount - 1));
+                    $btnDislike.siblings('.btn-like-comment').removeClass('liked-comment');
+                }
+
+                $btnDislike.prop('disabled', false);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseJSON.message);
+                $btnDislike.prop('disabled', false);
+            }
+        });
+    }, 500);
+});

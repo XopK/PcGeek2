@@ -131,7 +131,27 @@
                                         class="reply-btn link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
                                     Ответить
                                 </button>
+                                <div class="like-comments" style="margin: 0 20px 0 30px">
+                                    <button type="button" data-comment-id="{{ $comment->id }}"
+                                            class="btn btn-like-comment {{$comment->isLiked ? 'liked-comment' : ''}}">
+                                        <img src="/image/thumb_up.svg"
+                                             alt="thumb_up.svg">
+                                        <span data-comment-id="{{ $comment->id }}"
+                                              class="likes-comment-count px-2">{{ $comment->likesCommCount() }}</span>
+                                    </button>
 
+                                    <button type="button" data-comment-id="{{ $comment->id }}"
+                                            class="btn btn-dislike-comment {{$comment->isDissliked ? 'disliked-comment' : ''}}">
+                                        <img
+                                            src="/image/thumb_down.svg"
+                                            alt="thumb_down.svg">
+                                        <span data-comment-id="{{ $comment->id }}"
+                                              class="dislikes-comment-count px-2">{{ $comment->disslikesCommCount() }}</span>
+                                    </button>
+                                </div>
+                                <button style="color:#141C52" class="btn d-flex align-items-center"><img
+                                        src="/image/report.svg" alt="report.svg">Жалоба
+                                </button>
                             </div>
 
                             <div class="reply-form d-none mt-2">
@@ -143,21 +163,44 @@
                                 </form>
                             </div>
                             <div class="replies mt-3">
-                                @foreach($comment->replies as $reply)
-                                    <div class="reply d-flex mb-2 gap-2">
-                                        <img src="/storage/users_profile/{{$reply->users->profile_img}}"
-                                             class="profile-img-forum" alt="profile.svg">
-                                        <div class="reply-content">
-                                            <div class="author-reply d-flex justify-content-between">
-                                                <div class="author-info d-flex gap-2">
-                                                    <p class="fw-medium m-0">{{$reply->users->login}}</p>
-                                                    <p class="fw-light m-0">{{$reply->created_at->diffForHumans()}}</p>
+                                @forelse($comment->replies as $reply)
+
+                                    <div class="reply mb-3">
+                                        <div class="d-flex gap-2">
+                                            <img src="/storage/users_profile/{{$reply->users->profile_img}}"
+                                                 class="profile-img-forum" alt="profile.svg">
+                                            <div class="reply-content">
+                                                <div class="author-reply d-flex justify-content-between">
+                                                    <div class="author-info d-flex gap-2">
+                                                        <p class="fw-medium m-0">{{$reply->users->login}}</p>
+                                                        <p class="fw-light m-0">{{$reply->created_at->diffForHumans()}}</p>
+                                                    </div>
                                                 </div>
+                                                <p class="reply-text">{{$reply->comment}}</p>
                                             </div>
-                                            <p class="reply-text">{{$reply->comment}}</p>
+                                        </div>
+                                        <div class="like-comments" style="margin-left: 48px">
+                                            <button type="button" data-comment-id="{{ $reply->id }}"
+                                                    class="btn btn-like-comment {{$reply->isLiked ? 'liked-comment' : ''}}">
+                                                <img src="/image/thumb_up.svg"
+                                                     alt="thumb_up.svg">
+                                                <span data-comment-id="{{ $reply->id }}"
+                                                      class="likes-comment-count px-2">{{ $reply->likesCommCount() }}</span>
+                                            </button>
+
+                                            <button type="button" data-comment-id="{{ $reply->id }}"
+                                                    class="btn btn-dislike-comment {{$reply->isDissliked ? 'disliked-comment' : ''}}">
+                                                <img
+                                                    src="/image/thumb_down.svg"
+                                                    alt="thumb_down.svg">
+                                                <span data-comment-id="{{ $reply->id }}"
+                                                      class="dislikes-comment-count px-2">{{ $reply->disslikesCommCount() }}</span>
+                                            </button>
                                         </div>
                                     </div>
-                                @endforeach
+
+                                @empty
+                                @endforelse
                             </div>
                         </div>
                     </div>

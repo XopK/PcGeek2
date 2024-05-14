@@ -61,7 +61,8 @@ $(document).ready(function () {
             data: formData + '&_token=' + csrfToken, // Добавляем CSRF-токен к данным формы
             success: function (response) {
                 var newReply = response.reply;
-                var replyBlock = '<div class="reply d-flex mb-2 gap-2">' +
+                var replyBlock = '<div class="reply mb-3">' +
+                    '<div class="d-flex gap-2">' +
                     '<img src="/storage/users_profile/' + newReply.users.profile_img + '" class="profile-img-forum" alt="profile.svg">' +
                     '<div class="reply-content">' +
                     '<div class="author-reply d-flex justify-content-between">' +
@@ -72,7 +73,14 @@ $(document).ready(function () {
                     '</div>' +
                     '<p class="reply-text">' + newReply.comment + '</p>' +
                     '</div>' +
+                    '</div>' +
+                    '<div class="like-comments d-flex" style="margin-left: 48px">' +
+                    '<button class="btn btn-like-comment"><img src="/image/thumb_up.svg" alt="thumb_up.svg"></button>' +
+                    '<button class="btn btn-dislike-comment"><img src="/image/thumb_down.svg" alt="thumb_down.svg"></button>' +
+                    '<button style="color:#141C52" class="btn d-flex align-items-center"><img src="/image/report.svg" alt="report.svg">Жалоба</button>' +
+                    '</div>' +
                     '</div>';
+
                 $('.replies').prepend(replyBlock);
                 $('input[name="reply"]').val('');
             },

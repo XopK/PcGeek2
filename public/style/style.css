@@ -323,6 +323,10 @@ input[type="search"]::-webkit-search-cancel-button {
     background-color: white;
 }
 
+.reply-text {
+    margin-bottom: 5px;
+}
+
 .btn-plus {
     background-color: white;
     border: none;
@@ -334,6 +338,20 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .favorited img {
+    filter: brightness(0) saturate(100%) invert(11%) sepia(97%) saturate(4513%) hue-rotate(355deg) brightness(127%) contrast(92%);
+}
+
+.btn-like-comment,
+.btn-dislike-comment {
+    padding: 5px;
+
+}
+
+.liked-comment img {
+    filter: brightness(0) saturate(100%) invert(63%) sepia(62%) saturate(444%) hue-rotate(87deg) brightness(89%) contrast(94%);
+}
+
+.disliked-comment img {
     filter: brightness(0) saturate(100%) invert(11%) sepia(97%) saturate(4513%) hue-rotate(355deg) brightness(127%) contrast(92%);
 }
 

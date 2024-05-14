@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\ComponentPost;
 use App\Models\DisslikeBranch;
+use App\Models\DissLikeComment;
 use App\Models\Favorite;
 use App\Models\LikeBranch;
+use App\Models\LikeComment;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\TagPost;
@@ -44,9 +46,21 @@ class PostController extends Controller
         $data_post->isLiked = $user ? $data_post->likes()->where('id_user', $user->id)->exists() : false;
         $data_post->isDissliked = $user ? $data_post->disslikes()->where('id_user', $user->id)->exists() : false;
         $data_post->isFavorited = $user ? $data_post->favorites()->where('id_user', $user->id)->exists() : false;
-        $data_post->comments->each(function ($comment) use ($data_post) {
-            $comment->replies = $data_post->comments->where('id_reply', $comment->id)->sortBy('created_at');
+        $data_post->comments->each(function ($comment) use ($user, $data_post) {
+            $comment->isLiked = $user ? $comment->likesComm()->where('id_user', $user->id)->exists() : false;
+            $comment->isDissliked = $user ? $comment->disslikesComm()->where('id_user', $user->id)->exists() : false;
+
+            // Получение ответов на текущий комментарий и добавление isLiked и isDissliked для каждого ответа
+            $replies = $data_post->comments->where('id_reply', $comment->id)->sortBy('created_at');
+            $replies->each(function ($reply) use ($user) {
+                $reply->isLiked = $user ? $reply->likesComm()->where('id_user', $user->id)->exists() : false;
+                $reply->isDissliked = $user ? $reply->disslikesComm()->where('id_user', $user->id)->exists() : false;
+            });
+
+            // Присваивание ответов к текущему комментарию
+            $comment->replies = $replies;
         });
+
         return view('forum', ['post' => $data_post]);
     }
 
@@ -246,6 +260,64 @@ class PostController extends Controller
                 'id_post' => $favorite,
             ]);
             return response()->json(['status' => 'success', 'message' => 'Пост добавлен в избранное!']);
+        }
+    }
+
+    public function LikeComment(Request $request)
+    {
+        $user = Auth::user();
+        $like = $request->input('comment_id');
+
+        $existingLike = LikeComment::where('id_user', $user->id)
+            ->where('id_comment', $like)
+            ->first();
+
+        $existingDiss = DissLikeComment::where('id_user', $user->id)
+            ->where('id_comment', $like)
+            ->first();
+
+        if ($existingLike) {
+            $existingLike->delete();
+            return response()->json(['status' => 'success', 'message' => 'Лайк удален!']);
+        } else {
+            if ($existingDiss) {
+                $existingDiss->delete();
+            }
+            LikeComment::create([
+                'id_user' => $user->id,
+                'id_comment' => $like,
+            ]);
+            return response()->json(['status' => 'success', 'message' => 'Лайк поставлен!']);
+        }
+    }
+
+    public function DisslikeComment(Request $request)
+    {
+        $user = Auth::user();
+        $disslike = $request->input('comment_id');
+
+        $existingDiss = DissLikeComment::where('id_user', $user->id)
+            ->where('id_comment', $disslike)
+            ->first();
+
+        $existingLike = LikeComment::where('id_user', $user->id)
+            ->where('id_comment', $disslike)
+            ->first();
+
+        if ($existingDiss) {
+            $existingDiss->delete();
+            return response()->json(['status' => 'success', 'message' => 'Дизлайк удален!']);
+        } else {
+
+            if ($existingLike) {
+                $existingLike->delete();
+            }
+
+            DissLikeComment::create([
+                'id_user' => $user->id,
+                'id_comment' => $disslike,
+            ]);
+            return response()->json(['status' => 'success', 'message' => 'Дизлайк поставлен!']);
         }
     }
 }

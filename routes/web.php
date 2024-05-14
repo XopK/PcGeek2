@@ -61,6 +61,10 @@ Route::post('/post/like', [PostController::class, 'LikePost'])->name('post.like'
 
 Route::post('/post/disslike', [PostController::class, 'DisslikePost'])->name('post.disslike');
 
+Route::post('/comment/like', [PostController::class, 'LikeComment'])->name('comment.like');
+
+Route::post('/comment/disslike', [PostController::class, 'DisslikeComment'])->name('comment.disslike');
+
 Route::post('/forum/{id}/comment', [PostController::class, 'postComment'])->name('postComment');
 
 Route::post('/forum/{id}/reply', [PostController::class, 'replyComment']);

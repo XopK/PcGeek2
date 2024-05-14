@@ -27,4 +27,24 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class, 'id_post');
     }
+
+    public function likesComm()
+    {
+        return $this->hasMany(LikeComment::class, 'id_comment');
+    }
+
+    public function likesCommCount()
+    {
+        return $this->likesComm->count();
+    }
+
+    public function disslikesComm()
+    {
+        return $this->hasMany(DissLikeComment::class, 'id_comment');
+    }
+
+    public function disslikesCommCount()
+    {
+        return $this->disslikesComm()->count();
+    }
 }
