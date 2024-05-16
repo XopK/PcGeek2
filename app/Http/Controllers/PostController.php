@@ -52,6 +52,8 @@ class PostController extends Controller
             $post->isFavorited = $user ? $post->favorites()->where('id_user', $user->id)->exists() : false;
         }
 
+        $posts->appends($request->query());
+
         return view('index', ['posts' => $posts]);
     }
 
