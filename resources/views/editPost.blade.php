@@ -17,7 +17,7 @@
 <x-header></x-header>
 <div class="container">
     <div class="form-addPost mt-4">
-        <h1>Добавление поста</h1>
+        <h1>Редактирование поста</h1>
         @if (session('success'))
             <div class="alert alert-success alert-dismissible mt-3">
                 <div class="alert-text">
@@ -26,11 +26,12 @@
                 </div>
             </div>
         @endif
-        <form action="/addPost/create" method="post" id="addPost" enctype="multipart/form-data">
+        <form action="/edit/store/{{$edit->id}}" method="post" id="editPost" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="postTitle" class="form-label fw-bold">Название поста</label>
-                <input class="form-control focus-ring focus-ring-secondary border-secondary" name="post_title"
+                <input class="form-control focus-ring focus-ring-secondary border-secondary"
+                       value="{{$edit->title_post}}" name="post_title"
                        id="postTitle" placeholder="Введите название">
                 @error('post_title')
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -43,7 +44,7 @@
                 <label for="postText" class="form-label fw-bold">Текст поста</label>
                 <textarea class="form-control focus-ring focus-ring-secondary border-secondary" name="text_post"
                           id="postText"
-                          rows="5" placeholder="Введите здесь свой текст"></textarea>
+                          rows="5" placeholder="Введите здесь свой текст">{{$edit->description}}</textarea>
                 @error('text_post')
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>{{ $message }}</strong>
@@ -63,6 +64,14 @@
                 @enderror
             </div>
             <div class="mb-3">
+                <h5>Нажмите на тег чтобы удалить</h5>
+                <div class="tags mb-3">
+                    @foreach ($edit->tags as $tag)
+                        <a href="/edit/deleteTag/{{$tag->id}}?idPost={{$edit->id}}"><span
+                                    class="badge fw-bold text-bg-custom">{{ $tag->title_tag }}</span></a>
+                    @endforeach
+
+                </div>
                 <label for="postTags" class="form-label fw-bold">Теги</label>
                 <input class="form-control focus-ring focus-ring-secondary border-secondary" name="tags_post"
                        id="postTags" placeholder="Введите теги" data-tags="tags">
@@ -103,8 +112,27 @@
                 </div>
                 @enderror
             </div>
-
-            <button type="submit" form="addPost" class="btn btn-custom">Опубликовать</button>
+            @forelse($edit->components as $component)
+                <div class="card mb-3" style="width: 83%">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-0">
+                            <img src="{{$component->image_components}}" class="img-fluid rounded-start p-3"
+                                 alt="{{$component->image_components}}">
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="card-body">
+                                <h5 class="card-title">{{$component->title_component}}</h5>
+                                <p class="card-text">{{$component->config_component}}</p>
+                                <p class="card-text fs-4 fw-bold">{{$component->sale}}</p>
+                            </div>
+                        </div>
+                        <a href="/edit/deleteComponents/{{$component->id}}?idPost={{$edit->id}}"
+                           class="btn btn-custom delete-btn mx-3">Удалить</a>
+                    </div>
+                </div>
+            @empty
+            @endforelse
+            <button type="submit" form="editPost" class="btn btn-custom">Опубликовать</button>
         </form>
     </div>
     <x-footer></x-footer>

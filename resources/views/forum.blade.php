@@ -28,7 +28,7 @@
                 Назад
             </a>
         </div>
-        <img src="/image/profile.svg" class="profile-img-forum" alt="profile.svg">
+        <img src="/storage/users_profile/{{ $post->user->profile_img }}" class="profile-img-forum" alt="profile.svg">
         <div class="author-post">
             <p class="fw-medium m-0">{{ $post->user->login }}</p>
             <p class="fw-light m-0">{{ $post->created_at->diffForHumans() }}</p>
@@ -38,7 +38,8 @@
         <h1>{{ $post->title_post }}</h1>
         <div class="tags mb-3">
             @foreach ($post->tags as $tag)
-                <span class="badge fw-bold text-bg-custom">{{ $tag->title_tag }}</span>
+                <a href="/?search={{$tag->title_tag}}"><span
+                        class="badge fw-bold text-bg-custom">{{ $tag->title_tag }}</span></a>
             @endforeach
         </div>
         <div class="col-md-10">
@@ -49,23 +50,41 @@
                          alt="{{ $post->image_posts }}">
                     <div class="d-flex gap-3">
                         <div class="d-flex justify-content-between mx-0 mt-3">
-                            <div class="like-dislike-buttons d-flex align-items-center">
-                                <button type="button" data-post-id="{{ $post->id }}"
-                                        class="btn btn-like {{ $post->isLiked ? 'liked' : '' }}"><img
-                                        src="/image/up_arrow.svg" alt="up_arrow"></button>
+                            @guest
+                                <div class="like-dislike-buttons d-flex align-items-center">
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#signIn"
+                                            class="btn btn-like-guest"><img src="/image/up_arrow.svg"
+                                                                            alt="up_arrow"></button>
 
-                                <span data-post-id="{{ $post->id }}"
-                                      class="likes-count text-white px-2">{{ $post->likesCount() }}</span>
+                                    <span data-post-id="{{ $post->id }}"
+                                          class="likes-count text-white px-2">{{ $post->likesCount() }}</span>
 
-                                <button type="button" data-post-id="{{ $post->id }}"
-                                        class="btn btn-dislike {{ $post->isDissliked ? 'dissliked' : '' }}"><img
-                                        src="/image/down_arrow.svg" alt="down_arrow"></button>
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#signIn"
+                                            class="btn btn-dislike-guest"><img src="/image/down_arrow.svg"
+                                                                               alt="down_arrow"></button>
 
-                                <span data-post-id="{{ $post->id }}"
-                                      class="dislikes-count text-white px-2">{{ $post->disslikesCount() }}</span>
+                                    <span data-post-id="{{ $post->id }}"
+                                          class="dislikes-count text-white px-2">{{ $post->disslikesCount() }}</span>
 
-                            </div>
+                                </div>
+                            @endguest
                             @auth
+                                <div class="like-dislike-buttons d-flex align-items-center">
+                                    <button type="button" data-post-id="{{ $post->id }}"
+                                            class="btn btn-like {{ $post->isLiked ? 'liked' : '' }}"><img
+                                            src="/image/up_arrow.svg" alt="up_arrow"></button>
+
+                                    <span data-post-id="{{ $post->id }}"
+                                          class="likes-count text-white px-2">{{ $post->likesCount() }}</span>
+
+                                    <button type="button" data-post-id="{{ $post->id }}"
+                                            class="btn btn-dislike {{ $post->isDissliked ? 'dissliked' : '' }}"><img
+                                            src="/image/down_arrow.svg" alt="down_arrow"></button>
+
+                                    <span data-post-id="{{ $post->id }}"
+                                          class="dislikes-count text-white px-2">{{ $post->disslikesCount() }}</span>
+                                </div>
+
                                 <div class="favorite-button-down">
                                     <button id="btn-favorite" type="button" data-post-id="{{$post->id}}"
                                             class="btn-favorite {{$post->isFavorited ? 'favorited' : ''}}"><img
@@ -96,28 +115,41 @@
                     </div>
                 </div>
             </div>
-
         @empty
         @endforelse
     </div>
     <div class="comment-section mt-4">
         <h2 id="comment-section">Комментарии</h2>
         <hr>
-        <div class="add-comment d-flex gap-2 mt-2">
-            <img src="/image/profile.svg" class="profile-img-forum" alt="profile.svg">
-            <form id="commentForm" class="d-flex align-items-center gap-2 w-100" data-post-id="{{$post->id}}"
-                  method="post">
-                @csrf
-                <input class="form-control" name="comment" placeholder="Напишите комментарий здесь...">
-                <button type="submit" class="btn btn-custom">Отправить</button>
-            </form>
-        </div>
+        @auth
+            <div class="add-comment d-flex gap-2 mt-2">
+                <img src="/storage/users_profile/{{Auth::user()->profile_img}}" class="profile-img-forum"
+                     alt="profile.svg">
+                <form id="commentForm" class="d-flex align-items-center gap-2 w-100" data-post-id="{{$post->id}}"
+                      method="post">
+                    @csrf
+                    <input class="form-control" name="comment" placeholder="Напишите комментарий здесь...">
+                    <button type="submit" class="btn btn-custom">Отправить</button>
+                </form>
+            </div>
+        @endauth
+        @guest
+            <div class="add-comment-guest d-flex gap-2 mt-2">
+                <img src="/image/profile.svg" class="profile-img-forum" alt="profile.svg">
+                <form id="commentForm-guest" class="d-flex align-items-center gap-2 w-100">
+                    @csrf
+                    <input class="form-control" name="comment" placeholder="Напишите комментарий здесь...">
+                    <button type="button" class="btn btn-custom" data-bs-toggle="modal"
+                            data-bs-target="#signIn">Отправить
+                    </button>
+                </form>
+            </div>
+        @endguest
         <div class="comments mt-4">
             @forelse($post->comments as $comment)
                 @if(!$comment->id_reply)
                     <div class="comment d-flex gap-2 mb-3">
-                        <img src="/storage/users_profile/{{$comment->users->profile_img}}" class="profile-img-forum"
-                             alt="profile.svg">
+                        <img src="/storage/users_profile/{{$comment->users->profile_img}}" class="profile-img-forum" alt="profile.svg">
                         <div class="comment-content" style="width: 100%">
                             <div class="author-comment d-flex justify-content-between">
                                 <div class="author-info d-flex gap-2">
@@ -126,49 +158,41 @@
                                 </div>
                             </div>
                             <p class="comment-text">{{$comment->comment}}</p>
-                            <div class="d-flex">
-                                <button type="button"
-                                        class="reply-btn link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
-                                    Ответить
-                                </button>
-                                <div class="like-comments" style="margin: 0 20px 0 30px">
-                                    <button type="button" data-comment-id="{{ $comment->id }}"
-                                            class="btn btn-like-comment {{$comment->isLiked ? 'liked-comment' : ''}}">
-                                        <img src="/image/thumb_up.svg"
-                                             alt="thumb_up.svg">
-                                        <span data-comment-id="{{ $comment->id }}"
-                                              class="likes-comment-count px-2">{{ $comment->likesCommCount() }}</span>
+                            @auth
+                                <div class="d-flex">
+                                    <button type="button" class="reply-btn link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+                                        Ответить
                                     </button>
 
-                                    <button type="button" data-comment-id="{{ $comment->id }}"
-                                            class="btn btn-dislike-comment {{$comment->isDissliked ? 'disliked-comment' : ''}}">
-                                        <img
-                                            src="/image/thumb_down.svg"
-                                            alt="thumb_down.svg">
-                                        <span data-comment-id="{{ $comment->id }}"
-                                              class="dislikes-comment-count px-2">{{ $comment->disslikesCommCount() }}</span>
-                                    </button>
+                                    <div class="like-comments" style="margin: 0 20px 0 30px">
+                                        <button type="button" data-comment-id="{{ $comment->id }}" class="btn btn-like-comment {{$comment->isLiked ? 'liked-comment' : ''}}">
+                                            <img src="/image/thumb_up.svg" alt="thumb_up.svg">
+                                            <span data-comment-id="{{ $comment->id }}" class="likes-comment-count px-2">{{ $comment->likesCommCount() }}</span>
+                                        </button>
+
+                                        <button type="button" data-comment-id="{{ $comment->id }}" class="btn btn-dislike-comment {{$comment->isDissliked ? 'disliked-comment' : ''}}">
+                                            <img src="/image/thumb_down.svg" alt="thumb_down.svg">
+                                            <span data-comment-id="{{ $comment->id }}" class="dislikes-comment-count px-2">{{ $comment->disslikesCommCount() }}</span>
+                                        </button>
+                                    </div>
+                                   {{-- <button style="color:#141C52" class="btn d-flex align-items-center">
+                                        <img src="/image/report.svg" alt="report.svg">Жалоба
+                                    </button>--}}
                                 </div>
-                                <button style="color:#141C52" class="btn d-flex align-items-center"><img
-                                        src="/image/report.svg" alt="report.svg">Жалоба
-                                </button>
-                            </div>
-
+                            @endauth
                             <div class="reply-form d-none mt-2">
-                                <form id="replyForm" class="d-flex align-items-center gap-2 w-100"
-                                      data-post-id="{{$post->id}}">
+                                <form class="replyForm d-flex align-items-center gap-2 w-100" data-post-id="{{$post->id}}" data-comment-id="{{$comment->id}}">
                                     <input class="form-control" name="reply" placeholder="Напишите ответ здесь...">
                                     <input type="hidden" value="{{$comment->id}}" name="comment_id">
                                     <button type="submit" class="btn btn-custom btn-sm">Отправить</button>
                                 </form>
                             </div>
+
                             <div class="replies mt-3">
                                 @forelse($comment->replies as $reply)
-
                                     <div class="reply mb-3">
                                         <div class="d-flex gap-2">
-                                            <img src="/storage/users_profile/{{$reply->users->profile_img}}"
-                                                 class="profile-img-forum" alt="profile.svg">
+                                            <img src="/storage/users_profile/{{$reply->users->profile_img}}" class="profile-img-forum" alt="profile.svg">
                                             <div class="reply-content">
                                                 <div class="author-reply d-flex justify-content-between">
                                                     <div class="author-info d-flex gap-2">
@@ -179,36 +203,33 @@
                                                 <p class="reply-text">{{$reply->comment}}</p>
                                             </div>
                                         </div>
-                                        <div class="like-comments" style="margin-left: 48px">
-                                            <button type="button" data-comment-id="{{ $reply->id }}"
-                                                    class="btn btn-like-comment {{$reply->isLiked ? 'liked-comment' : ''}}">
-                                                <img src="/image/thumb_up.svg"
-                                                     alt="thumb_up.svg">
-                                                <span data-comment-id="{{ $reply->id }}"
-                                                      class="likes-comment-count px-2">{{ $reply->likesCommCount() }}</span>
-                                            </button>
+                                        @auth
+                                            <div class="like-comments" style="margin-left: 48px">
+                                                <button type="button" data-comment-id="{{ $reply->id }}" class="btn btn-like-comment {{$reply->isLiked ? 'liked-comment' : ''}}">
+                                                    <img src="/image/thumb_up.svg" alt="thumb_up.svg">
+                                                    <span data-comment-id="{{ $reply->id }}" class="likes-comment-count px-2">{{ $reply->likesCommCount() }}</span>
+                                                </button>
 
-                                            <button type="button" data-comment-id="{{ $reply->id }}"
-                                                    class="btn btn-dislike-comment {{$reply->isDissliked ? 'disliked-comment' : ''}}">
-                                                <img
-                                                    src="/image/thumb_down.svg"
-                                                    alt="thumb_down.svg">
-                                                <span data-comment-id="{{ $reply->id }}"
-                                                      class="dislikes-comment-count px-2">{{ $reply->disslikesCommCount() }}</span>
-                                            </button>
-                                        </div>
+                                                <button type="button" data-comment-id="{{ $reply->id }}" class="btn btn-dislike-comment {{$reply->isDissliked ? 'disliked-comment' : ''}}">
+                                                    <img src="/image/thumb_down.svg" alt="thumb_down.svg">
+                                                    <span data-comment-id="{{ $reply->id }}" class="dislikes-comment-count px-2">{{ $reply->disslikesCommCount() }}</span>
+                                                </button>
+                                            </div>
+                                        @endauth
                                     </div>
-
                                 @empty
                                 @endforelse
                             </div>
                         </div>
                     </div>
+
                 @endif
             @empty
             @endforelse
         </div>
     </div>
+    <x-edit_user></x-edit_user>
+    <x-auth></x-auth>
     <x-footer></x-footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">

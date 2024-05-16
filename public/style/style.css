@@ -310,11 +310,13 @@ input[type="search"]::-webkit-search-cancel-button {
 .profile-img {
     width: 100px;
     height: 100px;
+    border-radius: 50%;
 }
 
 .profile-img-forum {
     width: 48px;
     height: 48px;
+    border-radius: 50%;
 }
 
 .reply-btn {
@@ -324,6 +326,10 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .reply-text {
+    margin-bottom: 5px;
+}
+
+.comment-text {
     margin-bottom: 5px;
 }
 
@@ -355,6 +361,26 @@ input[type="search"]::-webkit-search-cancel-button {
     filter: brightness(0) saturate(100%) invert(11%) sepia(97%) saturate(4513%) hue-rotate(355deg) brightness(127%) contrast(92%);
 }
 
+.page-item .page-link {
+    color: white;
+    background-color: #141C52;
+    border-color: #373e81;
+}
+
+.page-item .page-link:hover {
+    color: #141C52;
+    background-color: #ffffff;
+    border-color: #373e81;
+}
+
+.edit-btn{
+    background-color: #e69a4f;
+}
+
+.delete-btn{
+    background-color: #d32d2d;
+}
+
 @media (max-width: 767px) {
     .search {
         margin-bottom: 10px;
@@ -363,6 +389,7 @@ input[type="search"]::-webkit-search-cancel-button {
     .profile-img {
         width: 80px;
         height: 80px;
+        border-radius: 50%;
     }
 
     .search-icon {

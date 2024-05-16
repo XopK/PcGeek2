@@ -49,7 +49,6 @@
                                 class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Регистрация</a>
                         </p>
                     </div>
-
                 </form>
             </div>
         </div>

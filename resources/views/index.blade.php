@@ -17,20 +17,19 @@
 <div class="container">
     <div class="filter-forums row d-flex justify-content-between align-items-center">
         <div class="col">
-            <form action="" method="GET">
-                <select class="form-select sort focus-ring focus-ring-secondary" style="border: 2px solid #999999;">
-                    <option disabled selected>Сортировка</option>
-                    <option value="1">Популярность</option>
-                    <option value="2">Дата публикации</option>
-                    <option value="3">Алфавит</option>
-                    <option value="4">Кол-во лайков (убывание)</option>
-                    <option value="5">Кол-во лайков (возрастание)</option>
-                </select>
+            <div class="btn-group dropend">
+                <button type="button" class="btn btn-custom dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Сортировать по
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/">дате добавления</a></li>
+                    <li><a class="dropdown-item" href="/?sort=countlike">кол-ву лайков</a></li>
+                    <li><a class="dropdown-item" href="/?sort=countcomment">кол-ву комментариев</a></li>
+                    <li><a class="dropdown-item" href="/?sort=oldpost">старые записи</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-custom">Применить</button>
-        </div>
-        </form>
     </div>
     <div class="list-forums mt-4">
         <div class="row">
@@ -47,7 +46,8 @@
                         <div class="card-body">
                             <div class="tags mb-3">
                                 @foreach ($post->tags as $tag)
-                                    <span class="badge fw-bold text-bg-custom">{{ $tag->title_tag }}</span>
+                                    <a href="/?search={{$tag->title_tag}}"><span
+                                            class="badge fw-bold text-bg-custom">{{ $tag->title_tag }}</span></a>
                                 @endforeach
 
                             </div>
@@ -118,10 +118,12 @@
                 </div>
             @endforelse
         </div>
+        {{ $posts->links('pagination::bootstrap-5') }}
     </div>
     <x-footer></x-footer>
 </div>
 <x-auth></x-auth>
+<x-edit_user></x-edit_user>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
 </script>

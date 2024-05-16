@@ -99,7 +99,7 @@ class ParseController extends Controller
             $responses[] = $response;
 
             $page++;
-        } while ($page <= 8);
+        } while ($page <= 7);
 
         // Обрабатываем каждый ответ
         foreach ($responses as $response) {
@@ -241,7 +241,7 @@ class ParseController extends Controller
             $responses[] = $response;
 
             $page++;
-        } while ($page <= 7);
+        } while ($page <= 6);
 
         // Обрабатываем каждый ответ
         foreach ($responses as $response) {
@@ -312,7 +312,7 @@ class ParseController extends Controller
             $responses[] = $response;
 
             $page++;
-        } while ($page <= 7);
+        } while ($page <= 6);
 
         // Обрабатываем каждый ответ
         foreach ($responses as $response) {
@@ -383,7 +383,7 @@ class ParseController extends Controller
             $responses[] = $response;
 
             $page++;
-        } while ($page <= 7);
+        } while ($page <= 6);
 
         // Обрабатываем каждый ответ
         foreach ($responses as $response) {
@@ -454,7 +454,7 @@ class ParseController extends Controller
             $responses[] = $response;
 
             $page++;
-        } while ($page <= 7);
+        } while ($page <= 6);
 
         // Обрабатываем каждый ответ
         foreach ($responses as $response) {

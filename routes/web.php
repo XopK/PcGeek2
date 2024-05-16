@@ -70,3 +70,17 @@ Route::post('/forum/{id}/comment', [PostController::class, 'postComment'])->name
 Route::post('/forum/{id}/reply', [PostController::class, 'replyComment']);
 
 Route::post('/post/favorite', [PostController::class, 'addfavorite']);
+
+Route::get('/profile/comments', [UserController::class, 'CommentsView']);
+
+Route::post('/profile/edit', [UserController::class, 'editUser']);
+
+Route::get('/edit/{id}', [UserController::class, 'editPost']);
+
+Route::get('/edit/deleteTag/{tagid}', [UserController::class, 'deleteTag']);
+
+Route::get('/edit/deleteComponents/{componentid}', [UserController::class, 'deleteComponent']);
+
+Route::post('/edit/store/{id}', [UserController::class, 'editPostStore']);
+
+Route::get('/delete/{id}', [UserController::class, 'deletePost']);

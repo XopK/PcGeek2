@@ -4,8 +4,11 @@ $('.btn-like').click(function () {
     var isLiked = $(this).hasClass('liked');
     var isDisliked = $(this).siblings('.btn-dislike').hasClass('dissliked');
     var $btnLike = $(this);
+    var $btnDislike = $btnLike.siblings('.btn-dislike');
 
     $btnLike.prop('disabled', true);
+    $btnDislike.prop('disabled', true);
+
 
     setTimeout(function () {
         $.ajax({
@@ -36,10 +39,12 @@ $('.btn-like').click(function () {
                 }
 
                 $btnLike.prop('disabled', false);
+                $btnDislike.prop('disabled', false);
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseJSON.message);
                 $btnLike.prop('disabled', false);
+                $btnDislike.prop('disabled', false);
             }
         });
     }, 300);
@@ -50,8 +55,10 @@ $('.btn-dislike').click(function () {
     var isDisliked = $(this).hasClass('dissliked');
     var isLiked = $(this).siblings('.btn-like').hasClass('liked');
     var $btnDislike = $(this);
+    var $btnLike = $btnDislike.siblings('.btn-like');
 
     $btnDislike.prop('disabled', true);
+    $btnLike.prop('disabled', true);
 
     setTimeout(function () {
         $.ajax({
@@ -83,10 +90,12 @@ $('.btn-dislike').click(function () {
                 }
 
                 $btnDislike.prop('disabled', false);
+                $btnLike.prop('disabled', false);
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseJSON.message);
                 $btnDislike.prop('disabled', false);
+                $btnLike.prop('disabled', false);
             }
         });
     }, 300);
@@ -124,8 +133,10 @@ $('.btn-like-comment').click(function () {
     var isLiked = $(this).hasClass('liked-comment');
     var isDisliked = $(this).siblings('.btn-dislike-comment').hasClass('disliked-comment');
     var $btnLike = $(this);
+    var $btnDislike = $btnLike.siblings('.btn-dislike-comment');
 
     $btnLike.prop('disabled', true);
+    $btnDislike.prop('disabled', true);
 
     setTimeout(function () {
         $.ajax({
@@ -155,13 +166,15 @@ $('.btn-like-comment').click(function () {
                 }
 
                 $btnLike.prop('disabled', false);
+                $btnDislike.prop('disabled', false);
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseJSON.message);
                 $btnLike.prop('disabled', false);
+                $btnDislike.prop('disabled', false);
             }
         });
-    }, 500);
+    }, 300);
 });
 
 
@@ -171,8 +184,10 @@ $('.btn-dislike-comment').click(function () {
     var isDisliked = $(this).hasClass('disliked-comment');
     var isLiked = $(this).siblings('.btn-like-comment').hasClass('liked-comment');
     var $btnDislike = $(this);
+    var $btnLike = $btnDislike.siblings('.btn-like-comment');
 
     $btnDislike.prop('disabled', true);
+    $btnLike.prop('disabled', true);
 
     setTimeout(function () {
         $.ajax({
@@ -204,11 +219,13 @@ $('.btn-dislike-comment').click(function () {
                 }
 
                 $btnDislike.prop('disabled', false);
+                $btnLike.prop('disabled', false);
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseJSON.message);
                 $btnDislike.prop('disabled', false);
+                $btnLike.prop('disabled', false);
             }
         });
-    }, 500);
+    }, 300);
 });
