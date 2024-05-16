@@ -37,6 +37,20 @@ Route::get('/addPost', [PostController::class, 'add_view']);
 
 Route::get('/admin', [AdminController::class, 'index_admin']);
 
+Route::get('/admin/moderator', [AdminController::class, 'moderator_view']);
+
+Route::get('/admin/components', [AdminController::class, 'componets_view']);
+
+Route::get('/admin/components/{id}/edit', [AdminController::class, 'edit_components']);
+
+Route::post('/admin/components/update/{id}', [AdminController::class, 'update_component']);
+
+Route::get('/admin/components/delete/{id}', [AdminController::class, 'delete_component']);
+
+Route::get('/admin/up/{id}', [AdminController::class, 'up_user']);
+
+Route::get('/admin/down/{id}', [AdminController::class, 'down_user']);
+
 Route::get('/admin/processor', [ParseController::class, 'ParseProcessor']);
 
 Route::get('/admin/GraphicCard', [ParseController::class, 'ParseGraphicCards']);

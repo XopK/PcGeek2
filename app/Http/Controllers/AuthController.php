@@ -65,6 +65,9 @@ class AuthController extends Controller
             'login' => $request->login_signIn,
             'password' => $request->password_signIn,
         ])) {
+            if (Auth::user()->id_role == 1) {
+                return redirect('/admin')->with('success', 'Здраствуй,' . Auth::user()->login);
+            }
             return redirect('/')->with('success', 'Здраствуй,' . Auth::user()->login);
         } else {
             return redirect()->back()->with('error_signIn', 'Ошибка авторизации, проверьте данные!');

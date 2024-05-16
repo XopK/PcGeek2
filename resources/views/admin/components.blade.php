@@ -17,7 +17,7 @@
 <body>
 <x-admin-header></x-admin-header>
 <div class="container">
-    <h1 class="mb-3">Пользователи</h1>
+    <h1 class="mb-3">Компоненты</h1>
     @if (session('success'))
         <div class="alert alert-success alert-dismissible mt-3">
             <div class="alert-text">
@@ -31,30 +31,34 @@
             <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Логин</th>
-                <th scope="col">Почта</th>
-                <th scope="col">Телефон</th>
-                <th scope="col">Дата регистрации</th>
+                <th scope="col">Название компонента</th>
+                <th scope="col">Хар-ки компонента</th>
+                <th scope="col">Категория</th>
+                <th scope="col">Цена</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            @forelse($users as $user)
+            @forelse($components as $component)
                 <tr>
-                    <th scope="row">{{$user->id}}</th>
-                    <td>{{$user->login}}</td>
-                    <td>{{$user->email}}</td>
-                    <td>{{$user->phone}}</td>
-                    <td>{{ date('d.m.Y', strtotime($user->created_at)) }}</td>
-                    <td><a href="/admin/up/{{$user->id}}"
-                           class="btn btn-custom edit-btn btn-sm">Повысить</a></td>
+                    <th>{{$component->id}}</th>
+                    <td>{{$component->title_component}}</td>
+                    <td>{{$component->config_component}}</td>
+                    <td>{{$component->category->title_category_components}}</td>
+                    <td>{{$component->sale}}</td>
+                    <td><a href="/admin/components/{{$component->id}}/edit"
+                           class="btn btn-custom edit-btn btn-sm">Редактировать</a></td>
+                    <td><a href="/admin/components/delete/{{$component->id}}"
+                           class="btn btn-custom delete-btn btn-sm">Удалить</a></td>
                 </tr>
             @empty
             @endforelse
+
             </tbody>
         </table>
     </div>
-    {{ $users->links('pagination::bootstrap-5') }}
+    {{ $components->links('pagination::bootstrap-5') }}
 </div>
 </body>
 </html>

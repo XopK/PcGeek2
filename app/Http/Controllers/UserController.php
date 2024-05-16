@@ -163,8 +163,9 @@ class UserController extends Controller
             Storage::delete('public/image_posts/' . $current_post->image_posts);
             $hashPhoto = $request->file('photo_post')->hashName();
             $storePhoto = $request->file('photo_post')->store('public/image_posts');
-        } else {
-            $hashPhoto = $current_post->image_posts;
+            $id->update([
+                'image_posts' => $hashPhoto,
+            ]);
         }
 
         if ($request->tags_post) {

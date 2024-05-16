@@ -21,4 +21,9 @@ class Component extends Model
     {
         return $this->belongsToMany(Post::class, 'component_posts', 'id_component', 'id_post');
     }
+
+    public function category()
+    {
+        return $this->belongsTo(ComponentCategory::class, 'id_category');
+    }
 }

@@ -17,7 +17,7 @@
 <body>
 <x-admin-header></x-admin-header>
 <div class="container">
-    <h1 class="mb-3">Пользователи</h1>
+    <h1 class="mb-3">Модераторы</h1>
     @if (session('success'))
         <div class="alert alert-success alert-dismissible mt-3">
             <div class="alert-text">
@@ -46,8 +46,8 @@
                     <td>{{$user->email}}</td>
                     <td>{{$user->phone}}</td>
                     <td>{{ date('d.m.Y', strtotime($user->created_at)) }}</td>
-                    <td><a href="/admin/up/{{$user->id}}"
-                           class="btn btn-custom edit-btn btn-sm">Повысить</a></td>
+                    <td><a href="/admin/down/{{$user->id}}"
+                           class="btn btn-custom edit-btn btn-sm">Разжаловать</a></td>
                 </tr>
             @empty
             @endforelse
