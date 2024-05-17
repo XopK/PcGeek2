@@ -14,4 +14,9 @@ class ComponentCategory extends Model
     protected $fillable = [
         'title_category_components',
     ];
+
+    public function components()
+    {
+        return $this->hasMany(Component::class, 'id_category');
+    }
 }

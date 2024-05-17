@@ -47,6 +47,8 @@ Route::post('/admin/components/update/{id}', [AdminController::class, 'update_co
 
 Route::get('/admin/components/delete/{id}', [AdminController::class, 'delete_component']);
 
+Route::get('/admin/parser', [AdminController::class, 'parser_view']);
+
 Route::get('/admin/up/{id}', [AdminController::class, 'up_user']);
 
 Route::get('/admin/down/{id}', [AdminController::class, 'down_user']);
@@ -98,3 +100,31 @@ Route::get('/edit/deleteComponents/{componentid}', [UserController::class, 'dele
 Route::post('/edit/store/{id}', [UserController::class, 'editPostStore']);
 
 Route::get('/delete/{id}', [UserController::class, 'deletePost']);
+
+Route::get('/moderator', [AdminController::class, 'moderator_index']);
+
+Route::get('/report/user/{user}', [UserController::class, 'user_report']);
+
+Route::post('/report', [UserController::class, 'report']);
+
+Route::get('/report/post/{post}', [UserController::class, 'post_report']);
+
+Route::get('/moderator/posts', [AdminController::class, 'list_reports']);
+
+Route::get('/moderator/report/{report}', [AdminController::class, 'response_report']);
+
+Route::post('/moderator/report/{report}/accept', [AdminController::class, 'accept_report']);
+
+Route::get('/moderator/{report}/denay', [AdminController::class, 'denay_report']);
+
+Route::get('/moderator/users', [AdminController::class, 'users_ban_view']);
+
+Route::get('/moderator/users/denay/{user}', [AdminController::class, 'users_unban']);
+
+Route::get('/moderator/postsBan', [AdminController::class, 'posts_ban']);
+
+Route::get('/moderator/postsBan/denay/{post}', [AdminController::class, 'posts_unban']);
+
+/*Route::get('/test', function () {
+    return view('emails.userban');
+});*/

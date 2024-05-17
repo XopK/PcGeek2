@@ -79,7 +79,7 @@ class ParseController extends Controller
                 }
             }
         }
-        return redirect('/admin');
+        return redirect('/admin/components?type=7');
     }
 
     public function ParseGraphicCards()
@@ -150,7 +150,7 @@ class ParseController extends Controller
                 }
             }
         }
-        return redirect('/admin');
+        return redirect('/admin/components?type=6');
     }
 
     public function ParseMotherBoards()
@@ -221,7 +221,7 @@ class ParseController extends Controller
                 }
             }
         }
-        return redirect('/admin');
+        return redirect('/admin/components?type=1');
     }
 
     public function ParsePowerBlock()
@@ -292,7 +292,7 @@ class ParseController extends Controller
                 }
             }
         }
-        return redirect('/admin');
+        return redirect('/admin/components?type=5');
     }
 
     public function ParseSSD()
@@ -363,7 +363,7 @@ class ParseController extends Controller
                 }
             }
         }
-        return redirect('/admin');
+        return redirect('/admin/components?type=4');
     }
 
     public function ParseRAM()
@@ -434,7 +434,7 @@ class ParseController extends Controller
                 }
             }
         }
-        return redirect('/admin');
+        return redirect('/admin/components?type=3');
     }
 
     public function ParseHDD()
@@ -505,6 +505,6 @@ class ParseController extends Controller
                 }
             }
         }
-        return redirect('/admin');
+        return redirect('/admin/components?type=2');
     }
 }

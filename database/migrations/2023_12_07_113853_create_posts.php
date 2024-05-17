@@ -17,8 +17,8 @@ return new class extends Migration {
             $table->string('title_post');
             $table->longText('description');
             $table->string('image_posts');
-            $table->boolean('is_blocked');
-            $table->foreignId('id_user')->references('id')->on('users');
+            $table->boolean('is_blocked')->default(0);
+            $table->foreignId('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

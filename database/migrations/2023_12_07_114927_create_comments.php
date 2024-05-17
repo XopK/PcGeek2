@@ -17,8 +17,8 @@ return new class extends Migration {
             $table->longText('comment');
             $table->foreignId('id_user')->references('id')->on('users');
             $table->foreignId('id_post')->references('id')->on('posts')->onDelete('cascade');
-            $table->unsignedBigInteger('id_reply')->nullable(); // Добавляем parent_id
-            $table->foreign('id_reply')->references('id')->on('comments')->onDelete('cascade'); // Создаем внешний ключ для parent_id
+            $table->unsignedBigInteger('id_reply')->nullable();
+            $table->foreign('id_reply')->references('id')->on('comments')->onDelete('cascade');
             $table->timestamps();
         });
     }

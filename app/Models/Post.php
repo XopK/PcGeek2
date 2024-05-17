@@ -13,6 +13,7 @@ class Post extends Model
         'title_post',
         'description',
         'image_posts',
+        'is_blocked',
         'id_user',
     ];
 
@@ -64,5 +65,10 @@ class Post extends Model
     public function favorites()
     {
         return $this->hasMany(Favorite::class, 'id_post');
+    }
+
+    public function reports()
+    {
+        return $this->hasOne(Report::class, 'id_post');
     }
 }

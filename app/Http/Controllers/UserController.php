@@ -7,6 +7,7 @@ use App\Models\ComponentPost;
 use App\Models\Favorite;
 use App\Models\LikeBranch;
 use App\Models\Post;
+use App\Models\Report;
 use App\Models\Tag;
 use App\Models\TagPost;
 use App\Models\User;
@@ -215,7 +216,46 @@ class UserController extends Controller
 
     public function deletePost(Post $id)
     {
+        Storage::delete('public/image_posts/' . $id->image_posts);
         $id->delete();
         return redirect()->back()->with('success', 'Пост удален!');
+    }
+
+    public function user_report(Comment $user)
+    {
+        $user_report = $user->users;
+        return view('reportUser', ['user_report' => $user_report]);
+    }
+
+    public function post_report(Post $post)
+    {
+        ;
+        return view('reportPost', ['post_report' => $post]);
+    }
+
+    public function report(Request $request)
+    {
+        $request->validate([
+            'text_report' => 'required',
+        ], [
+            'text_report.required' => 'Поле обязательно для заполнения!',
+        ]);
+
+        if ($request->id_user) {
+            $report = Report::create([
+                'text_report' => $request->text_report,
+                'id_user' => $request->id_user,
+            ]);
+
+            return redirect('/')->with('success', 'Жалоба подана!');
+        } elseif ($request->id_post) {
+            $report = Report::create([
+                'text_report' => $request->text_report,
+                'id_post' => $request->id_post,
+            ]);
+
+            return redirect('/')->with('success', 'Жалоба подана!');
+        }
+
     }
 }

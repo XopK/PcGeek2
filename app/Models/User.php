@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'phone',
         'id_role',
+        'is_blocked',
         'password',
         'profile_img',
     ];
@@ -49,5 +50,10 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Post::class, 'id_user');
+    }
+
+    public function reports()
+    {
+        return $this->hasOne(Report::class, 'id_user');
     }
 }

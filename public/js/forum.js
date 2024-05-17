@@ -53,7 +53,6 @@ $(document).ready(function () {
                 $('input[name="comment"]').val('');
             },
             error: function (xhr, status, error) {
-
                 console.error(error);
             }
         });

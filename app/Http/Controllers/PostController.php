@@ -157,57 +157,62 @@ class PostController extends Controller
             'photo_post.required' => 'Поле обязательно для заполенения!',
             'photo_post.image' => 'Только изображения!',
         ]);
-
         $id_user = Auth::user()->id;
-        $tags = explode(', ', $request->tags_post);
+        if (Auth::user()->is_blocked == 0) {
 
-        $hashPhoto = $request->file('photo_post')->hashName();
-        $storePhoto = $request->file('photo_post')->store('public/image_posts');
 
-        $post = Post::create([
-            'title_post' => $request->post_title,
-            'description' => $request->text_post,
-            'image_posts' => $hashPhoto,
-            'id_user' => $id_user,
-        ]);
+            $tags = explode(', ', $request->tags_post);
 
-        foreach ($request->component_id as $component) {
-            ComponentPost::create([
-                'id_post' => $post->id,
-                'id_component' => $component,
+            $hashPhoto = $request->file('photo_post')->hashName();
+            $storePhoto = $request->file('photo_post')->store('public/image_posts');
+
+            $post = Post::create([
+                'title_post' => $request->post_title,
+                'description' => $request->text_post,
+                'image_posts' => $hashPhoto,
+                'id_user' => $id_user,
             ]);
-        }
 
-        foreach ($tags as $tag) {
-            $exitTags = Tag::where('title_tag', $tag)->first();
-
-            if (!$exitTags) {
-                $newTag = Tag::create([
-                    'title_tag' => $tag
+            foreach ($request->component_id as $component) {
+                ComponentPost::create([
+                    'id_post' => $post->id,
+                    'id_component' => $component,
                 ]);
+            }
 
-                $tagId = $newTag->id;
-                $postId = $post->id;
+            foreach ($tags as $tag) {
+                $exitTags = Tag::where('title_tag', $tag)->first();
 
-                TagPost::create([
-                    'id_tag' => $tagId,
-                    'id_post' => $postId,
-                ]);
-            } else {
-                $tagId = $exitTags->id;
-                $postId = $post->id;
+                if (!$exitTags) {
+                    $newTag = Tag::create([
+                        'title_tag' => $tag
+                    ]);
 
-                $existingTagPost = TagPost::where('id_tag', $tagId)->where('id_post', $postId)->first();
+                    $tagId = $newTag->id;
+                    $postId = $post->id;
 
-                if (!$existingTagPost) {
                     TagPost::create([
                         'id_tag' => $tagId,
                         'id_post' => $postId,
                     ]);
+                } else {
+                    $tagId = $exitTags->id;
+                    $postId = $post->id;
+
+                    $existingTagPost = TagPost::where('id_tag', $tagId)->where('id_post', $postId)->first();
+
+                    if (!$existingTagPost) {
+                        TagPost::create([
+                            'id_tag' => $tagId,
+                            'id_post' => $postId,
+                        ]);
+                    }
                 }
             }
+            return redirect()->back()->with('success', 'Запись создана!');
+        } else {
+            return redirect()->back()->with('error', 'Отказано в доступе!');
         }
-        return redirect()->back()->with('success', 'Запись создана!');
     }
 
     public function LikePost(Request $request)
@@ -277,18 +282,25 @@ class PostController extends Controller
         ]);
 
         $user = Auth::user();
-        $comment = Comment::create([
-            'comment' => $request->comment,
-            'id_post' => $id,
-            'id_user' => $user->id,
-        ]);
+        if ($user->is_blocked == 0) {
 
-        $post = Post::find($id);
 
-        $newComment = Comment::with('users')->find($comment->id);
-        $newComment->formatted_created_at = $newComment->created_at->diffForHumans();
+            $comment = Comment::create([
+                'comment' => $request->comment,
+                'id_post' => $id,
+                'id_user' => $user->id,
+            ]);
 
-        return response()->json(['success' => true, 'comment' => $newComment]);
+            $post = Post::find($id);
+
+            $newComment = Comment::with('users')->find($comment->id);
+            $newComment->formatted_created_at = $newComment->created_at->diffForHumans();
+
+            return response()->json(['success' => true, 'comment' => $newComment]);
+        } else {
+            return redirect()->back()->with('error', 'Отказано в доступе!');
+        }
+
     }
 
     public function replyComment(Request $request, $id)
@@ -300,20 +312,24 @@ class PostController extends Controller
         ]);
 
         $user = Auth::user();
+        if ($user->is_blocked == 0) {
 
-        // Сохраняем новый ответ
-        $reply = Comment::create([
-            'comment' => $request->reply,
-            'id_post' => $id, // ID поста передается как параметр функции
-            'id_user' => $user->id,
-            'id_reply' => $request->comment_id, // ID комментария, на который отвечаем
-        ]);
 
-        // Получаем созданный ответ вместе с данными пользователя
-        $newReply = Comment::with('users')->find($reply->id);
-        $newReply->formatted_created_at = $newReply->created_at->diffForHumans();
+            $reply = Comment::create([
+                'comment' => $request->reply,
+                'id_post' => $id,
+                'id_user' => $user->id,
+                'id_reply' => $request->comment_id,
+            ]);
 
-        return response()->json(['success' => true, 'reply' => $newReply]);
+            // Получаем созданный ответ вместе с данными пользователя
+            $newReply = Comment::with('users')->find($reply->id);
+            $newReply->formatted_created_at = $newReply->created_at->diffForHumans();
+
+            return response()->json(['success' => true, 'reply' => $newReply]);
+        } else {
+            return redirect()->back()->with('error', 'Отказано в доступе!');
+        }
     }
 
 

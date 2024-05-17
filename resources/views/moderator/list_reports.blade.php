@@ -11,13 +11,13 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     <link rel="stylesheet" href="/style/style.css">
-    <title>Админ-панель</title>
+    <title>Панель модератора</title>
 </head>
 
 <body>
-<x-admin-header></x-admin-header>
+<x-moderator-header></x-moderator-header>
 <div class="container">
-    <h1 class="mb-3">{{$title}}</h1>
+    <h1 class="mb-3">Жалобы на посты</h1>
     @if (session('success'))
         <div class="alert alert-success alert-dismissible mt-3">
             <div class="alert-text">
@@ -31,26 +31,26 @@
             <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Название компонента</th>
-                <th scope="col">Хар-ки компонента</th>
-                <th scope="col">Категория</th>
-                <th scope="col">Цена</th>
+                <th scope="col">Причина</th>
+                <th scope="col">Пост</th>
+                <th scope="col">Ответ</th>
+                <th scope="col">Дата жалобы</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            @forelse($components as $component)
+            @forelse($posts as $post)
                 <tr>
-                    <th>{{$component->id}}</th>
-                    <td>{{$component->title_component}}</td>
-                    <td>{{$component->config_component}}</td>
-                    <td>{{$component->category->title_category_components}}</td>
-                    <td>{{$component->sale}}</td>
-                    <td><a href="/admin/components/{{$component->id}}/edit"
-                           class="btn btn-custom edit-btn btn-sm">Редактировать</a></td>
-                    <td><a href="/admin/components/delete/{{$component->id}}"
-                           class="btn btn-custom delete-btn btn-sm">Удалить</a></td>
+                    <th scope="row">{{$post->id}}</th>
+                    <td>{{$post->text_report}}</td>
+                    <td><a href="/forum/{{$post->id_post}}">{{$post->post->title_post}}</a></td>
+                    <td>{{ $post->respone == null ? 'Ожидание ответа' : $post->respone }}</td>
+                    <td>{{ date('d.m.Y', strtotime($post->created_at)) }}</td>
+                    <td><a href="/moderator/report/{{$post->id}}"
+                           class="btn btn-custom accept-btn btn-sm">Принять заявку</a></td>
+                    <td><a href="/moderator/{{$post->id}}/denay"
+                           class="btn btn-custom delete-btn btn-sm">Отклонить зявку</a></td>
                 </tr>
             @empty
             @endforelse
@@ -58,7 +58,7 @@
             </tbody>
         </table>
     </div>
-    {{ $components->links('pagination::bootstrap-5') }}
+
 </div>
 </body>
 </html>

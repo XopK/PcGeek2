@@ -15,6 +15,14 @@
 <body>
 <x-header></x-header>
 <div class="container">
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible mt-3">
+            <div class="alert-text">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    @endif
     <div class="filter-forums row d-flex justify-content-between align-items-center">
         <div class="col">
             <div class="btn-group dropend">
@@ -34,82 +42,87 @@
     <div class="list-forums mt-4">
         <div class="row">
             @forelse ($posts as $post)
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        @auth
-                            <div class="favorite-button">
-                                <button id="btn-favorite" type="button" data-post-id="{{$post->id}}"
-                                        class="btn-favorite {{$post->isFavorited ? 'favorited' : ''}}"><img
-                                        src="/image/heart.svg" alt="heart"></button>
-                            </div>
-                        @endauth
-                        <div class="card-body">
-                            <div class="tags mb-3">
-                                @foreach ($post->tags as $tag)
-                                    <a href="/?search={{$tag->title_tag}}"><span
-                                            class="badge fw-bold text-bg-custom">{{ $tag->title_tag }}</span></a>
-                                @endforeach
+                @if($post->is_blocked == 0)
+                    <div class="col-md-12">
+                        <div class="card mb-4">
+                            @auth
+                                <div class="favorite-button">
+                                    <button id="btn-favorite" type="button" data-post-id="{{$post->id}}"
+                                            class="btn-favorite {{$post->isFavorited ? 'favorited' : ''}}"><img
+                                            src="/image/heart.svg" alt="heart"></button>
+                                </div>
+                            @endauth
+                            <div class="card-body">
+                                <div class="tags mb-3">
+                                    @foreach ($post->tags as $tag)
+                                        <a href="/?search={{$tag->title_tag}}"><span
+                                                class="badge fw-bold text-bg-custom">{{ $tag->title_tag }}</span></a>
+                                    @endforeach
 
-                            </div>
-                            <h3 class="card-title">{{ $post->title_post }}</h3>
-                            <div class="post-info mb-2">
-                                <span class="author"><strong>Автор: </strong>{{ $post->user->login }}</span><br>
-                                <span class="date"> <strong>Дата публикации:</strong>
+                                </div>
+                                <h3 class="card-title">{{ $post->title_post }}</h3>
+                                <div class="post-info mb-2">
+                                    <span class="author"><strong>Автор: </strong>{{ $post->user->login }}</span><br>
+                                    <span class="date"> <strong>Дата публикации:</strong>
                                         {{ date('d.m.Y', strtotime($post->created_at)) }}</span>
-                            </div>
-                            <p class="card-text short-text">{{ $post->description }}</p>
-                            <img src="/storage/image_posts/{{ $post->image_posts }}" class="card-img-top forum-img"
-                                 alt="{{ $post->image_posts }}">
-                            <div class="d-flex justify-content-between mt-3 align-items-center">
-                                <a href="/forum/{{ $post->id }}" class="btn btn-custom">Читать</a>
-                                <div class="like-dislike-buttons d-flex align-items-center mr-3">
-                                    @auth
-                                        <button type="button" data-post-id="{{ $post->id }}"
-                                                class="btn btn-like {{ $post->isLiked ? 'liked' : '' }}"><img
-                                                src="/image/up_arrow.svg" alt="up_arrow"></button>
+                                </div>
+                                <p class="card-text short-text">{{ $post->description }}</p>
+                                <img src="/storage/image_posts/{{ $post->image_posts }}" class="card-img-top forum-img"
+                                     alt="{{ $post->image_posts }}">
+                                <div class="d-flex justify-content-between mt-3 align-items-center">
+                                    <a href="/forum/{{ $post->id }}" class="btn btn-custom">Читать</a>
+                                    <div class="like-dislike-buttons d-flex align-items-center mr-3">
+                                        @auth
+                                            <button type="button" data-post-id="{{ $post->id }}"
+                                                    class="btn btn-like {{ $post->isLiked ? 'liked' : '' }}"><img
+                                                    src="/image/up_arrow.svg" alt="up_arrow"></button>
 
-                                        <span data-post-id="{{ $post->id }}"
-                                              class="likes-count text-white px-2">{{ $post->likesCount() }}</span>
+                                            <span data-post-id="{{ $post->id }}"
+                                                  class="likes-count text-white px-2">{{ $post->likesCount() }}</span>
 
-                                        <button type="button" data-post-id="{{ $post->id }}"
-                                                class="btn btn-dislike {{ $post->isDissliked ? 'dissliked' : '' }}"><img
-                                                src="/image/down_arrow.svg" alt="down_arrow"></button>
+                                            <button type="button" data-post-id="{{ $post->id }}"
+                                                    class="btn btn-dislike {{ $post->isDissliked ? 'dissliked' : '' }}">
+                                                <img
+                                                    src="/image/down_arrow.svg" alt="down_arrow"></button>
 
-                                        <span data-post-id="{{ $post->id }}"
-                                              class="dislikes-count text-white px-2">{{ $post->disslikesCount() }}</span>
+                                            <span data-post-id="{{ $post->id }}"
+                                                  class="dislikes-count text-white px-2">{{ $post->disslikesCount() }}</span>
 
-                                        <a href="/forum/{{ $post->id }}#comment-section"
-                                           class="btn btn-comment mx-2"><img src="/image/comment.svg"
-                                                                             alt="comment"></a>
+                                            <a href="/forum/{{ $post->id }}#comment-section"
+                                               class="btn btn-comment mx-2"><img src="/image/comment.svg"
+                                                                                 alt="comment"></a>
 
-                                        <span class="comments-count text-white ml-2">{{$post->count_comments()}}</span>
-                                    @endauth
-                                    @guest
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#signIn"
-                                                class="btn btn-like-guest"><img src="/image/up_arrow.svg"
-                                                                                alt="up_arrow"></button>
+                                            <span
+                                                class="comments-count text-white ml-2">{{$post->count_comments()}}</span>
+                                        @endauth
+                                        @guest
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#signIn"
+                                                    class="btn btn-like-guest"><img src="/image/up_arrow.svg"
+                                                                                    alt="up_arrow"></button>
 
-                                        <span data-post-id="{{ $post->id }}"
-                                              class="likes-count text-white px-2">{{ $post->likesCount() }}</span>
+                                            <span data-post-id="{{ $post->id }}"
+                                                  class="likes-count text-white px-2">{{ $post->likesCount() }}</span>
 
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#signIn"
-                                                class="btn btn-dislike-guest"><img src="/image/down_arrow.svg"
-                                                                                   alt="down_arrow"></button>
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#signIn"
+                                                    class="btn btn-dislike-guest"><img src="/image/down_arrow.svg"
+                                                                                       alt="down_arrow"></button>
 
-                                        <span data-post-id="{{ $post->id }}"
-                                              class="dislikes-count text-white px-2">{{ $post->disslikesCount() }}</span>
+                                            <span data-post-id="{{ $post->id }}"
+                                                  class="dislikes-count text-white px-2">{{ $post->disslikesCount() }}</span>
 
-                                        <a href="/forum/{{ $post->id }}#comment-section"
-                                           class="btn btn-comment mx-2"><img src="/image/comment.svg"
-                                                                             alt="comment"></a>
+                                            <a href="/forum/{{ $post->id }}#comment-section"
+                                               class="btn btn-comment mx-2"><img src="/image/comment.svg"
+                                                                                 alt="comment"></a>
 
-                                        <span class="comments-count text-white ml-2">{{$post->count_comments()}}</span>
-                                    @endguest
+                                            <span
+                                                class="comments-count text-white ml-2">{{$post->count_comments()}}</span>
+                                        @endguest
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
             @empty
                 <div class="col-md-12">
                     <div class="alert alert-info" role="alert">

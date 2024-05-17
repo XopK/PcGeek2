@@ -11,13 +11,13 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     <link rel="stylesheet" href="/style/style.css">
-    <title>Админ-панель</title>
+    <title>Панель модератора</title>
 </head>
 
 <body>
-<x-admin-header></x-admin-header>
+<x-moderator-header></x-moderator-header>
 <div class="container">
-    <h1 class="mb-3">{{$title}}</h1>
+    <h1 class="mb-3">Заблокированные пользователи</h1>
     @if (session('success'))
         <div class="alert alert-success alert-dismissible mt-3">
             <div class="alert-text">
@@ -31,34 +31,33 @@
             <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Название компонента</th>
-                <th scope="col">Хар-ки компонента</th>
-                <th scope="col">Категория</th>
-                <th scope="col">Цена</th>
-                <th scope="col"></th>
+                <th scope="col">Логин</th>
+                <th scope="col">Почта</th>
+                <th scope="col">Телефон</th>
+                <th scope="col">Дата Регистрации</th>
+                <th scope="col">Причина бана</th>
                 <th scope="col"></th>
             </tr>
             </thead>
+
             <tbody>
-            @forelse($components as $component)
+            @forelse($users as $user)
                 <tr>
-                    <th>{{$component->id}}</th>
-                    <td>{{$component->title_component}}</td>
-                    <td>{{$component->config_component}}</td>
-                    <td>{{$component->category->title_category_components}}</td>
-                    <td>{{$component->sale}}</td>
-                    <td><a href="/admin/components/{{$component->id}}/edit"
-                           class="btn btn-custom edit-btn btn-sm">Редактировать</a></td>
-                    <td><a href="/admin/components/delete/{{$component->id}}"
-                           class="btn btn-custom delete-btn btn-sm">Удалить</a></td>
+                    <th scope="row">{{$user->id}}</th>
+                    <td>{{$user->login}}</td>
+                    <td>{{$user->email}}</td>
+                    <td>{{$user->phone}}</td>
+                    <td>{{ date('d.m.Y', strtotime($user->created_at)) }}</td>
+                    <td>{{$user->reports->response}}</td>
+                    <td><a href="/moderator/users/denay/{{$user->id}}"
+                           class="btn btn-custom accept-btn btn-sm">Разблокировать</a></td>
                 </tr>
             @empty
             @endforelse
-
             </tbody>
         </table>
     </div>
-    {{ $components->links('pagination::bootstrap-5') }}
+
 </div>
 </body>
 </html>
