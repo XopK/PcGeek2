@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Report::class, 'id_user');
     }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'id_role');
+    }
 }

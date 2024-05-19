@@ -29,101 +29,116 @@ Route::post('/signIn', [AuthController::class, 'signIn']);
 
 Route::get('/logout', [AuthController::class, 'logout']);
 
-Route::get('/profile', [UserController::class, 'profile']);
-
 Route::get('/forum/{id}', [PostController::class, 'forum_view']);
-
-Route::get('/addPost', [PostController::class, 'add_view']);
-
-Route::get('/admin', [AdminController::class, 'index_admin']);
-
-Route::get('/admin/moderator', [AdminController::class, 'moderator_view']);
-
-Route::get('/admin/components', [AdminController::class, 'componets_view']);
-
-Route::get('/admin/components/{id}/edit', [AdminController::class, 'edit_components']);
-
-Route::post('/admin/components/update/{id}', [AdminController::class, 'update_component']);
-
-Route::get('/admin/components/delete/{id}', [AdminController::class, 'delete_component']);
-
-Route::get('/admin/parser', [AdminController::class, 'parser_view']);
-
-Route::get('/admin/up/{id}', [AdminController::class, 'up_user']);
-
-Route::get('/admin/down/{id}', [AdminController::class, 'down_user']);
-
-Route::get('/admin/processor', [ParseController::class, 'ParseProcessor']);
-
-Route::get('/admin/GraphicCard', [ParseController::class, 'ParseGraphicCards']);
-
-Route::get('/admin/MotherBoard', [ParseController::class, 'ParseMotherBoards']);
-
-Route::get('/admin/PowerBlock', [ParseController::class, 'ParsePowerBlock']);
-
-Route::get('/admin/SSD_disk', [ParseController::class, 'ParseSSD']);
-
-Route::get('/admin/RAM', [ParseController::class, 'ParseRAM']);
-
-Route::get('/admin/HDD', [ParseController::class, 'ParseHDD']);
 
 Route::get('/components/{categoryId}', [ComponentController::class, 'get_category']);
 
-Route::post('/addPost/create', [PostController::class, 'addPost']);
-
 Route::get('/tags', [ComponentController::class, 'getTags'])->name('getTags');
 
-Route::post('/post/like', [PostController::class, 'LikePost'])->name('post.like');
+Route::middleware('checkRole:user,moderator')->group(function () {
 
-Route::post('/post/disslike', [PostController::class, 'DisslikePost'])->name('post.disslike');
+    Route::get('/profile', [UserController::class, 'profile']);
 
-Route::post('/comment/like', [PostController::class, 'LikeComment'])->name('comment.like');
+    Route::get('/addPost', [PostController::class, 'add_view']);
 
-Route::post('/comment/disslike', [PostController::class, 'DisslikeComment'])->name('comment.disslike');
+    Route::post('/addPost/create', [PostController::class, 'addPost']);
 
-Route::post('/forum/{id}/comment', [PostController::class, 'postComment'])->name('postComment');
+    Route::post('/post/like', [PostController::class, 'LikePost'])->name('post.like');
 
-Route::post('/forum/{id}/reply', [PostController::class, 'replyComment']);
+    Route::post('/post/disslike', [PostController::class, 'DisslikePost'])->name('post.disslike');
 
-Route::post('/post/favorite', [PostController::class, 'addfavorite']);
+    Route::post('/comment/like', [PostController::class, 'LikeComment'])->name('comment.like');
 
-Route::get('/profile/comments', [UserController::class, 'CommentsView']);
+    Route::post('/comment/disslike', [PostController::class, 'DisslikeComment'])->name('comment.disslike');
 
-Route::post('/profile/edit', [UserController::class, 'editUser']);
+    Route::post('/forum/{id}/comment', [PostController::class, 'postComment'])->name('postComment');
 
-Route::get('/edit/{id}', [UserController::class, 'editPost']);
+    Route::post('/forum/{id}/reply', [PostController::class, 'replyComment']);
 
-Route::get('/edit/deleteTag/{tagid}', [UserController::class, 'deleteTag']);
+    Route::post('/post/favorite', [PostController::class, 'addfavorite']);
 
-Route::get('/edit/deleteComponents/{componentid}', [UserController::class, 'deleteComponent']);
+    Route::get('/profile/comments', [UserController::class, 'CommentsView']);
 
-Route::post('/edit/store/{id}', [UserController::class, 'editPostStore']);
+    Route::post('/profile/edit', [UserController::class, 'editUser']);
 
-Route::get('/delete/{id}', [UserController::class, 'deletePost']);
+    Route::get('/edit/{id}', [UserController::class, 'editPost']);
 
-Route::get('/moderator', [AdminController::class, 'moderator_index']);
+    Route::get('/edit/deleteTag/{tagid}', [UserController::class, 'deleteTag']);
 
-Route::get('/report/user/{user}', [UserController::class, 'user_report']);
+    Route::get('/edit/deleteComponents/{componentid}', [UserController::class, 'deleteComponent']);
 
-Route::post('/report', [UserController::class, 'report']);
+    Route::post('/edit/store/{id}', [UserController::class, 'editPostStore']);
 
-Route::get('/report/post/{post}', [UserController::class, 'post_report']);
+    Route::get('/delete/{id}', [UserController::class, 'deletePost']);
 
-Route::get('/moderator/posts', [AdminController::class, 'list_reports']);
+    Route::post('/report', [UserController::class, 'report']);
 
-Route::get('/moderator/report/{report}', [AdminController::class, 'response_report']);
+    Route::get('/report/post/{post}', [UserController::class, 'post_report']);
 
-Route::post('/moderator/report/{report}/accept', [AdminController::class, 'accept_report']);
+});
 
-Route::get('/moderator/{report}/denay', [AdminController::class, 'denay_report']);
+Route::middleware('checkRole:admin')->group(function () {
 
-Route::get('/moderator/users', [AdminController::class, 'users_ban_view']);
+    Route::get('/admin', [AdminController::class, 'index_admin']);
 
-Route::get('/moderator/users/denay/{user}', [AdminController::class, 'users_unban']);
+    Route::get('/admin/moderator', [AdminController::class, 'moderator_view']);
 
-Route::get('/moderator/postsBan', [AdminController::class, 'posts_ban']);
+    Route::get('/admin/components', [AdminController::class, 'componets_view']);
 
-Route::get('/moderator/postsBan/denay/{post}', [AdminController::class, 'posts_unban']);
+    Route::get('/admin/components/delete/{id}', [AdminController::class, 'delete_component']);
+
+    Route::get('/admin/components/{id}/edit', [AdminController::class, 'edit_components']);
+
+    Route::post('/admin/components/update/{id}', [AdminController::class, 'update_component']);
+
+    Route::get('/admin/parser', [AdminController::class, 'parser_view']);
+
+    Route::get('/admin/up/{id}', [AdminController::class, 'up_user']);
+
+    Route::get('/admin/down/{id}', [AdminController::class, 'down_user']);
+
+    Route::get('/admin/processor', [ParseController::class, 'ParseProcessor']);
+
+    Route::get('/admin/GraphicCard', [ParseController::class, 'ParseGraphicCards']);
+
+    Route::get('/admin/MotherBoard', [ParseController::class, 'ParseMotherBoards']);
+
+    Route::get('/admin/PowerBlock', [ParseController::class, 'ParsePowerBlock']);
+
+    Route::get('/admin/SSD_disk', [ParseController::class, 'ParseSSD']);
+
+    Route::get('/admin/RAM', [ParseController::class, 'ParseRAM']);
+
+    Route::get('/admin/HDD', [ParseController::class, 'ParseHDD']);
+
+});
+
+Route::middleware('checkRole:moderator')->group(function () {
+
+    Route::get('/moderator', [AdminController::class, 'moderator_index']);
+
+    Route::get('/report/user/{user}', [UserController::class, 'user_report']);
+
+    Route::get('/moderator/posts', [AdminController::class, 'list_reports']);
+
+    Route::get('/moderator/report/{report}', [AdminController::class, 'response_report']);
+
+    Route::post('/moderator/report/{report}/accept', [AdminController::class, 'accept_report']);
+
+    Route::get('/moderator/{report}/denay', [AdminController::class, 'denay_report']);
+
+    Route::get('/moderator/users', [AdminController::class, 'users_ban_view']);
+
+    Route::get('/moderator/users/denay/{user}', [AdminController::class, 'users_unban']);
+
+    Route::get('/moderator/postsBan', [AdminController::class, 'posts_ban']);
+
+    Route::get('/moderator/postsBan/denay/{post}', [AdminController::class, 'posts_unban']);
+
+});
+
+
+
 
 /*Route::get('/test', function () {
     return view('emails.userban');

@@ -229,7 +229,6 @@ class UserController extends Controller
 
     public function post_report(Post $post)
     {
-        ;
         return view('reportPost', ['post_report' => $post]);
     }
 
