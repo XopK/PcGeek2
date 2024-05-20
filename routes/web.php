@@ -75,6 +75,8 @@ Route::middleware('checkRole:user,moderator')->group(function () {
 
     Route::get('/report/post/{post}', [UserController::class, 'post_report']);
 
+    Route::get('/report/user/{user}', [UserController::class, 'user_report']);
+
 });
 
 Route::middleware('checkRole:admin')->group(function () {
@@ -116,8 +118,6 @@ Route::middleware('checkRole:admin')->group(function () {
 Route::middleware('checkRole:moderator')->group(function () {
 
     Route::get('/moderator', [AdminController::class, 'moderator_index']);
-
-    Route::get('/report/user/{user}', [UserController::class, 'user_report']);
 
     Route::get('/moderator/posts', [AdminController::class, 'list_reports']);
 
