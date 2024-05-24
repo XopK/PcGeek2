@@ -38,6 +38,9 @@ $(document).ready(function () {
                     '<span data-comment-id="' + newComment.id + '" class="dislikes-comment-count px-2">0</span>' +
                     '</button>' +
                     '</div>' +
+                    '<a style="color:#141C52;" href="/report/user/' + newComment.id + '" class="btn d-flex align-items-center">' +
+                    '<img src="/image/report.svg" alt="report.svg">Жалоба' +
+                    '</a>' +
                     '</div>' +
                     '<div class="reply-form d-none mt-2">' +
                     '<form class="replyForm d-flex align-items-center gap-2 w-100" data-post-id="' + postId + '" data-comment-id="' + newComment.id + '">' +
@@ -51,6 +54,7 @@ $(document).ready(function () {
                     '</div>';
                 $('.comments').prepend(commentBlock);
                 $('input[name="comment"]').val('');
+
             },
             error: function (xhr, status, error) {
                 console.error(error);
@@ -84,7 +88,7 @@ $(document).ready(function () {
                     '<p class="reply-text">' + newReply.comment + '</p>' +
                     '</div>' +
                     '</div>' +
-                    '<div class="like-comments" style="margin-left: 48px">' +
+                    '<div class="like-comments d-flex" style="margin-left: 48px">' +
                     '<button type="button" data-comment-id="' + newReply.id + '" class="btn btn-like-comment">' +
                     '<img src="/image/thumb_up.svg" alt="thumb_up.svg">' +
                     '<span data-comment-id="' + newReply.id + '" class="likes-comment-count px-2">0</span>' +
@@ -93,6 +97,9 @@ $(document).ready(function () {
                     '<img src="/image/thumb_down.svg" alt="thumb_down.svg">' +
                     '<span data-comment-id="' + newReply.id + '" class="dislikes-comment-count px-2">0</span>' +
                     '</button>' +
+                    '<a style="color:#141C52;" href="/report/user/' + newReply.id + '" class="btn d-flex align-items-center">' +
+                    '<img src="/image/report.svg" alt="report.svg">Жалоба' +
+                    '</a>' +
                     '</div>' +
                     '</div>';
 
@@ -100,7 +107,6 @@ $(document).ready(function () {
                 form.find('input[name="reply"]').val('');
             },
             error: function (xhr, status, error) {
-
                 console.error(error);
             }
         });

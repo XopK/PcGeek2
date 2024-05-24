@@ -29,14 +29,19 @@ class PostController extends Controller
         $filter = $request->input('sort', null);
 
         if ($search) {
+            $tags = explode(', ', $search);
             $posts = Post::with('tags')
-                ->where('title_post', 'LIKE', "%{$search}%")
-                ->orWhere('description', 'LIKE', "%{$search}%")
-                ->orWhereHas('tags', function ($query) use ($search) {
-                    $query->where('title_tag', 'LIKE', "%{$search}%");
-                })
-                ->orWhereHas('components', function ($query) use ($search) {
-                    $query->where('title_component', 'LIKE', "%{$search}%");
+                ->where(function ($query) use ($tags) {
+                    foreach ($tags as $tag) {
+                        $query->orWhere('title_post', 'LIKE', "%{$tag}%")
+                            ->orWhere('description', 'LIKE', "%{$tag}%")
+                            ->orWhereHas('tags', function ($query) use ($tag) {
+                                $query->where('title_tag', 'LIKE', "%{$tag}%");
+                            })
+                            ->orWhereHas('components', function ($query) use ($tag) {
+                                $query->where('title_component', 'LIKE', "%{$tag}%");
+                            });
+                    }
                 })
                 ->latest()
                 ->paginate(5);
@@ -56,6 +61,7 @@ class PostController extends Controller
 
         return view('index', ['posts' => $posts]);
     }
+
 
     protected function filterIndex($filter)
     {
@@ -122,7 +128,7 @@ class PostController extends Controller
             $comment->isDissliked = $user ? $comment->disslikesComm()->where('id_user', $user->id)->exists() : false;
 
             // Получение ответов на текущий комментарий и добавление isLiked и isDissliked для каждого ответа
-            $replies = $data_post->comments->where('id_reply', $comment->id)->sortBy('created_at');
+            $replies = $data_post->comments->where('id_reply', $comment->id)->sortByDesc('created_at');
             $replies->each(function ($reply) use ($user) {
                 $reply->isLiked = $user ? $reply->likesComm()->where('id_user', $user->id)->exists() : false;
                 $reply->isDissliked = $user ? $reply->disslikesComm()->where('id_user', $user->id)->exists() : false;
@@ -283,8 +289,6 @@ class PostController extends Controller
 
         $user = Auth::user();
         if ($user->is_blocked == 0) {
-
-
             $comment = Comment::create([
                 'comment' => $request->comment,
                 'id_post' => $id,
@@ -298,9 +302,8 @@ class PostController extends Controller
 
             return response()->json(['success' => true, 'comment' => $newComment]);
         } else {
-            return redirect()->back()->with('error', 'Отказано в доступе!');
+            return response()->json(['success' => false, 'error' => 'Отказано в доступе!']);
         }
-
     }
 
     public function replyComment(Request $request, $id)
@@ -322,7 +325,6 @@ class PostController extends Controller
                 'id_reply' => $request->comment_id,
             ]);
 
-            // Получаем созданный ответ вместе с данными пользователя
             $newReply = Comment::with('users')->find($reply->id);
             $newReply->formatted_created_at = $newReply->created_at->diffForHumans();
 

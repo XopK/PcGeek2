@@ -74,7 +74,7 @@
                     <div class="form-group mb-3">
                         <label for="login">Логин</label>
                         <input type="text" name="login"
-                            class="form-control focus-ring focus-ring-secondary border-secondary" id="login"
+                            class="form-control focus-ring focus-ring-secondary border-secondary" id="login_reg"
                             placeholder="Введите логин" value="{{ old('login') }}">
                         @error('login')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -87,7 +87,7 @@
                     <div class="form-group mb-3">
                         <label for="email">Почта</label>
                         <input type="email" name="email"
-                            class="form-control focus-ring focus-ring-secondary border-secondary" id="email"
+                            class="form-control focus-ring focus-ring-secondary border-secondary" id="email_reg"
                             placeholder="Введите email" value="{{ old('email') }}">
                         @error('email')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -100,7 +100,7 @@
                     <div class="form-group mb-3">
                         <label for="phone_number">Номер телефона</label>
                         <input type="text" name="phone"
-                            class="form-control focus-ring focus-ring-secondary border-secondary" id="phone_number"
+                            class="form-control focus-ring focus-ring-secondary border-secondary" id="phone_number_reg"
                             placeholder="+7(___) ___-____" value="{{ old('phone') }}">
                         @error('phone')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -113,7 +113,7 @@
                     <div class="form-group mb-3">
                         <label for="password">Пароль</label>
                         <input type="password" name="password"
-                            class="form-control focus-ring focus-ring-secondary border-secondary" id="password"
+                            class="form-control focus-ring focus-ring-secondary border-secondary" id="password_reg"
                             placeholder="Пароль минимум 8 символов">
                         @error('password')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -127,7 +127,7 @@
                         <label for="confirm_password">Подтверждение пароля</label>
                         <input type="password" name="confirm_password"
                             class="form-control focus-ring focus-ring-secondary border-secondary"
-                            id="confirm_password" placeholder="Введите пароль снова">
+                            id="confirm_password_reg" placeholder="Введите пароль снова">
                         @error('confirm_password')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -155,7 +155,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery.maskedinput@1.4.1/src/jquery.maskedinput.min.js"
     type="text/javascript"></script>
 <script>
-    $("#phone_number").mask("+7(999) 999-9999");
+    $("#phone_number_reg").mask("+7(999) 999-9999");
 </script>
 @if (session('error_signIn'))
     <script>

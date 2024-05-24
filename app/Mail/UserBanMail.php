@@ -28,7 +28,7 @@ class UserBanMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Ваш аккаунт заблокирован',
+            subject: 'Блокировка!',
         );
     }
 

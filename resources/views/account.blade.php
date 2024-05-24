@@ -36,7 +36,7 @@
         <div class="row mt-4">
             @forelse ($posts as $post)
                 <div class="col-md-12">
-                    <div class="card mb-4">
+                    <div class="card mb-4 {{ $post->is_blocked == 1 ? 'blocked' : '' }}">
                         @auth
                             <div class="favorite-button">
                                 <button id="btn-favorite" type="button" data-post-id="{{$post->id}}"

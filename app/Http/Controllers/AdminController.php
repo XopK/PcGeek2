@@ -10,6 +10,7 @@ use App\Models\Report;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class AdminController extends Controller
 {
@@ -112,6 +113,9 @@ class AdminController extends Controller
 
     public function list_reports()
     {
+        $currentUrl = URL::current();
+        session()->put('last_visited_page', $currentUrl);
+
         $posts = Report::where('id_user', null)->where('is_checked', 0)->paginate(10);
         return view('moderator.list_reports', ['posts' => $posts]);
     }

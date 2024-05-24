@@ -16,7 +16,7 @@
 <body>
 <x-header></x-header>
 <div class="container">
-    @if($post->is_blocked == 0)
+    @if($post->is_blocked == 0 || $post->id_user == Auth::user()->id)
         @if (session('success'))
             <div class="alert alert-success alert-dismissible mt-3">
                 <div class="alert-text">
@@ -187,7 +187,6 @@
                                                 class="reply-btn link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
                                             Ответить
                                         </button>
-
                                         <div class="like-comments" style="margin: 0 20px 0 30px">
                                             <button type="button" data-comment-id="{{ $comment->id }}"
                                                     class="btn btn-like-comment {{$comment->isLiked ? 'liked-comment' : ''}}">
@@ -217,7 +216,6 @@
                                         <button type="submit" class="btn btn-custom btn-sm">Отправить</button>
                                     </form>
                                 </div>
-
                                 <div class="replies mt-3">
                                     @forelse($comment->replies as $reply)
                                         <div class="reply mb-3">
@@ -235,20 +233,23 @@
                                                 </div>
                                             </div>
                                             @auth
-                                                <div class="like-comments" style="margin-left: 48px">
+                                                <div class="like-comments d-flex" style="margin-left: 48px">
                                                     <button type="button" data-comment-id="{{ $reply->id }}"
                                                             class="btn btn-like-comment {{$reply->isLiked ? 'liked-comment' : ''}}">
                                                         <img src="/image/thumb_up.svg" alt="thumb_up.svg">
                                                         <span data-comment-id="{{ $reply->id }}"
                                                               class="likes-comment-count px-2">{{ $reply->likesCommCount() }}</span>
                                                     </button>
-
                                                     <button type="button" data-comment-id="{{ $reply->id }}"
                                                             class="btn btn-dislike-comment {{$reply->isDissliked ? 'disliked-comment' : ''}}">
                                                         <img src="/image/thumb_down.svg" alt="thumb_down.svg">
                                                         <span data-comment-id="{{ $reply->id }}"
                                                               class="dislikes-comment-count px-2">{{ $reply->disslikesCommCount() }}</span>
                                                     </button>
+                                                    <a style="color:#141C52;" href="/report/user/{{$reply->id}}"
+                                                       class="btn d-flex align-items-center">
+                                                        <img src="/image/report.svg" alt="report.svg">Жалоба
+                                                    </a>
                                                 </div>
                                             @endauth
                                         </div>

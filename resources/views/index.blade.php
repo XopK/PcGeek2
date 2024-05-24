@@ -55,8 +55,9 @@
                             <div class="card-body">
                                 <div class="tags mb-3">
                                     @foreach ($post->tags as $tag)
-                                        <a href="/?search={{$tag->title_tag}}"><span
-                                                class="badge fw-bold text-bg-custom">{{ $tag->title_tag }}</span></a>
+                                        <a href="/?search={{ request()->input('search') ? request()->input('search') . ', ' . $tag->title_tag : $tag->title_tag }}">
+                                            <span class="badge fw-bold text-bg-custom">{{ $tag->title_tag }}</span>
+                                        </a>
                                     @endforeach
 
                                 </div>

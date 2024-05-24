@@ -35,6 +35,8 @@ Route::get('/components/{categoryId}', [ComponentController::class, 'get_categor
 
 Route::get('/tags', [ComponentController::class, 'getTags'])->name('getTags');
 
+Route::get('/comment/{id}/replies', [PostController::class, 'getReplies']);
+
 Route::middleware('checkRole:user,moderator')->group(function () {
 
     Route::get('/profile', [UserController::class, 'profile']);

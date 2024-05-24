@@ -20,7 +20,7 @@
                             <label for="login" class="form-label">Логин</label>
                             <input type="text" name="login_edit" value="{{Auth::user()->login}}"
                                    class="form-control focus-ring focus-ring-secondary border-secondary"
-                                   id="login">
+                                   id="login_edit">
                             @error('login_edit')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -33,7 +33,7 @@
                             <label for="email" class="form-label">Почта</label>
                             <input type="email" name="email_edit" value="{{Auth::user()->email}}"
                                    class="form-control focus-ring focus-ring-secondary border-secondary"
-                                   id="email">
+                                   id="email_edit">
                             @error('email_edit')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -46,7 +46,7 @@
                             <label for="phone" class="form-label">Телефон</label>
                             <input type="text" name="phone_edit" value="{{Auth::user()->phone}}"
                                    class="form-control focus-ring focus-ring-secondary border-secondary"
-                                   id="phone">
+                                   id="phone_edit">
                             @error('phone_edit')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -72,7 +72,7 @@
                             <label for="confirm_password" class="form-label">Подтвердите пароль</label>
                             <input type="password" name="confirm_password_edit"
                                    class="form-control focus-ring focus-ring-secondary border-secondary"
-                                   id="confirm_password">
+                                   id="confirm_password_edit">
                             @error('confirm_password_edit')
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <strong>{{ $message }}</strong>
