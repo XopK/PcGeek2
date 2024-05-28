@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\URL;
 
 class PostController extends Controller
 {
-
     public function index(Request $request)
     {
         $currentUrl = URL::current();
@@ -27,30 +26,52 @@ class PostController extends Controller
         $user = Auth::user();
         $search = $request->input('search', null);
         $filter = $request->input('sort', null);
+        $category = $request->input('category', null);
+
+        $postsQuery = Post::with('tags');
 
         if ($search) {
             $tags = explode(', ', $search);
-            $posts = Post::with('tags')
-                ->where(function ($query) use ($tags) {
-                    foreach ($tags as $tag) {
-                        $query->orWhere('title_post', 'LIKE', "%{$tag}%")
-                            ->orWhere('description', 'LIKE', "%{$tag}%")
-                            ->orWhereHas('tags', function ($query) use ($tag) {
-                                $query->where('title_tag', 'LIKE', "%{$tag}%");
-                            })
-                            ->orWhereHas('components', function ($query) use ($tag) {
-                                $query->where('title_component', 'LIKE', "%{$tag}%");
-                            });
-                    }
-                })
-                ->latest()
-                ->paginate(5);
-        } elseif ($filter) {
-            $posts = $this->filterIndex($filter);
-        } else {
-            $posts = Post::with('tags')->latest()->paginate(5);
+            $postsQuery->where(function ($query) use ($tags) {
+                foreach ($tags as $tag) {
+                    $query->orWhere('title_post', 'LIKE', "%{$tag}%")
+                        ->orWhere('description', 'LIKE', "%{$tag}%")
+                        ->orWhereHas('tags', function ($query) use ($tag) {
+                            $query->where('title_tag', 'LIKE', "%{$tag}%");
+                        })
+                        ->orWhereHas('components', function ($query) use ($tag) {
+                            $query->where('title_component', 'LIKE', "%{$tag}%");
+                        });
+                }
+            });
         }
 
+        if ($category) {
+            $postsQuery->whereHas('components', function ($query) use ($category) {
+                $query->where('id_category', $category);
+            });
+        }
+
+        if ($filter) {
+            switch ($filter) {
+                case 'countlike':
+                    $postsQuery->withCount('likes')->orderBy('likes_count', 'desc');
+                    break;
+                case 'countcomment':
+                    $postsQuery->withCount('comments')->orderBy('comments_count', 'desc');
+                    break;
+                case 'oldpost':
+                    $postsQuery->oldest();
+                    break;
+                default:
+                    $postsQuery->latest();
+                    break;
+            }
+        } else {
+            $postsQuery->latest();
+        }
+
+        $posts = $postsQuery->paginate(5);
         foreach ($posts as $post) {
             $post->isLiked = $user ? $post->likes()->where('id_user', $user->id)->exists() : false;
             $post->isDissliked = $user ? $post->disslikes()->where('id_user', $user->id)->exists() : false;
@@ -62,56 +83,6 @@ class PostController extends Controller
         return view('index', ['posts' => $posts]);
     }
 
-
-    protected function filterIndex($filter)
-    {
-        $user = Auth::user();
-
-        if ($filter == "countlike") {
-
-            $posts = Post::with('tags')
-                ->withCount('likes')
-                ->orderBy('likes_count', 'desc')
-                ->latest()
-                ->paginate(5);
-
-            foreach ($posts as $post) {
-                $post->isLiked = $user ? $post->likes()->where('id_user', $user->id)->exists() : false;
-                $post->isDissliked = $user ? $post->disslikes()->where('id_user', $user->id)->exists() : false;
-                $post->isFavorited = $user ? $post->favorites()->where('id_user', $user->id)->exists() : false;
-            }
-
-            return $posts;
-
-        } elseif ($filter == "countcomment") {
-
-            $posts = Post::with('tags')
-                ->withCount('comments')
-                ->orderBy('comments_count', 'desc')
-                ->latest()
-                ->paginate(5);
-
-            foreach ($posts as $post) {
-                $post->isLiked = $user ? $post->likes()->where('id_user', $user->id)->exists() : false;
-                $post->isDissliked = $user ? $post->disslikes()->where('id_user', $user->id)->exists() : false;
-                $post->isFavorited = $user ? $post->favorites()->where('id_user', $user->id)->exists() : false;
-            }
-
-            return $posts;
-
-        } elseif ($filter == "oldpost") {
-
-            $posts = Post::with('tags')->oldest()->paginate(5);
-            foreach ($posts as $post) {
-                $post->isLiked = $user ? $post->likes()->where('id_user', $user->id)->exists() : false;
-                $post->isDissliked = $user ? $post->disslikes()->where('id_user', $user->id)->exists() : false;
-                $post->isFavorited = $user ? $post->favorites()->where('id_user', $user->id)->exists() : false;
-            }
-            return $posts;
-
-        }
-
-    }
 
     public function forum_view($id)
     {

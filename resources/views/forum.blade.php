@@ -108,10 +108,12 @@
                                                 class="btn-favorite {{$post->isFavorited ? 'favorited' : ''}}"><img
                                                 src="/image/heart.svg" alt="heart"></button>
                                     </div>
-                                    <a style="color:#141C52; margin-left: 10px" href="/report/post/{{$post->id}}"
-                                       class="btn d-flex align-items-center">
-                                        <img src="/image/report.svg" alt="report.svg">Жалоба
-                                    </a>
+                                    @if( $post->id_user != Auth::user()->id)
+                                        <a style="color:#141C52; margin-left: 10px" href="/report/post/{{$post->id}}"
+                                           class="btn d-flex align-items-center">
+                                            <img src="/image/report.svg" alt="report.svg">Жалоба
+                                        </a>
+                                    @endif
                                 @endauth
                             </div>
                         </div>

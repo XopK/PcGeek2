@@ -24,7 +24,7 @@
         </div>
     @endif
     <div class="filter-forums row d-flex justify-content-between align-items-center">
-        <div class="col">
+        <div class="col-auto">
             <div class="btn-group dropend">
                 <button type="button" class="btn btn-custom dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -35,6 +35,24 @@
                     <li><a class="dropdown-item" href="/?sort=countlike">кол-ву лайков</a></li>
                     <li><a class="dropdown-item" href="/?sort=countcomment">кол-ву комментариев</a></li>
                     <li><a class="dropdown-item" href="/?sort=oldpost">старые записи</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="btn-group dropstart">
+                <button type="button" class="btn btn-custom dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Категории
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/">Все категории</a></li>
+                    <li><a class="dropdown-item" href="/?category=1">Материнская плата</a></li>
+                    <li><a class="dropdown-item" href="/?category=2">Жесткий диск</a></li>
+                    <li><a class="dropdown-item" href="/?category=3">Оперативная память</a></li>
+                    <li><a class="dropdown-item" href="/?category=4">SSD диск</a></li>
+                    <li><a class="dropdown-item" href="/?category=5">Блок питания</a></li>
+                    <li><a class="dropdown-item" href="/?category=6">Видеокарта</a></li>
+                    <li><a class="dropdown-item" href="/?category=7">Процессор</a></li>
                 </ul>
             </div>
         </div>
